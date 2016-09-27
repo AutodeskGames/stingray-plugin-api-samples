@@ -1,0 +1,16 @@
+<link rel="stylesheet" core-href="core/css/widgets/property-editor.css"/>
+<link rel="stylesheet" core-href="core/css/widgets/json-component.css"/>
+
+<div class="table-component-test stingray-panel fullscreen" ng-controller="propertyController" style="display: flex; flex-direction: column; height: 100%">
+    <div class="panel-fill panel-flex-horizontal fullscreen" style="overflow: auto;">
+        <div class="panel-fill" >
+            A Property Editor
+            <component-harness args="propArgs1" component="PropertyEditor"></component-harness>
+        </div>
+
+        <div class="panel-fill" >
+            Another property editor
+            <component-harness args="propArgs2" component="PropertyEditor"></component-harness>
+        </div>
+    </div>
+</div>

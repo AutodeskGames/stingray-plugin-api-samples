@@ -1,0 +1,44 @@
+// About
+//
+name = "Profiler"
+description = "Shows how to use the stingray editor profiler."
+version = "1.0.0"
+author = {
+	name = "Stingray"
+	company = "Autodesk inc."
+	url = "https://gamedev.autodesk.com/"
+}
+keywords = ["plugin", "profiler"]
+license = {
+	type = "Autodesk"
+	url = "http://www.autodesk.com/company/legal-notices-trademarks/software-license-agreements"
+}
+repository = {
+	type = "git"
+	url = "https://git.autodesk.com/gameware/stingray-engine.git"
+}
+
+// Configuration
+//
+config = {
+}
+
+// Modules (tools, services, engine lua module, engine runtime dll)
+// Extensions (data-driven extensions that extend sub-systems, services and plugins behavior)
+//
+extensions = {
+	actions = []
+
+	menus = [{
+		path = "Developer/Profiler Tests"
+		panel = "profiler-test"
+		order = 335
+	}]
+}
+
+// Dependencies
+//
+platforms = ["win64"]
+dependencies = {
+	"stingray" = ">=1.3"
+}

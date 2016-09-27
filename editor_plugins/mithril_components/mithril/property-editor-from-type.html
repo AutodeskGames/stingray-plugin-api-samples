@@ -1,0 +1,32 @@
+<link rel="stylesheet" core-href="core/css/widgets/property-editor.css"/>
+<link rel="stylesheet" core-href="core/css/widgets/json-component.css"/>
+
+<div class="spinner-component-test stingray-panel fullscreen" ng-controller="propertyController" style="display: flex; flex-direction: column; height: 100%">
+    <div class="toolbar" adsk-goto-link-handler>
+        <button class="standard-btn" ng-click="load()">Load Type</button>Type File:  <a href="local://{{typeFile}}">{{typeFile}}</a>
+    </div>
+    <div class="panel-fill panel-flex-horizontal fullscreen" style="overflow: auto;" ng-show="typeDefinition">
+        <div class="panel-fill" ng-show="typeDefinition">
+            <div class="toolbar" adsk-goto-link-handler>
+                Type File Content
+                <button class="standard-btn" ng-click="saveAndReloadTypeFile()">Save and Reload</button>
+                <button class="standard-btn" ng-click="reloadTypeFile()">Reload</button>
+            </div>
+            <textarea class="panel-fill" style="width: 100%; height: 100%;" ng-model="typeFileData"/>
+        </div>
+
+        <div class="panel-fill" ng-show="typeDefinition">
+            <div class="toolbar">
+                Property Editor
+            </div>
+            <component-harness args="helperArgs" component="PropertyEditor"></component-harness>
+        </div>
+
+        <div class="panel-fill" ng-show="typeDefinition">
+            <div class="toolbar">
+                JSON Output <button class="standard-btn" ng-click="saveJsonOutput()">Save...</button>
+            </div>
+            <textarea class="panel-fill" style="width: 100%; height: 100%;" ng-model="jsonData"/>
+        </div>
+    </div>
+</div>

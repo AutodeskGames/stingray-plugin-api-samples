@@ -1,0 +1,89 @@
+export = "#animation"
+types = {
+    animation = {
+        type = ":struct"
+        editor = {
+            label = "Animation Category"
+            description = "Animation and Skeleton"
+        }
+        fields = {
+            AnimationCategory = {
+                type = ":bool"
+                default = false
+                editor = {
+                    label = "Animation Category"
+                    description = "Animation and Skeleton"
+                    showLabel: false
+                    showValue: false
+                    enable_category: true
+                }
+            }
+            skeleton_data = {
+                type = ":switch"
+                on = ":value"
+                of = "NewOrTargetSkeleton"
+                default = "new"
+                switch_field = {
+                    type = ":string"
+                    default = "new"
+                    editor = {
+                        control = "Choice"
+                        label = "Skeleton"
+                        description = "New or update Skeleton"
+                        options = {
+                            "New or update skeleton" = "new",
+                            "Target skeleton"= "target"
+                        }
+                    }
+                }
+                cases = {
+                    new = {
+                        type = ":struct"
+                        fields = {
+                            NewSkeletonName = {
+                                type = ":string"
+                                default = ""
+                                editor = {
+                                    label = "Skeleton Name"
+                                    description = "Create a New Skeleton"
+                                }
+                            }
+                            ApplyRootMotion = {
+                                type = ":bool"
+                                default = ""
+                                editor = {
+                                    label = "Apply Root Motion"
+                                }
+                            }
+                        }
+                    }
+                    target = {
+                        type = ":struct"
+                        fields = {
+                            SelectedSkeleton = {
+                                type = ":resource"
+                                extension = "anim_skeleton"
+                                default = ""
+                                editor = {
+                                    label = "Target Skeleton"
+                                    depends = {
+                                        on = "new_skeleton"
+                                        isReadOnly = "model"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            CreateAnimationsFolder = {
+                type = ":bool"
+                default = false
+                editor = {
+                    label = "Create Animation Folder"
+                    description = "Creates an animation folder for all animation clips"
+                }
+            }
+        }
+    }
+}

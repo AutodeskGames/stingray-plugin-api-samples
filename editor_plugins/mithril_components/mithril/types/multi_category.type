@@ -1,0 +1,272 @@
+export = "#mesh"
+types = {
+    textures = {
+        type = ":struct"
+        editor = {
+            label = "Textures of doom"
+        }
+        fields = {
+            ImportTextures = {
+                type = ":bool"
+                default = true
+                editor = {
+                    label = "Textures"
+                    description = "Import textures"
+                    showLabel = true
+                    showValue = true
+                    enable_category = true
+                }
+            }
+            OverwriteTextures = {
+                type = ":bool"
+                default = false
+                editor = {
+                    label = "Update Textures"
+                    description = "Update existing textures"
+                    depends = {
+                        on = "ImportTextures"
+                        isReadOnly = {
+                            not: "model"
+                        }
+                    }
+                }
+            }
+            SharedTextures = {
+                type = ":bool"
+                default = false
+                editor = {
+                    label = "Shared Textures"
+                    description = "Use existing textures inside project"
+                    depends = {
+                        on = "ImportTextures"
+                        isReadOnly = {
+                            not: "model"
+                        }
+                    }
+                }
+            }
+            CreateTexturesFolder = {
+                type = ":bool"
+                default = true
+                editor = {
+                    label = "Create Textures Folder"
+                    description = "Creates a textures subfolder for all textures"
+                    depends = {
+                        on = "ImportTextures"
+                        isReadOnly = {
+                            not: "model"
+                        }
+                    }
+                }
+            }
+        }
+    }
+    mesh = {
+        type = ":struct"
+        editor = {
+            label = "Unit Meshes"
+        }
+        fields = {
+            // Unit Mesh
+            ImportMesh = {
+                type = ":bool"
+                default = true
+                editor = {
+                    label = "Import Mesh"
+                    description = "Import Unit Mesh"
+                    showLabel = false
+                    showValue = false
+                    enable_category = true
+                }
+            }
+            CombineMeshes = {
+                type = ":bool"
+                default = false
+                editor = {
+                    label = "Combine Meshes"
+                    description = "Combines separate meshes"
+                }
+            }
+            CombineMeshesByMaterial = {
+                type = ":bool"
+                default = false
+                editor = {
+                    label = "Combine by Material"
+                    description = "Combines separate meshes by material"
+                }
+            }
+            ImportBlendShapes = {
+                type = ":bool"
+                default = true
+                editor = {
+                    label = "Blend Shapes"
+                    description = "Import Blend Shapes"
+                }
+            }
+            ImportCameras = {
+                type = ":bool"
+                default = true
+                editor = {
+                    label = "Cameras"
+                    description = "Import and update camera nodes"
+                }
+            }
+            ImportLods = {
+                type = ":bool"
+                default = true
+                editor = {
+                    label = "Level of Details"
+                    description = "Import level of detail node. Existing level of detail nodes will not be updated"
+                }
+            }
+            ImportLights = {
+                type = ":bool"
+                default = true
+                editor = {
+                    label = "Lights"
+                    description = "Import and update light nodes"
+                }
+            }
+            GenerateUvUnwrap = {
+                type = ":bool"
+                default = false
+                editor = {
+                    label = "Generate UVs for Light Baking"
+                    description = "Generate UVs for Light Baking"
+                }
+            }
+            Tangents = {
+                type = ":enum"
+                value = ":string"
+                cases: [
+                    "MikkTSpace"
+                    "Import"
+                ]
+                default = "MikkTSpace"
+                editor = {
+                    label = "Tangents"
+                    description = "Vertex Tangents"
+                    case_labels = {
+                        "Calculate": "MikkTSpace"
+                        "Import": "Import"
+                    }
+                }
+            }
+            CreateExtraRoot = {
+                type = ":bool"
+                default = true
+                editor = {
+                    label = "Create Extra Root"
+                    description = "Creates an additional root to enforce a single root and the correct space conversion"
+                    showLabel: false
+                    showValue: false
+                }
+            }
+            ExtractRootMotion = {
+                type = ":bool"
+                default = false
+                editor = {
+                    label = "Extract Root Motion"
+                    description = "Extract Root Motion"
+                    showLabel: false
+                    showValue: false
+                }
+            }
+        }
+    }
+    animation = {
+        type = ":struct"
+        editor = {
+            label = "Animation Category"
+            description = "Animation and Skeleton"
+        }
+        fields = {
+            AnimationCategory = {
+                type = ":bool"
+                default = false
+                editor = {
+                    label = "Animation Category"
+                    description = "Animation and Skeleton"
+                    showLabel: false
+                    showValue: false
+                    enable_category: true
+                }
+            }
+            Action = {
+                type = ":bool"
+                default = false
+                editor = {
+                    control = "Action"
+                    color = "red"
+                }
+            }
+            skeleton_data = {
+                type = ":switch"
+                on = ":value"
+                of = "NewOrTargetSkeleton"
+                default = "new"
+                switch_field = {
+                    type = ":string"
+                    default = "new"
+                    editor = {
+                        control = "Choice"
+                        label = "Skeleton"
+                        description = "New or update Skeleton"
+                        options = {
+                            "New or update skeleton" = "new",
+                            "Target skeleton"= "target"
+                        }
+                    }
+                }
+                cases = {
+                    new = {
+                        type = ":struct"
+                        fields = {
+                            NewSkeletonName = {
+                                type = ":string"
+                                default = ""
+                                editor = {
+                                    label = "Skeleton Name"
+                                    description = "Create a New Skeleton"
+                                }
+                            }
+                        }
+                    }
+                    target = {
+                        type = ":struct"
+                        fields = {
+                            SelectedSkeleton = {
+                                type = ":resource"
+                                extension = "anim_skeleton"
+                                default = ""
+                                editor = {
+                                    label = "Target Skeleton"
+                                    depends = {
+                                        on = "new_skeleton"
+                                        isReadOnly = "model"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            ImportAnimations = {
+                type = ":bool"
+                default = true
+                editor = {
+                    label = "Import Clips"
+                    description = "Import animation takes to clips"
+                }
+            }
+            CreateAnimationsFolder = {
+                type = ":bool"
+                default = false
+                editor = {
+                    label = "Create Animation Folder"
+                    description = "Creates an animation folder for all animation clips"
+                }
+            }
+        }
+    }
+}

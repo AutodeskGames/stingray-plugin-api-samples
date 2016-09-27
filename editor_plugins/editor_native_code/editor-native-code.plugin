@@ -1,0 +1,38 @@
+// About
+//
+name = "Editor Native Plugin Test"
+description = "Test editor native plugins functionality."
+version = "1.0.0"
+author = {
+	name = "Stingray"
+	company = "Autodesk inc."
+	url = "https://git.autodesk.com/gameware/stingray-engine.git"
+}
+
+// Configuration
+//
+platforms = ["win64"]
+config = {
+}
+
+// Extensions
+//
+extensions = {
+    menus = [{
+		path = "Developer/Editor Native Code Test"
+		view = {
+			type = "panel"
+            path = "editor-native-code"
+            title = "Editor Native Code Test"
+			width = 200
+			height = 300
+		}
+		order = 300
+	}]
+}
+
+// Dependencies
+//
+dependencies = {
+	"stingray" = ">=1.6"
+}

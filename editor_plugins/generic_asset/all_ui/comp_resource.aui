@@ -1,0 +1,9 @@
+Unit = {
+    "$resource_name" = "content/models/props/ChamfBox"
+    "$resource_type" = "unit"
+}
+
+Skeleton = {
+    "$resource_name" = null
+    "$resource_type" = "unit"
+}

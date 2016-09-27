@@ -1,0 +1,51 @@
+// About
+//
+name = "Viewport Extension Plugin Test"
+description = "Test viewport extensions."
+version = "1.0.0"
+author = {
+	name = "Stingray"
+	company = "Autodesk inc."
+	url = "https://git.autodesk.com/gameware/stingray-engine.git"
+}
+
+// Configuration
+//
+platforms = ["win64"]
+config = {
+}
+
+// Extensions
+//
+extensions = {
+	viewports = [
+		{
+			name = "viewport-extension-test"
+			engine = "viewport_behaviors/viewport-extension-behavior.lua"
+			module = "./viewport-extension-controller.js"
+		}
+	]
+
+	menus = [{
+			path = "Developer/Viewport Extension Test"
+			view = {
+				type = "panel"
+				path = "viewport-extension-test"
+				title = "Viewport Extension Test"
+				width = 200
+				height = 300
+			}
+			order = 301
+		}]
+
+	// Folders that contains your lua files
+	resources = [{
+		path = "viewport_behaviors"
+	}]
+}
+
+// Dependencies
+//
+dependencies = {
+	"stingray" = ">=1.6"
+}

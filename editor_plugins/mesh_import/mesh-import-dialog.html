@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="mesh-import-dialog.css" />
+<div class="content">
+    <div class="header" style="z-index: 1;">
+        <label for="import-name" class="description same-line">Name</label>
+        <input name="import-name" id="import-name" type="text"/>
+
+        <label for="file-type" class="description same-line">File type</label>
+        <span class="adsk-select">
+            <select name="file-type" id="file-type" class="element">
+                <optgroup label="3D Mesh">
+                    <option value="" title="">OBJ</option>
+                    <option disabled value="NOT SUPPORTED" title="">MD2</option>
+                    <option disabled value="NOT SUPPORTED" title="">3DS</option>
+                    <option disabled value="NOT SUPPORTED" title="">COLLADA</option>
+                </optgroup>
+            </select>
+            <span class="adsk-select-arrow">▾</span></span>
+        <a id="texture-file" href="">Select texture...</a>
+    </div>
+    <canvas id="mesh-preview" tabindex="0"></canvas>
+    <div class="buttons">
+        <button id="import-btn" class="standard-btn default" focus-me>Looks great! Please import...</button>
+        <button id="cancel-btn" class="standard-btn">Cancel</button>
+    </div>
+</div>

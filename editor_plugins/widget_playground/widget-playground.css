@@ -1,0 +1,26 @@
+body {
+    color: white;
+    background-color: #313234;
+    overflow: auto;
+    line-height: 24px;
+    padding: 5px 15px;
+}
+
+code {
+    -webkit-user-select: text;
+    cursor: auto;
+    color: black;
+    font-family: monospace;
+}
+
+h1 {
+    font-size: 16pt;
+    line-height: 30px;
+}
+
+ul {
+    margin-left: 20px;
+}
+
+.container {
+}

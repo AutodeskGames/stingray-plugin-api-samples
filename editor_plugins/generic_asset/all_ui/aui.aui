@@ -1,0 +1,43 @@
+
+"$version" = "0.1.0"
+Boolean = false
+Color = {
+	alpha = 1
+	intensity = 1
+	rgb = [
+		0
+		0
+		0
+	]
+}
+Components = {
+}
+Enum = "InLoading"
+EnumString = "SurfaceNormal"
+Number = 1
+Position = [
+	0
+	0
+	0
+]
+Range = [
+	0
+	1
+]
+Rotation = [
+	0
+	0
+	0
+]
+Slider = 1
+Unit = {
+	"$resource_name" = "content/models/props/Wall"
+	"$resource_type" = "unit"
+}
+Action = true
+Switch = {
+    light_type = "omni"
+    fallout = 0.5
+    angle = 0.15
+    enabled = true
+}

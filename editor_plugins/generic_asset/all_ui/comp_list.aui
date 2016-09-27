@@ -1,0 +1,26 @@
+Components = {
+    "100" = {
+        Number = 12
+        Position = [
+            1
+            2
+            3
+        ]
+        ScatterUnit = {
+            "$resource_name" = "core/units/camera"
+            "$resource_type" = "unit"
+        }
+    }
+    "200" = {
+        Number = 69
+        Position = [
+            5
+            4
+            3
+        ]
+        ScatterUnit = {
+            "$resource_name" = "core/units/light"
+            "$resource_type" = "unit"
+        }
+    }
+}

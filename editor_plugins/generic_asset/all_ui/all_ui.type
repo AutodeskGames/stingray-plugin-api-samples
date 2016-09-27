@@ -1,0 +1,201 @@
+export = "#all_ui_component"
+extension = "aui"
+types = {
+    all_ui_component = {
+        type = ":struct"
+        fields = {
+            Number = {
+                type = ":number"
+                default = 1
+                min = 0
+                max = 1
+                editor = {
+                    control = "Number"
+                    step = 0.3
+                    priority = 4
+                }
+            }
+            Action = {
+                type = ":bool"
+                default = true
+                editor = {
+                    control = "Action"
+                    trigger = {
+                        type = "js"
+                        module = "generic_asset/generic-asset-actions"
+                        function_name = "triggerAction"
+                    }
+                }
+            }
+            Boolean = {
+                type = ":bool"
+                default = true
+            }
+            EnumString = {
+                type = ":string"
+                default = "SurfaceNormal"
+                editor = {
+                    control = "Choice"
+                    label  = "Orient Express"
+                    fetch_options = {
+                        type = "js"
+                        module = "generic_asset/generic-asset-actions"
+                        function_name = "populateActions"
+                    }
+                }
+            }
+            Enum = {
+                type = ":enum"
+                value = ":string"
+                default = "InLoading"
+                cases = [
+                    "Loaded"
+                    "Unloaded"
+                    "InLoading"
+                    "ErrorLoading"
+                ]
+                editor = {
+                    control = "Choice"
+                    label  = "Load state"
+                    case_labels = {
+                        "Loaded" = "Loaded"
+                        "Unloaded" = "Unloaded"
+                        "In Loading..." = "InLoading"
+                        "Error while Loading" = "ErrorLoading"
+                    }
+                }
+            }
+            Unit = {
+                type = ":resource"
+                extension = "unit"
+            }
+	    Skeleton = {
+                type = ":resource"
+                extension = "anim_skeleton"
+            }
+            FilePath = {
+                type = ":string"
+                editor = {
+                    control = "PathProperty"
+                    browseType = "File"
+                    browseTitle = "Select a exe"
+                    browseFilter = "*.exe"
+                }
+            }
+            DirPath = {
+                type = ":string"
+                editor = {
+                    control = "PathProperty"
+                    browseType = "Folder"
+                    browseTitle = "Select a folder"
+                }
+            }
+            Position = {
+                type = "core/types/vector3"
+            }
+            Rotation = {
+                type = "core/types/rotation"
+            }
+            Color = {
+                type = "core/types/color"
+            }
+            Range = {
+                type = "core/types/range"
+            }
+            Slider = {
+                type = ":number"
+                default = 1
+                min = 0
+                max = 100
+                editor = {
+                    control = "Slider"
+                    step = 1
+                }
+            }
+            Switch = {
+                type = ":switch"
+                on = ":value"
+                of = "light_type"
+                default = "omni"
+                cases = {
+                    "omni" = {
+                        type = ":struct"
+                        fields = {
+                            light_type = {
+                                type = ":string"
+                                editor = {
+                                    control = "Choice"
+                                    label  = "Light Type"
+                                    options = {
+                                        "Omni" = "omni"
+                                        "Spot" = "spot"
+                                    }
+                                }
+                            }
+                            fallout = {
+                                type = ":number"
+                            }
+                        }
+                    }
+                    "spot" = {
+                        type = ":struct"
+                        fields = {
+                            light_type = {
+                                type = ":string"
+                                editor = {
+                                    control = "Choice"
+                                    label  = "Light Type"
+                                    options = {
+                                        "Omni" = "omni"
+                                        "Spot" = "spot"
+                                    }
+                                }
+                            }
+                            angle = {
+                                type = ":number"
+                            }
+                            enabled = {
+                                type = ":bool"
+                            }
+                        }
+                    }
+                }
+            }
+            Components = {
+                key = ":string"
+                type = ":dict"
+                value = "#a_component"
+                editor = {
+                    control = "ResourceCarousel"
+                    carouselResourceProperty = "ScatterUnit"
+                }
+            }
+        }
+        editor = {
+            label = "All UI"
+            generic_creator = true
+            generic_selector = true
+        }
+    }
+    a_component = {
+        type = ":struct"
+        fields = {
+            ScatterUnit = {
+                type = ":resource"
+                extension = "unit"
+                editor = {
+                    category = "Unit"
+                }
+            }
+            Number = {
+                type = ":number"
+                editor = {
+                    category = "the Number"
+                }
+            }
+            Position = {
+                type = "core/types/vector3"
+            }
+        }
+    }
+}

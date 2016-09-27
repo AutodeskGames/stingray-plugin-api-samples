@@ -1,0 +1,71 @@
+// About
+//
+name = "JsDoc"
+description = "Jsdoc generation utilities"
+version = "1.0.1"
+changelog = {
+}
+author = {
+    name = "Stingray"
+    company = "Autodesk inc."
+    url = "https://git.autodesk.com/gameware/stingray-engine.git"
+}
+
+// Configuration
+//
+platforms = ["win64"]
+config = {
+}
+
+// Modules
+//
+modules = []
+
+// Extensions
+//
+extensions = {
+    actions = [
+        {
+            name = "generate-jsdoc"
+            type = "js"
+            module = "jsdoc-actions"
+            function_name = "generateJsDoc"
+        }
+        {
+            name = "open-jsdoc"
+            type = "js"
+            module = "jsdoc-actions"
+            function_name = "openJsDoc"
+        }
+    ]
+
+    menus = [
+        {
+            path = "Developer/Jsdoc"
+        }
+        {
+            path = "Developer/Jsdoc/Generate"
+            action = "generate-jsdoc"
+            shortcut = "Ctrl+Shift+J"
+        }
+        {
+            path = "Developer/Jsdoc/Open"
+            action = "open-jsdoc"
+        }
+        {
+            path = "Developer/Jsdoc/Generate and open"
+            action = {
+                 type = "js"
+                 module = "jsdoc-actions"
+                 function_name = "generateAndOpenJsDoc"
+            }
+            shortcut = "Ctrl+Alt+Shift+J"
+        }
+   ]
+}
+
+// Dependencies
+//
+dependencies = {
+    "stingray" = ">=1.5"
+}

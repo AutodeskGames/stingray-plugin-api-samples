@@ -1,0 +1,68 @@
+export = "#scatter_brush"
+extension = "scatter_brush"
+types = {
+    scatter_brush = {
+        type = ":struct"
+        fields = {
+            components = {
+                key = ":guid"
+                type = ":dict"
+                value = "#scatter_component"
+                editor = {
+                    control = "ResourceCarousel"
+                    carouselResourceProperty = "unit"
+                }
+            }
+        }
+        editor = {
+            label = "Scatter Brush"
+            generic_creator = true
+            generic_selector = true
+            version = "0.1.0"
+        }
+    }
+    scatter_component = {
+        type = ":struct"
+        fields = {
+            frequency = {
+                type = ":number"
+                default = 1
+                min = 0
+                max = 1
+                editor = {
+                    control = "Number"
+                    step = 0.1
+                    label = "Frequency"
+                    category = "Behavior"
+                }
+            }
+            is_enabled = {
+                type = ":bool"
+                default = true
+                editor = {
+                    label = "Is Enabled"
+                }
+            }
+            orientation = {
+                type = ":string"
+                default = "SurfaceNormal"
+                editor = {
+                    control = "Choice"
+                    label = "Orientation"
+                    options = {
+                        SurfaceNormal = "SurfaceNormal"
+                        WorldUp = "WorldUp"
+                    }
+                    category = "Behavior"
+                }
+            }
+            unit = {
+                type = ":resource"
+                extension = "unit"
+                editor = {
+                    label = "Unit"
+                }
+            }
+        }
+    }
+}

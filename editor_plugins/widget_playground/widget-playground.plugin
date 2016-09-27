@@ -1,0 +1,55 @@
+// About
+//
+name = "Widget Playground"
+description = "Stingray developer playground to test and implement new widgets."
+version = "1.0.3"
+changelog = {
+    "1.0.1": ""
+    "1.0.2": "Cleanup template"
+    "1.0.3": "Split angular and mithril playground"
+}
+author = {
+    name = "Stingray"
+    company = "Autodesk inc."
+    url = "https://git.autodesk.com/gameware/stingray-engine.git"
+}
+
+// Extensions
+//
+extensions = {
+    views = [
+        {
+            type = "panel"
+            name = "angular-playground"
+            path = "angular-playground"
+            title = "Angular Playground"
+        }
+
+        {
+            type = "panel"
+            name = "mithril-playground"
+            path = "mithril-playground"
+            title = "Mithril Playground"
+        }
+    ]
+
+    menus = [
+        {
+            path = "Developer/Playground"
+        }
+        {
+            path = "Developer/Playground/Mithril"
+            view = "mithril-playground"
+        }
+        {
+            path = "Developer/Playground/Angular"
+            view = "angular-playground"
+        }
+    ]
+}
+
+// Dependencies
+//
+dependencies = {
+    "stingray" = ">=1.5"
+}

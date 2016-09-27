@@ -1,0 +1,26 @@
+"$version" = "0.0.0"
+Number = 0.445482255552044
+Boolean = true
+EnumString = "SurfaceNormal"
+Unit = {
+	"$resource_name" = "content/models/props/ChamfBox"
+	"$resource_type" = "unit"
+}
+Position = [1,2,3]
+Rotation = [0.5 -0.707106781186547 -2.77]
+Slider = 50
+Range = [25 75]
+Color = {
+    rgb = [1.0, 1.0, 1.0]
+    alpha = 1.0
+    intensity = 0.5
+}
+FilePath = "C:\\Program Files (x86)\\Git\\bin\\git.exe"
+DirPath = "C:\\Program Files (x86)\\Git"
+Action = true
+Switch = {
+    light_type = "omni"
+    fallout = 0.5
+    angle = 0.15
+    enabled = true
+}

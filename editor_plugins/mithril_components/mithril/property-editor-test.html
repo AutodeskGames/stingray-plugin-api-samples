@@ -1,0 +1,20 @@
+<link rel="stylesheet" core-href="core/css/widgets/property-editor.css"/>
+<link rel="stylesheet" core-href="core/css/widgets/json-component.css"/>
+
+<div class="spinner-component-test stingray-panel fullscreen" ng-controller="propertyController" style="display: flex; flex-direction: column; height: 100%">
+    <div class="toolbar">
+        <button class="standard-btn" ng-click="redraw()">Redraw</button>
+        <button class="standard-btn" ng-click="forceRedraw()">Force Redraw</button>
+    </div>
+    <div class="panel-fill panel-flex-horizontal fullscreen" style="overflow: auto;">
+        <div class="panel-fill" >
+            Completely manual Property Descriptors
+            <component-harness args="propArgs" component="PropertyEditor"></component-harness>
+        </div>
+
+        <div class="panel-fill" >
+            Property Editor with Helpers
+            <component-harness args="helperArgs" component="PropertyEditor"></component-harness>
+        </div>
+    </div>
+</div>

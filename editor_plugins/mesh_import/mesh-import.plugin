@@ -1,0 +1,50 @@
+// About
+//
+name = "Test Mesh Importer"
+description = "Imports OBJ meshes"
+version = "1.0.0"
+author = {
+	url = "http://k3d.ivank.net/"
+}
+
+// Extensions
+//
+extensions = {
+    views = [
+        {
+            type = "dialog"
+            name = "mesh-import-dialog"
+            path = "mesh-import-dialog"
+            title = "Mesh Importer"
+        }
+    ]
+
+    imports = [
+        {
+            types = ["obj"]
+            label = "Mesh"
+            do = [
+                // Step 1 - Open dialog and allow user to preview asset
+                {
+                    type = "js"
+                    module = "mesh-importer"
+                    function_name = "meshImporterDialog"
+                }
+
+                // Step 2 - Import actual asset as a Stingray resource
+                {
+                    type = "js"
+                    module = "mesh-importer"
+                    function_name = "importMeshFile"
+                }
+
+                // Step 3 - Display import report
+                {
+                    type = "js"
+                    module = "mesh-importer"
+                    function_name = "printReport"
+                }
+            ]
+        }
+    ]
+}

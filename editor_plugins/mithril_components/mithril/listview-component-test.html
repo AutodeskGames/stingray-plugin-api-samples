@@ -1,0 +1,45 @@
+<div class="listview-component-test stingray-panel fullscreen" ng-controller="mithrilListViewNewController">
+    <div class="fullscreen">
+        <div class="stingray-panel panel-flex-vertical fullscreen">
+
+            <div class="toolbar">
+                <div class="left-section">
+                    <button class="icon-btn fa fa-refresh" ng-click="redraw()" title="Redraw"></button>
+                    <button class="icon-btn fa fa-random" ng-click="randomize()" title="Randomize data"></button>
+                    <button class="icon-btn fa fa-adjust" ng-click="toggleFirst()" title="Remove first column"></button>
+                    <div class="separator"></div>
+                    <label>Nb items : </label>
+                    <input type="number" class="fixed" ng-model="nbItems" style="width: 60px;"/>
+                </div>
+                <div class="right-section">
+                    <label>Filter : </label>
+                    <input type="search" class="fixed search-input" placeholder="Filter" adsk-clearable
+                           ng-model="listView.layoutOptions.filter" ng-model-options="{getterSetter:true}"
+                           ng-keydown="onKeyDown($event)" />
+                    <div class="space1"></div>
+                    <div class="label">Size :</div>
+                    <div class="adsk-select fixed" title="Select size">
+                        <select ng-model="listView.layoutOptions.size" ng-model-options="{getterSetter:true}" ng-change="redraw()">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select>
+                        <div class="adsk-select-arrow">&#9662;</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-fill">
+                <div class="fullscreen stingray-border-dark">
+                    <component-harness args="listView" component="ListViewNewComponent"></component-harness>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

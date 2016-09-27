@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="css/docking-examples.css"/>
+
+<div class="docking-examples stingray-panel-mid fullscreen">
+    <div class="property-edition" ng-controller="dockingExamplesController">
+
+        <div class="flex-33-66" ng-form="dockingForm">
+
+            <adsk-accordion-panel label="Tabs" rounded="true" custom-class="flex-50-50">
+
+                <div class="property-row">
+                    <div class="property-container" title="Add tab">
+                        <div class="property-label nowrap">Add tab</div>
+                        <div class="property-container flex-custom">
+                            <div class="property-control">
+                                <input type="text" name="newTab" ng-model="tab.modelNewTab" placeholder="Enter new tab name"
+                                       required ng-class="{error: !dockingForm.newTab.$valid}" />
+                            </div>
+                            <div class="property-control pad5 flex-none">
+                                Focus : <adsk-checkbox title="Focus on new tab after creation" model="tab.modelFocusAfter"></adsk-checkbox>
+                            </div>
+                            <div class="property-buttons flex-none">
+                                <button class="icon-btn bg fa fa-plus" ng-click="tab.add()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="property-row">
+                    <div class="property-container" title="Rename tab">
+                        <div class="property-label nowrap">Rename tab</div>
+                        <div class="property-container flex-custom">
+                            <div class="property-control">
+                                <input type="text" name="renameTab" ng-model="tab.modelRename" placeholder="Enter tab name"
+                                       required ng-class="{error: !dockingForm.renameTab.$valid}" />
+                            </div>
+                            <div class="property-buttons flex-none">
+                                <button class="icon-btn fa fa-check flex-none" title="Accept" ng-click="tab.rename()" ></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="property-row">
+                    <div class="property-container" title="Set tab tooltip">
+                        <div class="property-label nowrap">Set tab tooltip</div>
+                        <div class="property-container flex-custom">
+                            <div class="property-control">
+                                <input type="text" ng-model="tab.modelTooltip" placeholder="Enter tab tooltip" />
+                            </div>
+                            <div class="property-buttons flex-none">
+                                <button class="icon-btn fa fa-check flex-none" title="Accept" ng-click="tab.setTooltip()" ></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="property-row">
+                    <div class="property-container" title="Get size">
+                        <div class="property-label nowrap2">Get tab size and position</div>
+                        <div class="property-container">
+                            <div class="property-buttons flex-none">
+                                <button class="icon-btn bg fa fa-plus" ng-click="tab.getSize()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="div-message" class="icon-message" title="message" style="display:none;">
+                    <i class="fa fa-info-circle icon information"></i>
+                    <div class="message nowrap2 text-information" style="height: 28px;">{{message}}</div>
+                </div>
+
+            </adsk-accordion-panel>
+
+            <!--
+            <adsk-accordion-panel label="Regions" rounded="true" custom-class="flex-50-50" expanded="false"></adsk-accordion-panel>
+
+            <adsk-accordion-panel label="Layout" rounded="true" custom-class="flex-50-50" expanded="false"></adsk-accordion-panel>
+
+            <adsk-accordion-panel label="Windows" rounded="true" custom-class="flex-50-50" expanded="false"></adsk-accordion-panel>
+            -->
+
+        </div>
+
+    </div>
+</div>
+

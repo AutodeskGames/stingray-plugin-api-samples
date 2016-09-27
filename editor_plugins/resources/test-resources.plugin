@@ -1,0 +1,36 @@
+// About
+//
+name = "Test Resource Extensions"
+description = "Test resource extensions"
+version = "0.0.1"
+author = {
+	name = "Jo & Seb"
+	url = "https://gamedev.autodesk.com/"
+}
+keywords = ["test", "plugin"]
+
+// Configuration
+//
+config = {
+}
+
+
+// Extensions to map new stingray resource folders.
+//
+extensions = {
+    resources = [
+        {
+            path = "test-resources-art"
+        }
+        {
+            path = "test-resources-scripts"
+        }
+    ]
+}
+
+// Dependencies
+//
+platforms = ["win64"]
+dependencies = {
+	"stingray" = ">=1.4"
+}

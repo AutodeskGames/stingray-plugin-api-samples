@@ -1,0 +1,39 @@
+
+"$version" = "0.0.0"
+Boolean = false
+Color = {
+	alpha = 1
+	intensity = 0.5
+	rgb = [
+		0.838
+		0.23045
+		0.23045
+	]
+}
+EnumString = "WorldUp"
+Number = 0.6673
+Position = [
+	1
+	2
+	3
+]
+Range = [
+	25
+	77.9819
+]
+Rotation = [
+	0.5
+	-0.190427638697345
+	-2.77
+]
+Slider = 50
+Unit = {
+	"$resource_name" = "content/models/props/ChamfBox"
+	"$resource_type" = "unit"
+}
+Switch = {
+    light_type = "spot"
+    fallout = 0.34
+    angle = 0.2
+    enabled = false
+}

@@ -1,0 +1,8 @@
+
+"$version" = "0.0.0"
+Switch = {
+    light_type = "omni"
+    fallout = 0.5
+    angle = 0.15
+    enabled = true
+}

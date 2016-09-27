@@ -1,0 +1,163 @@
+# Build directories and intermediate files
+
+Debug/
+Dev/
+Release/
+Shipping/
+GeneratedFiles/
+ipch/
+SRV/
+*.lastcodeanalysissucceeded
+
+/*/*_intermediate_*/
+/*/*/*_intermediate_*/
+/plugins/*/*/*_intermediate_*/
+/plugins/*/*/lib/
+/dcc_link/*/lib/
+/ps4/plugins/*/*_intermediate_*/
+/xb1/plugins/*/*_intermediate_*/
+/application/lib/
+/beast/lib/
+/d3d11_render_device/lib/
+/engine/lib/
+/foundation/lib/
+/game/lib/
+/mojoshader/lib/
+/physx_cct/lib/
+/scene_tree/lib/
+/build/
+/runtime/main/ios/resources/
+/runtime/platforms/xb1/main/resources/media/
+/editor/backend/.nuget/
+
+# File patterns
+
+*.a
+*.app
+*.aps
+*.diff
+*.dll
+*.dylib
+*.exe
+*.fxo
+*.jobbin2
+*.la
+*.lib
+*.lo
+*.mk
+*.ncb
+*.o
+*.obj
+*.opensdf
+*.opendb
+*.out
+*.patch
+*.pdb
+*.pri
+*.pyc
+*.sdf
+*.sln.cache
+*.slo
+*.so
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.tss
+*.user
+*.vcproj
+*.vcxproj
+*.vcxproj.filters
+*.xcodeproj
+*.xcworkspace
+*.log
+*.tlog
+*.vtcache
+*.tmp_proj
+*.dmp
+TestResult.xml
+
+# Auto-generated solution files
+
+/*_engine_*.sln
+/exporters_*.sln
+/dcc_link_*.sln
+/runtime/plugins/*/*.sln
+/runtime/platforms/ps4/plugins/*.sln
+/runtime/platforms/xb1/plugins/*.sln
+
+# Not auto-generated project files
+
+!/tools/**/*.vcproj
+!/tools/**/*.vcxproj
+!/tools/**/*.xcodeproj
+/tools/**/xcuserdata
+
+# Generated source code
+
+**/BuildInformation.cs
+**/AssemblyInfo.cs
+**/AssemblyInfo.cpp
+**/StingrayBackendInfo.cs
+**/stingray.common.props
+
+# Android build files
+
+/AndroidManifest.xml
+/ant.properties
+/build.xml
+/default.properties
+/res/
+/runtime/plugins/*/AndroidManifest.xml
+/runtime/plugins/*/ant.properties
+/runtime/plugins/*/build.xml
+/runtime/plugins/*/default.properties
+/runtime/plugins/*/res/
+
+# XB1 build files
+
+/xb1/xb1_xboxlive/lib/
+
+# Rake task output
+
+output/
+redist/
+tool_output/
+editor_output/
+binaries/
+
+# Private files
+
+*.orig
+p4/
+.project
+.makeargs
+make_args.txt
+.stingray-asset-server-secret
+
+# OS X files
+
+*.DS_Store
+*~
+
+# The visual studio debugger visualizer dll
+
+!/tools/visual_studio_plugins/*.dll
+
+# Wwise user files
+
+*.wsettings
+*.validationcache
+.backup/
+.cache/
+
+# Visual Studio Code config
+.vscode
+.settings
+jsconfig.json
+
+# Webstorm project folder
+.idea/
+
+# Core files managed by SPM
+core/stingray_renderer/environments/midday/skydome.dds
+core/stingray_renderer/environments/midday/specular_cube.dds

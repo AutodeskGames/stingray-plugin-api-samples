@@ -1,0 +1,41 @@
+// About
+//
+name = "Docking Examples"
+description = "Stingray docking system functionality examples."
+version = "1.0.1"
+changelog = {
+    "1.0.1": """
+    """
+}
+author = {
+	name = "Stingray"
+	company = "Autodesk inc."
+	url = "https://git.autodesk.com/gameware/stingray-engine.git"
+}
+
+// Configuration
+//
+platforms = ["win64"]
+config = {
+}
+
+// Modules
+//
+modules = []
+
+// Extensions
+//
+extensions = {
+	menus = [
+        {
+            path = "Developer/Docking Examples"
+            panel = "docking-examples"
+        }
+   ]
+}
+
+// Dependencies
+//
+dependencies = {
+	"stingray" = ">=1.5"
+}

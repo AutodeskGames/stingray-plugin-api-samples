@@ -1,0 +1,13 @@
+<link rel="stylesheet" core-href="core/css/widgets/json-component.css"/>
+
+<div class="list-component-test stingray-panel fullscreen" ng-controller="genericAssetListener">
+    <div>
+        Listens to a generic asset being edited: {{assetListenedToName}}
+    </div>
+
+    <div class="panel-fill panel-flex-horizontal fullscreen">
+        <div class="panel-fill adsk-property-object-view" >
+            <component-harness args="jsonArgs" component="JsonComponent"></component-harness>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+name = "lua module"
+version = "0.9.0"
+description = "Load a lua module at startup using a globally defined action named \"load-lua-module\"."
+
+extensions = {
+	resources = [
+		{
+			path = "my_modules"
+		}
+	]
+
+	events = [
+		{
+			on = "EditorStarted"
+			do = [
+				"load-lua-module \"my_modules/my_script\""
+			]
+		}
+	]
+
+	menus = [
+		{
+			path = "SayHello"
+			order = 88888
+			action = {
+				type = "lua"
+				script = "SayHello()"
+			}
+		}
+	]
+}
