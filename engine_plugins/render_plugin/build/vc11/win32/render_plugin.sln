@@ -1,0 +1,33 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ALL_BUILD", "ALL_BUILD.vcxproj", "{2709C5D3-E32E-3BC9-920B-DC4E409AE1C2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AFB7005C-8A82-399F-9A1A-DD1F0B0CBE83} = {AFB7005C-8A82-399F-9A1A-DD1F0B0CBE83}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "render_plugin", "render_plugin.vcxproj", "{AFB7005C-8A82-399F-9A1A-DD1F0B0CBE83}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Dev|Win32 = Dev|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2709C5D3-E32E-3BC9-920B-DC4E409AE1C2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2709C5D3-E32E-3BC9-920B-DC4E409AE1C2}.Dev|Win32.ActiveCfg = Dev|Win32
+		{2709C5D3-E32E-3BC9-920B-DC4E409AE1C2}.Release|Win32.ActiveCfg = Release|Win32
+		{AFB7005C-8A82-399F-9A1A-DD1F0B0CBE83}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AFB7005C-8A82-399F-9A1A-DD1F0B0CBE83}.Debug|Win32.Build.0 = Debug|Win32
+		{AFB7005C-8A82-399F-9A1A-DD1F0B0CBE83}.Dev|Win32.ActiveCfg = Dev|Win32
+		{AFB7005C-8A82-399F-9A1A-DD1F0B0CBE83}.Dev|Win32.Build.0 = Dev|Win32
+		{AFB7005C-8A82-399F-9A1A-DD1F0B0CBE83}.Release|Win32.ActiveCfg = Release|Win32
+		{AFB7005C-8A82-399F-9A1A-DD1F0B0CBE83}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
