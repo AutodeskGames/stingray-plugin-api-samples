@@ -1,0 +1,13 @@
+geometries = {
+}
+nodes = {
+	rp_root = {
+		local = [ 
+			1 0 0 0 
+			0 1 0 0 
+			0 0 1 0 
+			0 0 0 1 
+		]
+	}
+}
+source_path = ""

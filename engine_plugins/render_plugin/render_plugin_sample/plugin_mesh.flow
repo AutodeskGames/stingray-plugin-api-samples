@@ -1,0 +1,114 @@
+
+nodes = [
+	{
+		id = "a4534b15-1ac7-4fc3-a65a-43a7d8314bc1"
+		out_events = {
+			out = [
+				{
+					event = 0
+					id = "70eff75a-b9d6-413c-86b2-7759dd5f9ec2:0"
+					node = "70eff75a-b9d6-413c-86b2-7759dd5f9ec2"
+				}
+			]
+		}
+		out_variables = {
+			unit = {
+				type = "unit"
+			}
+		}
+		type = "unit_spawned_editor"
+		variable_values = {
+			unit = null
+		}
+	}
+	{
+		id = "70eff75a-b9d6-413c-86b2-7759dd5f9ec2"
+		in_variables = {
+			arg1 = {
+				node = "a4534b15-1ac7-4fc3-a65a-43a7d8314bc1"
+				type = "unit"
+				variable = "unit"
+			}
+			arg2 = {
+				type = "generic"
+			}
+			arg3 = {
+				type = "generic"
+			}
+			arg4 = {
+				type = "generic"
+			}
+			arg5 = {
+				type = "generic"
+			}
+		}
+		type = "script_do_string"
+		variable_values = {
+			arg1 = null
+			arg2 = null
+			arg3 = null
+			arg4 = null
+			arg5 = null
+			script = "Unit.set_data(({...})[1], \"logo_handle\", RenderPlugin.create_logo(({...})[1], \"rp_root\", \"render_plugin_sample/plugin_material\"))"
+		}
+	}
+	{
+		id = "c62a5e2d-47e9-4a58-b4be-b4ef10380b98"
+		in_variables = {
+			arg1 = {
+				node = "4af96cf6-308d-4ba9-af4e-c115594cdc8e"
+				type = "unit"
+				variable = "unit"
+			}
+			arg2 = {
+				type = "generic"
+			}
+			arg3 = {
+				type = "generic"
+			}
+			arg4 = {
+				type = "generic"
+			}
+			arg5 = {
+				type = "generic"
+			}
+		}
+		type = "script_do_string"
+		variable_values = {
+			arg1 = null
+			arg2 = null
+			arg3 = null
+			arg4 = null
+			arg5 = null
+			script = "RenderPlugin.destroy_logo(Unit.get_data(({...})[1], \"logo_handle\"))"
+		}
+	}
+	{
+		id = "4af96cf6-308d-4ba9-af4e-c115594cdc8e"
+		out_events = {
+			out = [
+				{
+					event = 0
+					id = "c62a5e2d-47e9-4a58-b4be-b4ef10380b98:0"
+					node = "c62a5e2d-47e9-4a58-b4be-b4ef10380b98"
+				}
+			]
+		}
+		out_variables = {
+			unit = {
+				type = "unit"
+			}
+		}
+		type = "unit_unspawned_editor"
+		variable_values = {
+			unit = null
+		}
+	}
+	{
+		id = "11111111-2222-3333-4444-555555555555"
+		type = "unit_spawned"
+		variable_values = {
+			unit = null
+		}
+	}
+]

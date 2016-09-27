@@ -1,0 +1,148 @@
+
+Connections = [
+	{
+		Class = "Stingray.Flow.VariableConnection"
+		FromItem = "Unit"
+		FromNode = "dd1dce48-a700-4e07-a2a8-46e7dcfe94da"
+		Id = "a545dedc-0bc3-43a6-a8b9-0fefa28e617f"
+		ToItem = "Arg1"
+		ToNode = "c62a5e2d-47e9-4a58-b4be-b4ef10380b98"
+		Type = "Unit"
+	}
+	{
+		Class = "Stingray.Flow.EventConnection"
+		FromItem = "Out"
+		FromNode = "dd1dce48-a700-4e07-a2a8-46e7dcfe94da"
+		Id = "a24cdd4f-cdff-47dd-867d-4c95f6515932"
+		Priority = 0
+		ToItem = "In"
+		ToNode = "c62a5e2d-47e9-4a58-b4be-b4ef10380b98"
+	}
+	{
+		Class = "Stingray.Flow.EventConnection"
+		FromItem = "Out"
+		FromNode = "8d7677d6-3a42-4209-a2b2-d7a800736e50"
+		Id = "85800bb5-3c4b-4a99-b223-a28be8e4b396"
+		Priority = 0
+		ToItem = "In"
+		ToNode = "70eff75a-b9d6-413c-86b2-7759dd5f9ec2"
+	}
+	{
+		Class = "Stingray.Flow.VariableConnection"
+		FromItem = "Unit"
+		FromNode = "a4534b15-1ac7-4fc3-a65a-43a7d8314bc1"
+		Id = "b9355675-a0bf-4bf1-b237-fb9ed99017f8"
+		ToItem = "Arg1"
+		ToNode = "70eff75a-b9d6-413c-86b2-7759dd5f9ec2"
+		Type = "Unit"
+	}
+	{
+		Class = "Stingray.Flow.EventConnection"
+		FromItem = "Out"
+		FromNode = "a4534b15-1ac7-4fc3-a65a-43a7d8314bc1"
+		Id = "a0cd652a-b493-4748-930c-efae772036a6"
+		Priority = 0
+		ToItem = "In"
+		ToNode = "70eff75a-b9d6-413c-86b2-7759dd5f9ec2"
+	}
+	{
+		Class = "Stingray.Flow.VariableConnection"
+		FromItem = "Unit"
+		FromNode = "4af96cf6-308d-4ba9-af4e-c115594cdc8e"
+		Id = "43f92157-c824-4399-bf2b-5e53158fbbc1"
+		ToItem = "Arg1"
+		ToNode = "c62a5e2d-47e9-4a58-b4be-b4ef10380b98"
+		Type = "Unit"
+	}
+	{
+		Class = "Stingray.Flow.EventConnection"
+		FromItem = "Out"
+		FromNode = "4af96cf6-308d-4ba9-af4e-c115594cdc8e"
+		Id = "45047752-b7c2-4df1-8ddc-02fe23b046c7"
+		Priority = 0
+		ToItem = "In"
+		ToNode = "c62a5e2d-47e9-4a58-b4be-b4ef10380b98"
+	}
+]
+Groups = [
+]
+Nodes = [
+	{
+		Class = "Stingray.Flow.UnitSpawnedEditor"
+		Id = "a4534b15-1ac7-4fc3-a65a-43a7d8314bc1"
+		NodeLocation = {
+			X = -20
+			Y = 100
+		}
+		Out = {
+		}
+		Unit = {
+		}
+		Width = 160
+	}
+	{
+		Arg1 = {
+		}
+		Arg2 = {
+		}
+		Arg3 = {
+		}
+		Arg4 = {
+		}
+		Arg5 = {
+		}
+		Class = "Stingray.Flow.ScriptDoString"
+		Id = "70eff75a-b9d6-413c-86b2-7759dd5f9ec2"
+		In = {
+		}
+		NodeLocation = {
+			X = 260
+			Y = 240
+		}
+		Out = {
+		}
+		Script = {
+			Value = "Unit.set_data(({...})[1], \"logo_handle\", RenderPlugin.create_logo(({...})[1], \"rp_root\", \"render_plugin_sample/plugin_material\"))"
+		}
+		Width = 160
+	}
+	{
+		Arg1 = {
+		}
+		Arg2 = {
+		}
+		Arg3 = {
+		}
+		Arg4 = {
+		}
+		Arg5 = {
+		}
+		Class = "Stingray.Flow.ScriptDoString"
+		Id = "c62a5e2d-47e9-4a58-b4be-b4ef10380b98"
+		In = {
+		}
+		NodeLocation = {
+			X = 260
+			Y = 500
+		}
+		Out = {
+		}
+		Script = {
+			Value = "RenderPlugin.destroy_logo(Unit.get_data(({...})[1], \"logo_handle\"))"
+		}
+		Width = 160
+	}
+	{
+		Class = "Stingray.Flow.UnitUnspawnedEditor"
+		Id = "4af96cf6-308d-4ba9-af4e-c115594cdc8e"
+		NodeLocation = {
+			X = -20
+			Y = 360
+		}
+		Out = {
+		}
+		Unit = {
+		}
+		Width = 160
+	}
+]

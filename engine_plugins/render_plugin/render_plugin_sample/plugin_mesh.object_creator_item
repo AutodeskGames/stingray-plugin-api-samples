@@ -1,0 +1,11 @@
+category = "Helpers"
+subcategory = "Rendering"
+display_name = "Render Plugin Sample"
+type = "unit"
+unit_resource = "render_plugin_sample/plugin_mesh"
+icon = "helpers.svg"
+menu_item = {
+    path = "Create/PluginMesh"
+    section = "GENERAL"
+    order = 210
+}
