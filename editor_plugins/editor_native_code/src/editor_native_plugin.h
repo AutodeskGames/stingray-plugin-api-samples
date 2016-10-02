@@ -27,9 +27,11 @@ namespace PLUGIN_NAMESPACE
 	{
 	public:
 		static void plugin_loaded(GetEditorApiFunction get_editor_api);
+		static void plugin_loaded_async(GetEditorApiFunction get_editor_api);
 		static const char* get_name();
 		static const char* get_version();
 		static void shutdown(GetEditorApiFunction get_editor_api);
+		static void shutdown_async(GetEditorApiFunction get_editor_api);
 
 		// Function to test arguments and result passing.
 		static ConfigData* test(ConfigData **args, int num);
@@ -51,6 +53,9 @@ namespace PLUGIN_NAMESPACE
 
 		// Test editor api v2
 		static ConfigData* test_api_v2(ConfigData **args, int num, GetEditorApiFunction get_editor_api);
+
+		// Test query api
+		static ConfigData* test_query_api(ConfigData **args, int num, GetEditorApiFunction get_editor_api);
 
 	private:
 		static void *config_data_reallocator(void *ud, void *ptr, int osize, int nsize, const char *file, int line);

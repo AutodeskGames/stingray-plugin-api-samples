@@ -55,7 +55,7 @@ namespace PLUGIN_NAMESPACE
 
 	void EditorTestPlugin::plugin_loaded(GetEditorApiFunction get_editor_api)
 	{
-		_api = static_cast<EditorApi*>(get_editor_api(EDITOR_PLUGIN_API_ID));
+		_api = static_cast<EditorApi*>(get_editor_api(EDITOR_API_ID));
 
 		auto registered = _api->register_native_function("editorNativeTest", "test", &EditorTestPlugin::test);
 		registered = registered && _api->register_native_function("editorNativeTest", "get_static_handle", &EditorTestPlugin::get_static_handle);
@@ -72,16 +72,26 @@ namespace PLUGIN_NAMESPACE
 		_logging_api = static_cast<EditorLoggingApi*>(get_editor_api(EDITOR_LOGGING_API_ID));
 		_eval_api = static_cast<EditorEvalApi*>(get_editor_api(EDITOR_EVAL_API_ID));
 
-		auto api_v2 = static_cast<EditorApi_V2*>(get_editor_api(EDITOR_PLUGIN_API_V2_ID));
+		auto api_v2 = static_cast<EditorApi_V2*>(get_editor_api(EDITOR_API_V2_ID));
 		api_v2->register_native_function("editorNativeTest", "test_api_v2", &EditorTestPlugin::test_api_v2);
 
 		// Test api v3
-		auto api_v3 = static_cast<EditorApi_V3*>(get_editor_api(EDITOR_PLUGIN_API_V3_ID));
+		auto api_v3 = static_cast<EditorApi_V3*>(get_editor_api(EDITOR_API_V3_ID));
 		api_v3->register_native_function("editorNativeTest", "test_api_v3", [=](ConfigData** args, int num) -> ConfigData* {
 			auto logging_api = static_cast<EditorLoggingApi*>(get_editor_api(EDITOR_LOGGING_API_ID));
 			logging_api->info("Successfully fetched api with editor api v3");
 			return nullptr;
 		});
+	}
+
+	void EditorTestPlugin::plugin_loaded_async(GetEditorApiFunction get_editor_api)
+	{
+		_cd_api = static_cast<ConfigDataApi*>(get_editor_api(CONFIGDATA_API_ID));
+		_logging_api = static_cast<EditorLoggingApi*>(get_editor_api(EDITOR_LOGGING_API_ID));
+		_eval_api = static_cast<EditorEvalApi*>(get_editor_api(EDITOR_EVAL_API_ID));
+
+		auto async_api = static_cast<EditorAsyncApi*>(get_editor_api(EDITOR_ASYNC_API_ID));
+		async_api->register_async_function("test_query", &EditorTestPlugin::test_query_api);
 	}
 
 	const char* EditorTestPlugin::get_name()
@@ -91,13 +101,13 @@ namespace PLUGIN_NAMESPACE
 
 	const char* EditorTestPlugin::get_version()
 	{
-		return "1.0.0.0";
+		return "1.1.0.0";
 	}
 
 	void EditorTestPlugin::shutdown(GetEditorApiFunction get_editor_api)
 	{
-		auto api_v2 = static_cast<EditorApi_V2*>(get_editor_api(EDITOR_PLUGIN_API_V2_ID));
-		auto api_v3 = static_cast<EditorApi_V3*>(get_editor_api(EDITOR_PLUGIN_API_V3_ID));
+		auto api_v2 = static_cast<EditorApi_V2*>(get_editor_api(EDITOR_API_V2_ID));
+		auto api_v3 = static_cast<EditorApi_V3*>(get_editor_api(EDITOR_API_V3_ID));
 
 		auto unregistered = _api->unregister_native_function("editorNativeTest", "test");
 		unregistered = unregistered && _api->unregister_native_function("editorNativeTest", "get_static_handle");
@@ -111,6 +121,12 @@ namespace PLUGIN_NAMESPACE
 		if (!unregistered) {
 			printf("Error unregistering functions.");
 		}
+	}
+
+	void EditorTestPlugin::shutdown_async(GetEditorApiFunction get_editor_api)
+	{
+		auto async_api = static_cast<EditorAsyncApi*>(get_editor_api(EDITOR_ASYNC_API_ID));
+		async_api->unregister_async_function("test_query");
 	}
 
 	// Every arguments are owned by the editor and will be destroyed when the function returns.
@@ -264,6 +280,25 @@ namespace PLUGIN_NAMESPACE
 		return nullptr;
 	}
 
+	ConfigData* EditorTestPlugin::test_query_api(ConfigData** args, int num, GetEditorApiFunction get_editor_api)
+	{
+		if (num == 0)
+			return nullptr;
+
+		auto cd_api = static_cast<ConfigDataApi*>(get_editor_api(CONFIGDATA_API_ID));
+
+		auto cd = cd_api->make(config_data_reallocator, nullptr, 0, 0);
+		auto arr = cd_api->add_array(&cd, num);
+		cd_api->set_root(cd, arr);
+
+		for (auto i = 0; i < num; ++i) {
+			auto argument = args[i];
+			auto copy = copy_config_data_value(argument, cd_api->root(argument), cd);
+			cd_api->push(&cd, arr, copy);
+		}
+
+		return cd;
+	}
 
 }
 
@@ -274,14 +309,24 @@ void *get_editor_plugin_api(unsigned api)
 __declspec(dllexport) void *get_editor_plugin_api(unsigned api)
 #endif
 {
-	if (api == EDITOR_PLUGIN_API_ID) {
-		static struct EditorPluginApi editor_api = {nullptr};
+	if (api == EDITOR_PLUGIN_SYNC_API_ID) {
+		static struct EditorPluginSyncApi editor_api = {nullptr};
 		editor_api.plugin_loaded = &PLUGIN_NAMESPACE::EditorTestPlugin::plugin_loaded;
 		editor_api.get_name = &PLUGIN_NAMESPACE::EditorTestPlugin::get_name;
 		editor_api.get_version= &PLUGIN_NAMESPACE::EditorTestPlugin::get_version;
 		editor_api.shutdown = &PLUGIN_NAMESPACE::EditorTestPlugin::shutdown;
 		return &editor_api;
 	}
+
+	if (api == EDITOR_PLUGIN_ASYNC_API_ID) {
+		static struct EditorPluginAsyncApi editor_api = {nullptr};
+		editor_api.plugin_loaded = &PLUGIN_NAMESPACE::EditorTestPlugin::plugin_loaded_async;
+		editor_api.get_name = &PLUGIN_NAMESPACE::EditorTestPlugin::get_name;
+		editor_api.get_version= &PLUGIN_NAMESPACE::EditorTestPlugin::get_version;
+		editor_api.shutdown = &PLUGIN_NAMESPACE::EditorTestPlugin::shutdown_async;
+		return &editor_api;
+	}
+
 	return nullptr;
 }
 }

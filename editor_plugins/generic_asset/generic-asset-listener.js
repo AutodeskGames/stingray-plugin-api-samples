@@ -1,4 +1,3 @@
-/*global window, console, define, alert, $*/
 define([
     'app',
     'lodash',
@@ -11,8 +10,13 @@ define([
     'services/marshalling-service'
 ], function (app, _, m, JsonComponent) {
     'use strict';
+
     document.title = "Mithril List";
-    app.controller('genericAssetListener', function ($scope, objectEditingService, assetService, marshallingService) {
+
+    var marshallingService = require('services/marshalling-service');
+    var objectEditingService = require('services/object-editing-service');
+
+    app.controller('genericAssetListener', function ($scope, assetService) {
         document.title = "Generic Asset Listener";
 
         $scope.JsonComponent = JsonComponent;

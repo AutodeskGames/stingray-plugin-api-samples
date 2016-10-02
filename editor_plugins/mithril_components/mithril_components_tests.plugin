@@ -11,7 +11,7 @@ changelog = {
 author = {
 	name = "Stingray"
 	company = "Autodesk inc."
-	url = "https://git.autodesk.com/gameware/stingray-engine.git"
+	url = "https://git.autodesk.com/gameware/stingray.git"
 }
 
 // Configuration
@@ -32,7 +32,7 @@ extensions = {
                 path = "Developer/Mithril/accordion"
                 view = {
                     type = "panel"
-                    path = "mithril/accordion-component-test"
+                    path = "accordion-component-test"
                 }
             }
             {
@@ -53,14 +53,14 @@ extensions = {
                 path = "Developer/Mithril/json component"
                 view = {
                     type = "panel"
-                    path = "mithril/json-component-test"
+                    path = "json-component-test"
                 }
             }
             {
                 path = "Developer/Mithril/listview"
                 view = {
                     type = "panel"
-                    path = "mithril/listview-component-test"
+                    path = "listview-component-test"
                 }
             }
             {
@@ -74,21 +74,21 @@ extensions = {
                 path = "Developer/Mithril/property editor"
                 view = {
                     type = "panel"
-                    path = "mithril/property-editor-test"
+                    path = "property-editor-test"
                 }
             }
             {
                 path = "Developer/Mithril/property editor from type"
                 view = {
                     type = "panel"
-                    path = "mithril/property-editor-from-type"
+                    path = "property-editor-from-type"
                 }
             }
             {
                 path = "Developer/Mithril/table"
                 view = {
                     type = "panel"
-                    path = "mithril/property-table"
+                    path = "property-table"
                 }
             }
             {
@@ -102,21 +102,21 @@ extensions = {
                 path = "Developer/Mithril/slider"
                 view = {
                     type = "panel"
-                    path = "mithril/slider-component-test"
+                    path = "slider-component-test"
                 }
             }
             {
                 path = "Developer/Mithril/spinner"
                 view = {
                     type = "panel"
-                    path = "mithril/spinner-component-test"
+                    path = "spinner-component-test"
                 }
             }
             {
                 path = "Developer/Mithril/string"
                 view = {
                     type = "panel"
-                    path = "mithril/string-component-test"
+                    path = "string-component-test"
                 }
             }
             {

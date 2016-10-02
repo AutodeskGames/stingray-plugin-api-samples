@@ -1,10 +1,13 @@
 <div class="module-editor-native-code" ng-controller="editorNativeCode">
     <div><button class="standard-btn" ng-click="load()">Load Plugin!</button></div>
     <div><button class="standard-btn" ng-click="unload()">Unload Plugin!</button></div>
+    <div><button class="standard-btn" ng-click="loadAsync()">Load Async Plugin!</button></div>
+    <div><button class="standard-btn" ng-click="unloadAsync()">Unload Async Plugin!</button></div>
     <div ng-if="pluginLoaded"><button class="standard-btn" ng-click="test()">Test Arguments!</button></div>
     <div ng-if="pluginLoaded"><button class="standard-btn" ng-click="testHandle()">Test Handle!</button></div>
     <div ng-if="pluginLoaded"><button class="standard-btn" ng-click="testLogging()">Test Logging!</button></div>
     <div ng-if="pluginLoaded"><button class="standard-btn" ng-click="testEval()">Test Eval!</button></div>
     <div ng-if="pluginLoaded"><button class="standard-btn" ng-click="testApiV2()">Test Api V2!</button></div>
     <div ng-if="pluginLoaded"><button class="standard-btn" ng-click="testApiV3()">Test Api V3!</button></div>
+    <div ng-if="pluginAsyncLoaded"><button class="standard-btn" ng-click="testAsync()">Test Async!</button></div>
 </div>

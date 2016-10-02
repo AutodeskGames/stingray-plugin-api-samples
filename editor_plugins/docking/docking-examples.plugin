@@ -10,7 +10,7 @@ changelog = {
 author = {
 	name = "Stingray"
 	company = "Autodesk inc."
-	url = "https://git.autodesk.com/gameware/stingray-engine.git"
+	url = "https://git.autodesk.com/gameware/stingray.git"
 }
 
 // Configuration

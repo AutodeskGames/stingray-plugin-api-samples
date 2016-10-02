@@ -1,4 +1,4 @@
-/*global window, console, define, alert, $*/
+/*global console, define*/
 define([
     'lodash',
     'components/mithril-ext'
@@ -22,11 +22,25 @@ define([
         }, 4000);
     };
 
-    exports.populateActions = function (property, actionInfo) {
-        return Promise.resolve({
-            "Surface Normal": "SurfaceNormal",
-            "World Up!!": "WorldUp"
-        });
+    var useOptions1 = true;
+    var enumStringOptions1 = {
+        "Surface Normal": "SurfaceNormal",
+        "World Up!!": "WorldUp"
+    };
+
+    var enumStringOptions2 = {
+        "This is an options": "options",
+        "this is something else": "else",
+        "try something new": "of doom"
+    };
+
+    exports.switchEnumString = function (/*property, actionInfo*/) {
+        useOptions1 = !useOptions1;
+        m.redraw();
+    };
+
+    exports.populateActions = function (/*property, actionInfo*/) {
+        return Promise.resolve(useOptions1 ? enumStringOptions1 : enumStringOptions2);
     };
 
     return exports;

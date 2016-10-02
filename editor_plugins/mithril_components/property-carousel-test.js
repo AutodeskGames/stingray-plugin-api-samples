@@ -18,7 +18,6 @@ define([
     document.title = "Mithril List";
 
     var services = {
-        marshallingService: marshallingService,
         hostService: hostService,
         projectService: projectService,
         assetService: assetService,
