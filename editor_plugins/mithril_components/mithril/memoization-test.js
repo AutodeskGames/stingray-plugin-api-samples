@@ -1,15 +1,14 @@
-/*global window, console, define, alert, $*/
 define([
     'app',
     'components/mithril-ext',
     'components/spinner',
-    'common/math-utils',
     'components/component-harness',
     'services/marshalling-service',
-], function (app, m, Spinner, mathUtils) {
+], function (app, m, Spinner) {
     'use strict';
     document.title = "Mithril Spinner";
-    app.controller('mithrilSpinnerController', function ($scope, marshallingService) {
+    var marshallingService = require('services/marshalling-service');
+    app.controller('mithrilSpinnerController', function ($scope) {
         $scope.redraw = function () {
             m.redraw();
         };

@@ -15,7 +15,7 @@ license = {
 }
 repository = {
 	type = "git"
-	url = "https://git.autodesk.com/gameware/stingray-engine.git"
+	url = "https://git.autodesk.com/gameware/stingray.git"
 }
 
 // Configuration

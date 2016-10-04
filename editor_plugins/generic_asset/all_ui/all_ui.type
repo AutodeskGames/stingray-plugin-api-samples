@@ -44,6 +44,19 @@ types = {
                     }
                 }
             }
+            SwitchEnumString = {
+                type = ":bool"
+                default = true
+                editor = {
+                    control = "Action"
+                    trigger = {
+                        type = "js"
+                        module = "generic_asset/generic-asset-actions"
+                        function_name = "switchEnumString"
+                    },
+                    label = "Switch options!"
+                }
+            }
             Enum = {
                 type = ":enum"
                 value = ":string"
@@ -69,7 +82,7 @@ types = {
                 type = ":resource"
                 extension = "unit"
             }
-	    Skeleton = {
+            Skeleton = {
                 type = ":resource"
                 extension = "anim_skeleton"
             }

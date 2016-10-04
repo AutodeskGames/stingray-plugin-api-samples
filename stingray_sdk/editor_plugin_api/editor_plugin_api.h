@@ -11,7 +11,7 @@ extern "C" {
 
 	The plugin interface is based around a single function:
 
-		__declspec(dllexport) void *get_editor_plugin_api(unsigned api_id);
+		__declspec(dllexport) void *get_editor_plugin_api(unsigned plugin_api_id);
 
 	The API ID is an integer that uniquely identify a specific version of a particular service.
 	If the plugin can provide the service it returns a pointer to an API struct that contains
@@ -41,16 +41,30 @@ extern "C" {
 	many cases they are just thin wrappers around existing editor systems.
 */
 
-/* API_IDs for the different services. */
-enum EditorPluginApiID {
-	EDITOR_PLUGIN_API_ID = 0,
-	EDITOR_PLUGIN_API_V2_ID,
+/* Plugin API_IDs for the different services that a plugin can implement. */
+enum EditorPluginApiID
+{
+	EDITOR_PLUGIN_SYNC_API_ID = 0,
+	EDITOR_PLUGIN_ASYNC_API_ID
+};
+
+/* Editor API_IDs for the different services the editor offers. */
+enum EditorApiID {
+	EDITOR_API_ID = 0,
+	EDITOR_API_V2_ID,
 	CONFIGDATA_API_ID,
 	EDITOR_LOGGING_API_ID,
-	EDITOR_EVAL_API_ID
+	EDITOR_EVAL_API_ID,
+	EDITOR_ASYNC_API_ID
 #if defined(_FUNCTIONAL_)
-	, EDITOR_PLUGIN_API_V3_ID
+	, EDITOR_API_V3_ID
 #endif
+};
+
+enum ProcessId
+{
+	BROWSER = 0,
+	RENDERER
 };
 
 /* This function can be used by the plugin to query for editor API. */
@@ -63,7 +77,22 @@ typedef void *(*GetEditorApiFunction)(unsigned api);
 	The plugin is not obligated to implement all these functions. You can return NULL for the
 	functions that you do not support.
 */
-struct EditorPluginApi
+struct EditorPluginSyncApi
+{
+	/* Called once the plugin has been loaded. */
+	void (*plugin_loaded)(GetEditorApiFunction get_editor_api);
+
+	/* Returns the name of the plugin. */
+	const char *(*get_name)();
+
+	/* Returns the version of the plugin. A version is a string of format 1.0.0.0 */
+	const char *(*get_version)();
+
+	/* Called when the plugins needs to be shutdown */
+	void (*shutdown)(GetEditorApiFunction get_editor_api);
+};
+
+struct EditorPluginAsyncApi
 {
 	/* Called once the plugin has been loaded. */
 	void (*plugin_loaded)(GetEditorApiFunction get_editor_api);
@@ -98,6 +127,23 @@ struct EditorApi_V2
 
 	/* Used to unregister a previously registered native function. */
 	bool (*unregister_native_function)(const char *ns, const char *name);
+};
+
+struct EditorAsyncApi
+{
+	typedef ConfigData* (*AsyncFunctionHandler)(ConfigData **args, int num, GetEditorApiFunction get_editor_api);
+
+	/* Used to register an asynchronous function that is executed on the browser thread. Can be called using stingray.hostExecute('your-function-name', ...); */
+	bool (*register_async_function)(const char *name, AsyncFunctionHandler handler);
+
+	/* Used to unregister a previously registered async function. */
+	bool (*unregister_async_function)(const char *name);
+
+	/* Used to register an asynchronous function that is executed on the gui thread. Can be called using stingray.hostExecute('your-function-name', ...); */
+	bool (*register_async_gui_function)(const char *name, AsyncFunctionHandler handler);
+
+	/* Used to unregister a previously registered async gui function. */
+	bool (*unregister_async_gui_function)(const char *name);
 };
 
 struct ConfigDataApi

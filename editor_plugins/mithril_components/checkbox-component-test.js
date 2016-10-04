@@ -21,21 +21,15 @@ define([
         ]);
     }
 
-    function modelValueDiv(title) {
-        return m('div', {style: "margin: 5px;"}, [
-            title,
-            checkedModel(),
-            ButtonComponent.component({text: "Toggle Model!", onclick: toggle})
-        ]);
-    }
-
     var MithrilApp = {
         view: function () {
             return m("div", {class: "check-component-test stingray-panel fullscreen"},
                 m("div", {class: "main-container"}, [
-                    modelValueDiv("Model Value: ", {
-                        model: checkedModel
-                    }),
+                    m('div', {style: "margin: 5px;"}, [
+                        "Model Value: ",
+                        checkedModel(),
+                        ButtonComponent.component({text: "Toggle Model!", onclick: toggle})
+                    ]),
                     checkBoxDiv("Checkbox", {
                         model: checkedModel
                     }),
