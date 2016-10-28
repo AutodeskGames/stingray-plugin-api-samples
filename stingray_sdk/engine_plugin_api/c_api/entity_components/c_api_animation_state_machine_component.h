@@ -19,7 +19,7 @@ struct AnimationStateMachineComponentCApi
 	struct EntityPropertyValue (*get_property) (DataComponentPtr, EntityRef, unsigned num_args, ...);
 
 	int			(*has_event) (AnimationStateMachineComponentPtr, EntityRef, unsigned event_name_id32);
-	void		(*trigger_event) (AnimationStateMachineComponentPtr, EntityRef, unsigned event_name_id32);
+	void		(*trigger_event) (AnimationStateMachineComponentPtr, EntityRef, unsigned event_name_id32, const char *opt_event_plain_name);
 	unsigned	(*find_variable) (AnimationStateMachineComponentPtr, EntityRef, unsigned variable_name_id32);
 	float		(*get_variable) (AnimationStateMachineComponentPtr, EntityRef, unsigned index);
 	void		(*set_variable) (AnimationStateMachineComponentPtr, EntityRef, unsigned index, float value);

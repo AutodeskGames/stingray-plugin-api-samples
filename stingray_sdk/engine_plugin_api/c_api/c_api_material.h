@@ -16,7 +16,7 @@ struct MaterialCApi
 
 	unsigned	(*material_id) (ConstMaterialPtr);
 	void		(*set_shader_pass_flag) (MaterialPtr, unsigned flag_name_id32, int enabled);
-	void		(*set_texture) (MaterialPtr, unsigned slot_name_id32, uint64_t texture_resource);
+	void		(*set_texture) (MaterialPtr, unsigned slot_name_id32, uint64_t texture_resource_name_id64, const char *optional_debug_texture_resource_name);
 	void		(*set_resource) (MaterialPtr, unsigned slot_name_id32, ConstRenderResourcePtr);
 	void		(*set_matrix4x4) (MaterialPtr, unsigned variable_name_id32, ConstMatrix4x4Ptr);
 };

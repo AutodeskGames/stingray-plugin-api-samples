@@ -57,7 +57,7 @@ struct UnitCApi
 	void*		(*flow_variable) (UnitRef, unsigned variable_name_id32);
 	void		(*set_flow_variable) (UnitRef, unsigned variable_name_id32, void* value);
 
-	uint64_t	(*set_material) (UnitRef, unsigned slot_name_id32, uint64_t material_resource);
+	uint64_t	(*set_material) (UnitRef, unsigned slot_name_id32, uint64_t material_resource_name_id64, const char *optional_debug_material_resource_name);
 	uint64_t	(*set_material_to_none) (UnitRef, unsigned slot_name_id32);
 
 	unsigned	(*num_meshes) (UnitRef);
@@ -80,14 +80,14 @@ struct UnitCApi
 	void		(*animation_set_constraint_target_position) (UnitRef, unsigned index, ConstVector3Ptr);
 	void		(*animation_set_constraint_target_rotation) (UnitRef, unsigned index, ConstQuaternionPtr);
 
-	unsigned	(*crossfade_animation) (UnitRef, uint64_t animation_name, unsigned layer, float blend_time, int should_loop, enum AnimationBlendType);
+	unsigned	(*crossfade_animation) (UnitRef, uint64_t animation_name_id64, const char *optional_debug_animation_name, unsigned layer, float blend_time, int should_loop, enum AnimationBlendType);
 	unsigned	(*is_crossfading_animation) (UnitRef);
 	void		(*crossfade_animation_set_time) (UnitRef, unsigned id, float time, int should_cap_to_range);
 	void		(*crossfade_animation_set_speed) (UnitRef, unsigned id, float speed);
 
 	void		(*disable_state_machine) (UnitRef);
 	void		(*enable_state_machine) (UnitRef);
-	void		(*set_state_machine) (UnitRef, uint64_t state_machine_name);
+	void		(*set_state_machine) (UnitRef, uint64_t machine_name_id64, const char *optional_debug_machine_name);
 	int			(*has_state_machine) (UnitRef);
 	int			(*has_event) (UnitRef, unsigned event_name_id32);
 
@@ -100,6 +100,9 @@ struct UnitCApi
 
 	void		(*animation_set_state) (UnitRef, struct AnimationStates*);
 	struct AnimationStates (*animation_get_state) (UnitRef);
+
+	void(*animation_set_seeds) (UnitRef, struct AnimationLayerSeeds*);
+	struct AnimationLayerSeeds(*animation_get_seeds) (UnitRef);
 
 	struct AnimationLayerInfo (*animation_layer_info) (UnitRef, unsigned index);
 	void		(*set_merge_options) (UnitRef, float max_start_time, float max_drift, float clock_fidelity);

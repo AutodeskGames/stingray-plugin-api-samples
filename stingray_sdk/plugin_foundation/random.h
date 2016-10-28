@@ -19,12 +19,12 @@ public:
 	static const unsigned A = 1664525 , B = 1013904223;
 
 	__forceinline Random() : _state(0) {}
-	__forceinline Random(unsigned long s) : _state(unsigned(s)) {}
-	__forceinline unsigned long seed() const {return _state;}
-	__forceinline void set_seed(unsigned long s) {_state = unsigned(s);}
+	__forceinline Random(unsigned s) : _state(s) {}
+	__forceinline unsigned seed() const {return _state;}
+	__forceinline void set_seed(unsigned s) {_state = s;}
 
 	__forceinline void next() {_state = A * _state + B;}
-	__forceinline unsigned long rand_u32() {next(); return _state;}
+	__forceinline unsigned rand_u32() {next(); return _state;}
 	__forceinline double rand_double() {return double(rand_u32()) * (0.5 / 0x80000000);}
 	__forceinline float rand_float() {return float(rand_u32()) * (0.5f / 0x80000000);}
 

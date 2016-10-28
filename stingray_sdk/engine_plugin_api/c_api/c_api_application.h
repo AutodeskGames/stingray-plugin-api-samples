@@ -17,7 +17,6 @@ struct ApplicationCApi
 
 	const char* (*build) ();
 	const char* (*platform) ();
-	const char* (*source_platform) ();
 	const char* (*build_identifier) ();
 	const char* (*sysinfo) ();
 	ConstConfigRootPtr (*settings_root) ();
@@ -38,4 +37,3 @@ struct ApplicationCApi
 #ifdef __cplusplus
 }
 #endif
-

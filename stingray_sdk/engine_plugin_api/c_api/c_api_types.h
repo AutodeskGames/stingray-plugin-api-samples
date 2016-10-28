@@ -54,6 +54,7 @@ extern "C" {
 	typedef void* AnimationStateMachineComponentPtr;
 	typedef void* DebugNameComponentPtr;
 	typedef void* DataComponentPtr;
+	typedef void* RenderDataComponentPtr;
 	typedef void* TagComponentPtr;
 	typedef void* ComponentPtr;
 	typedef CApiPhysicsWorld* PhysicsWorldPtr;
@@ -128,6 +129,11 @@ extern "C" {
 	struct AnimationStates {
 		unsigned states[32];
 		unsigned num_states;
+	};
+
+	struct AnimationLayerSeeds {
+		unsigned seeds[32];
+		unsigned num_seeds;
 	};
 
 	struct AnimationLayerInfo {
