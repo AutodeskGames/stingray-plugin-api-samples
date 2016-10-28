@@ -18,7 +18,7 @@ struct AnimationBlenderComponentCApi
 	void		(*set_property) (AnimationBlenderComponentPtr, EntityRef, struct EntityPropertyParameter*, unsigned num_args, ...);
 	struct EntityPropertyValue (*get_property) (DataComponentPtr, EntityRef, unsigned num_args, ...);
 
-	unsigned	(*crossfade) (AnimationBlenderComponentPtr, EntityRef, uint64_t animation_name, unsigned layer, float blend_time, int should_loop, enum AnimationBlendType anim_blend_type);
+	unsigned	(*crossfade) (AnimationBlenderComponentPtr, EntityRef, uint64_t animation_name_id64, const char *optional_debug_animation_name, unsigned layer, float blend_time, int should_loop, enum AnimationBlendType anim_blend_type);
 	void		(*set_time) (AnimationBlenderComponentPtr, EntityRef, unsigned id, float time, int should_cap_to_range);
 	void		(*set_speed) (AnimationBlenderComponentPtr, EntityRef, unsigned id, float speed);
 	int			(*is_crossfading) (AnimationBlenderComponentPtr, EntityRef);

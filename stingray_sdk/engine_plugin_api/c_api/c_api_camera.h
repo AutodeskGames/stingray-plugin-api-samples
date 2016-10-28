@@ -55,6 +55,8 @@ struct CameraCApi
 
 	enum CameraMode	(*mode)(ConstCameraPtr);
 	void			(*set_mode)(CameraPtr, enum CameraMode);
+
+	void (*set_local)(CameraPtr, ConstMatrix4x4Ptr m, unsigned);
 };
 
 #ifdef __cplusplus

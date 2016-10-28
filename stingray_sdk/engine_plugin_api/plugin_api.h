@@ -86,8 +86,7 @@ enum PluginApiID {
 	SCENE_DATABASE_API_ID =				35,
 	STREAM_CAPTURE_API =				36,
 	FLOW_NODES_API_ID =					37,
-	CAMERA_API_ID =						38,
-	RENDER_CAMERA_API_ID =				39
+	CAMERA_API_ID =						38
 };
 
 /* ----------------------------------------------------------------------
@@ -558,6 +557,8 @@ struct DataCompileParametersApi
 	/* Includes (type,name) in packages for the compiled file. */
 	void (*include_in_package)(struct DataCompileParameters *input, const char *type, const char *name);
 
+	void (*glob_include_in_package)(struct DataCompileParameters *input, const char *prefix, const char *suffix, const char *type);
+
 	/* Returns true if the path exists. */
 	int (*exists)(struct DataCompileParameters *input, const char *path);
 };
@@ -1007,7 +1008,8 @@ struct ApplicationApi
 
 	void (*hook_console_receiver)(const char *type, struct AP_ReceiverUserDataWrapper *user_wrapper);
 	void (*unhook_console_receiver)(const char *type);
-	void (*console_send_message)(int client_id, const char *type, const char *data, uint32_t data_length);
+	int (*current_client_id)();
+	void (*console_send_with_binary_data)(const char *text, uint32_t text_len, const char *data, uint32_t data_len, uint8_t sync, int client_id);
 };
 
 /* ----------------------------------------------------------------------
@@ -1094,6 +1096,8 @@ struct WorldApi
 	void (*register_post_animation_callback)(CApiWorld * world, PostAnimationCallback function);
 	/* unregister a post FK animation callback */
 	void (*unregister_post_animation_callback)(CApiWorld * world, PostAnimationCallback function);
+	/* it is the responsibility of the plugin to free memory returned by find_units_by_resource_name */
+	CApiUnit ** (*find_units_by_resource_name)(CApiWorld *world, uint64_t resource_name, struct AllocatorObject *allocator, unsigned *count);
 };
 
 /* ----------------------------------------------------------------------
@@ -1628,8 +1632,6 @@ struct CameraApi
 {
 	struct SceneGraph * (*scene_graph)(CApiCamera *camera);
 
-	uint32_t (*render_handle)(CApiCamera *camera);
-
 	float (*near_range)(CApiCamera *camera);
 	void  (*set_near_range)(CApiCamera *, float near_range);
 
@@ -1647,15 +1649,8 @@ struct CameraApi
 
 	uint8_t (*mode)(CApiCamera *camera);
 	void    (*set_mode)(CApiCamera *camera, uint8_t mode);
-};
 
-/* ----------------------------------------------------------------------
-RenderCameraApi
----------------------------------------------------------------------- */
-struct RenderCameraApi
-{
-	void (*set_world)(uint32_t render_handle, CApiWorld *world, ConstMatrix4x4Ptr w, unsigned i);
-	void (*set_view)(uint32_t render_handle, CApiWorld *world, ConstMatrix4x4Ptr v, unsigned i);
+	void (*set_local)(CApiCamera *camera, ConstMatrix4x4Ptr offset, unsigned i);
 };
 
 #ifdef __cplusplus

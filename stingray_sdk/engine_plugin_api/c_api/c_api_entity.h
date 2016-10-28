@@ -2,6 +2,7 @@
 
 #include "c_api_types.h"
 #include "entity_components/c_api_data_component.h"
+#include "entity_components/c_api_render_data_component.h"
 #include "entity_components/c_api_debug_name_component.h"
 #include "entity_components/c_api_tag_component.h"
 #include "entity_components/c_api_animation_state_machine_component.h"
@@ -21,7 +22,7 @@ struct EntityManagerApi
 	void		(*destroy) (EntityRef);
 	int			(*is_alive) (EntityRef);
 	void		(*set_debug_name) (EntityRef, const char*);
-	EntityRef	(*spawn) (WorldPtr, uint64_t entity_name, ConstMatrix4x4Ptr transform);
+	EntityRef	(*spawn) (WorldPtr, uint64_t entity_name_id64, const char *optional_debug_entity_name, ConstMatrix4x4Ptr transform);
 };
 
 struct EntityCApi

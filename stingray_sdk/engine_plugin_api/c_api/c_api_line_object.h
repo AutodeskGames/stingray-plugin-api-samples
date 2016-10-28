@@ -21,7 +21,7 @@ struct LineObjectCApi
 	void	(*add_axes) (LineObjectPtr, ConstMatrix4x4Ptr pose, float length);
 
 	/*	Not available in Release builds.	If camera_direction is supplied, back-facing triangles will get culled.	*/
-	void	(*add_unit_meshes) (LineObjectPtr, uint64_t unit_id64, ConstVector4Ptr color, ConstMatrix4x4Ptr pose, ConstVector3Ptr optional_camera_direction);
+	void	(*add_unit_meshes) (LineObjectPtr, uint64_t unit_resource_name_id64, const char *optional_debug_unit_resource_name, ConstVector4Ptr color, ConstMatrix4x4Ptr pose, ConstVector3Ptr optional_camera_direction);
 };
 
 #ifdef __cplusplus

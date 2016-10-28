@@ -17,7 +17,7 @@ enum WorldCApi_OrphanedParticlePolicy
 
 struct WorldCApi
 {
-	UnitRef	 (*spawn_unit) (WorldPtr world_pointer, uint64_t unit_name, ConstMatrix4x4Ptr transform);
+	UnitRef	 (*spawn_unit) (WorldPtr world_pointer, uint64_t unit_name_id64, const char *optional_debug_unit_name, ConstMatrix4x4Ptr transform);
 	void	 (*destroy_unit) (WorldPtr world_pointer, UnitRef unit_ref);
 	unsigned (*num_units) (ConstWorldPtr world_pointer);
 
@@ -30,7 +30,7 @@ struct WorldCApi
 	void	(*link_unit) (WorldPtr world_pointer, UnitRef child, unsigned child_node_index, UnitRef parent, unsigned parent_node_index);
 	void	(*unlink_unit) (WorldPtr world_pointer, UnitRef child);
 	void	(*update_unit) (WorldPtr world_pointer, UnitRef unit_ref);
-	ParticleRef (*create_particles) (WorldPtr world_pointer, uint64_t effect_name, ConstMatrix4x4Ptr transform);
+	ParticleRef (*create_particles) (WorldPtr world_pointer, uint64_t name_id64, const char *optional_debug_name, ConstMatrix4x4Ptr transform);
 	void	(*destroy_particles) (WorldPtr world_pointer, ParticleRef id);
 	void	(*stop_spawning_particles) (WorldPtr world_pointer, ParticleRef id);
 	int		(*are_particles_playing) (ConstWorldPtr world_pointer, ParticleRef id);
@@ -39,10 +39,10 @@ struct WorldCApi
 	void	(*move_particles) (WorldPtr world_pointer, ParticleRef id, ConstMatrix4x4Ptr transform);
 	void	(*link_particles) (WorldPtr world_pointer, ParticleRef id, UnitRef unit_ref, unsigned unit_node_index, ConstMatrix4x4Ptr local_pose, enum WorldCApi_OrphanedParticlePolicy orphaned_policy);
 
-	unsigned (*find_particles_variable) (ConstWorldPtr world_pointer, uint64_t effect_name, unsigned variable_name_id32);
+	unsigned (*find_particles_variable) (ConstWorldPtr world_pointer, uint64_t name_id64, const char *optional_debug_name, unsigned variable_name_id32);
 	void	 (*set_particles_variable) (WorldPtr world_pointer, ParticleRef id, unsigned variable, ConstVector3Ptr value);
 
-	LevelPtr (*load_level) (WorldPtr world_pointer, uint64_t level_name_id64, ConstMatrix4x4Ptr transform, uint64_t optional_level_id);
+	LevelPtr (*load_level) (WorldPtr world_pointer, uint64_t level_name_id64, const char *optional_debug_level_name, ConstMatrix4x4Ptr transform, uint64_t optional_level_id);
 	void	 (*destroy_level) (WorldPtr world_pointer, LevelPtr level_pointer);
 	unsigned (*num_levels) (ConstWorldPtr world_pointer);
 	LevelPtr (*level) (WorldPtr world_pointer, unsigned index);
@@ -58,10 +58,10 @@ struct WorldCApi
 	VectorFieldPtr	 (*vector_field) (WorldPtr world_pointer, unsigned vector_field_name_id32);
 	ScatterSystemPtr (*scatter_system) (WorldPtr world_pointer);
 
-	ShadingEnvironmentPtr (*create_shading_environment) (WorldPtr world_pointer, uint64_t name_id64);
+	ShadingEnvironmentPtr (*create_shading_environment) (WorldPtr world_pointer, uint64_t name_id64, const char *optional_debug_name);
 	ShadingEnvironmentPtr (*create_default_shading_environment) (WorldPtr world_pointer);
 	void	(*destroy_shading_environment) (WorldPtr world_pointer, ShadingEnvironmentPtr shading_environment_pointer);
-	void (*set_shading_environment) (WorldPtr world_pointer, ShadingEnvironmentPtr shading_environment, uint64_t name_id64);
+	void (*set_shading_environment) (WorldPtr world_pointer, ShadingEnvironmentPtr shading_environment, uint64_t name_id64, const char *optional_debug_name);
 
 	LineObjectPtr		(*create_line_object) (WorldPtr world_pointer, int disable_depth_test);
 	void				(*destroy_line_object) (WorldPtr world_pointer, LineObjectPtr line_object_pointer);
