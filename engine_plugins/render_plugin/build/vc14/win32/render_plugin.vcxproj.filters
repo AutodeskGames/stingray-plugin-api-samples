@@ -367,11 +367,11 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="stingray_sdk\engine_plugin_api\c_api">
-      <UniqueIdentifier>{F424BC84-3975-30E6-8AF8-7BF819F8F98A}</UniqueIdentifier>
-    </Filter>
     <Filter Include="stingray_sdk\engine_plugin_api\c_api\entity_components">
       <UniqueIdentifier>{3E6D1236-7F93-3B88-9615-D3B448EF0672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stingray_sdk\engine_plugin_api\c_api">
+      <UniqueIdentifier>{F424BC84-3975-30E6-8AF8-7BF819F8F98A}</UniqueIdentifier>
     </Filter>
     <Filter Include="stingray_sdk\engine_plugin_api">
       <UniqueIdentifier>{3D3DA9AB-9425-3F94-9A4D-42A1B1709413}</UniqueIdentifier>
