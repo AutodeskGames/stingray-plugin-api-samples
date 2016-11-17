@@ -138,9 +138,54 @@ static void setup_data_compiler(GetApiFunction get_engine_api)
 	compiler->add_extra_package_include_compiler("level", PLUGIN_ID, PLUGIN_VERSION, add_level_package_includes);
 }
 
+static GraphNode *graph_nodes(GraphResourceHeader *graph)
+{
+	return (GraphNode *)((char*)graph + graph->nodes_offset);
+}
+
+static GraphLink *graph_links(GraphResourceHeader *graph)
+{
+	return (GraphLink *)((char*)graph + graph->links_offset);
+}
+
+static GraphResourceHeader *get(const char *name)
+{
+	if (!_resource_manager->can_get("graph", name))
+		return nullptr;
+	GraphResourceHeader *graph = (GraphResourceHeader *)_resource_manager->get("graph", name);
+	XASSERT(graph->marker == GRAPH_MARKER, "Compile error -- graph marker does not match expectations");
+	XASSERT(graph->version == GRAPH_VERSION, "Compile error -- graph version number does not match expectations");
+	return graph;
+}
+
+static int num_nodes(GraphResourceHeader *graph)
+{
+	return graph->num_nodes;
+}
+
+static int num_links(GraphResourceHeader *graph)
+{
+	return graph->num_links;
+}
+
+static void node_position(GraphResourceHeader *graph, int node, float pos[3])
+{
+	GraphNode *nodes = graph_nodes(graph);
+	pos[0] = nodes[node].pos[0];
+	pos[1] = nodes[node].pos[1];
+	pos[2] = nodes[node].pos[2];
+}
+
+static void link_nodes(GraphResourceHeader *graph, int link, int *from, int *to)
+{
+	GraphLink *links = graph_links(graph);
+	*from = links[link].from;
+	*to = links[link].to;
+}
+
 #define LUA_ASSERT(test, L, msg, ...) do {if (!(test)) _lua->lib_error(L, msg,  ## __VA_ARGS__);} while (0)
 
-static int get(struct lua_State *L)
+static int lua_get(struct lua_State *L)
 {
 	const char *s = _lua->tolstring(L, 1, NULL);
 	if (!_resource_manager->can_get("graph", s))
@@ -160,36 +205,26 @@ static GraphResourceHeader *lua_tograph(struct lua_State *L, int i)
 	return graph;
 }
 
-static GraphNode *graph_nodes(GraphResourceHeader *graph)
-{
-	return (GraphNode *)((char*)graph + graph->nodes_offset);
-}
-
-static GraphLink *graph_links(GraphResourceHeader *graph)
-{
-	return (GraphLink *)((char*)graph + graph->links_offset);
-}
-
-static int num_nodes(struct lua_State *L)
+static int lua_num_nodes(struct lua_State *L)
 {
 	_lua->pushinteger(L, lua_tograph(L,1)->num_nodes);
 	return 1;
 }
 
-static int num_links(struct lua_State *L)
+static int lua_num_links(struct lua_State *L)
 {
 	_lua->pushinteger(L, lua_tograph(L,1)->num_links);
 	return 1;
 }
 
-static int node_position(struct lua_State *L)
+static int lua_node_position(struct lua_State *L)
 {
 	GraphNode *nodes = graph_nodes(lua_tograph(L, 1));
 	_lua->pushvector3(L, nodes[_lua->tointeger(L, 2)].pos);
 	return 1;
 }
 
-static int link_nodes(struct lua_State *L)
+static int lua_link_nodes(struct lua_State *L)
 {
 	GraphLink *links = graph_links(lua_tograph(L, 1));
 	_lua->pushinteger(L, links[_lua->tointeger(L, 2)].from);
@@ -208,17 +243,28 @@ static void setup_game(GetApiFunction get_engine_api)
 {
 	init_api(get_engine_api);
 
-	_lua->add_module_function("Graph", "get", get);
-	_lua->add_module_function("Graph", "num_nodes", num_nodes);
-	_lua->add_module_function("Graph", "num_links", num_links);
-	_lua->add_module_function("Graph", "node_position", node_position);
-	_lua->add_module_function("Graph", "link_nodes", link_nodes);
+	_lua->add_module_function("Graph", "get", lua_get);
+	_lua->add_module_function("Graph", "num_nodes", lua_num_nodes);
+	_lua->add_module_function("Graph", "num_links", lua_num_links);
+	_lua->add_module_function("Graph", "node_position", lua_node_position);
+	_lua->add_module_function("Graph", "link_nodes", lua_link_nodes);
 }
 
 static const char* get_name()
 {
 	return "bigger_plugin";
 }
+
+unsigned GRAPH_API_ID = 0x92d3ccbe;
+
+struct GraphApi
+{
+	struct GraphResourceHeader * (*get)(const char *graph_name);
+	int(*num_nodes)(struct GraphResourceHeader *graph);
+	int(*num_links)(struct GraphResourceHeader *graph);
+	void(*node_position)(struct GraphResourceHeader *graph, int node, float pos[3]);
+	void(*link_nodes)(struct GraphResourceHeader *graph, int link, int *from, int *to);
+};
 
 }
 
@@ -231,6 +277,14 @@ extern "C" {
 			api.setup_resources = PLUGIN_NAMESPACE::setup_resources;
 			api.setup_game = PLUGIN_NAMESPACE::setup_game;
 			api.get_name = PLUGIN_NAMESPACE::get_name;
+			return &api;
+		} else if (api == PLUGIN_NAMESPACE::GRAPH_API_ID) {
+			static PLUGIN_NAMESPACE::GraphApi api = {0};
+			api.get = PLUGIN_NAMESPACE::get;
+			api.num_nodes = PLUGIN_NAMESPACE::num_nodes;
+			api.num_links = PLUGIN_NAMESPACE::num_links;
+			api.node_position = PLUGIN_NAMESPACE::node_position;
+			api.link_nodes = PLUGIN_NAMESPACE::link_nodes;
 			return &api;
 		}
 		return 0;

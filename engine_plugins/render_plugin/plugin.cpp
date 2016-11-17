@@ -22,6 +22,7 @@ AllocatorObject *_allocator_object;
 ApiAllocator _allocator = ApiAllocator(nullptr, nullptr);
 SceneGraphApi *_scene_graph;
 UnitApi *_unit;
+ProfilerApi *_profiler;
 
 struct Vertex {
 	Vector3 pos;
@@ -147,16 +148,19 @@ struct Object {
 	uint32_t vdecl;
 	uint32_t mesh;
 	uint32_t texture;
+	RB_TextureBufferView tview;
 	Array<Vertex> *vertices;
 	Array<uint16_t> *indices;
 	Array<uint8_t> *texture_data;
 	Cloth *cloth;
 	const Matrix4x4 *transform;
+	float acc_time;
 };
 typedef Array<Object> Objects;
 Objects *_objects = nullptr;
 typedef Array<uint32_t> FreeObjects;
 FreeObjects *_free_objects = nullptr;
+float acc_time = 0.f;
 
 inline uint32_t insert_vertex(Array<Vertex> &vertices, const Vertex &vtx) {
 	uint32_t n_vertices = vertices.size();
@@ -172,11 +176,12 @@ enum { UPPER_LEFT = 0x1, UPPER_RIGHT = 0x2, LOWER_LEFT = 0x4, LOWER_RIGHT = 0x8 
 void set_pixel(Array<uint16_t> *indices, Array<Vertex> &vertices, float x, float y, float ps, Cloth *cloth = nullptr, uint32_t freeze_flags = 0)
 {
 	const Vertex pixel_v[] = {
-		{ vector3(x   , 0, y   ), vector3(0, -1, 0), vector2(x   , y   ) },
-		{ vector3(x+ps, 0, y   ), vector3(0, -1, 0), vector2(x+ps, y   ) },
-		{ vector3(x   , 0, y+ps), vector3(0, -1, 0), vector2(x   , y+ps) },
-		{ vector3(x+ps, 0, y+ps), vector3(0, -1, 0), vector2(x+ps, y+ps) }
+		{ vector3(x   , 0, y   ), vector3(0, -1, 0), vector2(x   , y-ps) },
+		{ vector3(x+ps, 0, y   ), vector3(0, -1, 0), vector2(x+ps, y-ps) },
+		{ vector3(x   , 0, y+ps), vector3(0, -1, 0), vector2(x   , y   ) },
+		{ vector3(x+ps, 0, y+ps), vector3(0, -1, 0), vector2(x+ps, y   ) }
 	};
+
 
 	uint32_t vtx_indices[] = {
 		insert_vertex(vertices, pixel_v[0]),
@@ -206,6 +211,85 @@ void set_pixel(Array<uint16_t> *indices, Array<Vertex> &vertices, float x, float
 	}
 }
 
+void mandelbrot(uint8_t *pixels, uint32_t width, uint32_t height, float time, uint32_t n_mips)
+{
+	struct Color {
+		uint8_t red, green, blue, alpha;
+	};
+
+	// quick & ugly port of: https://www.shadertoy.com/view/4df3Rn
+	// this only here as a silly sample, its not supposed to be fast or beutiful
+	_profiler->profile_start("mandelbrot");
+	{
+		float zoo = 0.62 + 0.38*cosf(.07*time);
+		float coa = cosf(0.15*(1.0 - zoo)*time);
+		float sia = sinf(0.15*(1.0 - zoo)*time);
+		zoo = pow(zoo, 8.0);
+
+		auto *colors = (Color*)pixels;
+		for (uint32_t yi = 0; yi != width; ++yi) {
+			for (uint32_t xi = 0; xi != height; ++xi) {
+				Vector2 p = (-vector2(width, height) + 2 * vector2(xi, yi)) / vector2(width, height);
+				Vector2 xy = vector2(p.x*coa - p.y*sia, p.x*sia + p.y*coa);
+				Vector2 c = vector2(-0.745f, 0.186f) + xy * zoo;
+				Vector2 z = vector2(0.f, 0.f);
+				float l = 0;
+				for (uint32_t i = 0; i != 128; ++i) {
+					z = vector2(z.x*z.x - z.y*z.y, 2.f*z.x*z.y) + c;
+					if (dot(z, z) > (128 * 128)) break;
+					++l;
+				}
+
+				float r = 0.5f + 0.5f*cosf(3.0f + l*0.3f);
+				float g = 0.5f + 0.5f*cosf(3.0f + l*0.3f + 0.6f);
+				float b = 0.5f + 0.5f*cosf(3.0f + l*0.3f + 1.f);
+				colors[yi * width + xi] = {
+					(uint8_t)(r * 255.f),
+					(uint8_t)(g * 255.f),
+					(uint8_t)(b * 255.f),
+					255
+				};
+			}
+		}
+	}
+	_profiler->profile_stop();
+
+	_profiler->profile_start("mip-map-generation");
+	{
+		// super naive mip-map generation, assumes source data is in linear color space and resolution is power of two
+		uint32_t src_offset = 0;
+		uint32_t dest_offset = width * height * 4;
+		for (uint32_t m = 1; m < n_mips; ++m) {
+			uint32_t dest_w = width >> m;
+			uint32_t dest_h = height >> m;
+			uint32_t src_w = width >> (m - 1);
+			uint32_t src_h = height >> (m - 1);
+			auto *src_data = (Color*)(pixels + src_offset);
+			auto *dest_data = (Color*)(pixels + dest_offset);
+
+			for (uint32_t y = 0; y != dest_h; ++y) {
+				for (uint32_t x = 0; x != dest_w; ++x) {
+					const auto &ul = src_data[(y * 2 + 0)*src_w + (x * 2 + 0)];
+					const auto &ur = src_data[(y * 2 + 0)*src_w + (x * 2 + 1)];
+					const auto &ll = src_data[(y * 2 + 1)*src_w + (x * 2 + 0)];
+					const auto &lr = src_data[(y * 2 + 1)*src_w + (x * 2 + 1)];
+
+					dest_data[y*dest_h + x] = {
+						(uint8_t)(((uint32_t)ul.red + (uint32_t)ur.red + (uint32_t)ll.red + (uint32_t)lr.red) >> 2),
+						(uint8_t)(((uint32_t)ul.green + (uint32_t)ur.green + (uint32_t)ll.green + (uint32_t)lr.green) >> 2),
+						(uint8_t)(((uint32_t)ul.blue + (uint32_t)ur.blue + (uint32_t)ll.blue + (uint32_t)lr.blue) >> 2),
+						255
+					};
+				}
+			}
+
+			src_offset = dest_offset;
+			dest_offset += dest_w * dest_h * 4;
+		}
+	}
+	_profiler->profile_stop();
+}
+
 static int create_logo(struct lua_State *L)
 {
 	uint32_t idx = 0;
@@ -220,6 +304,7 @@ static int create_logo(struct lua_State *L)
 
 	auto &o = (*_objects)[idx];
 	o.used = true;
+	o.acc_time = 0.f;
 
 	const RB_VertexChannel vchannels[] = {
 		{ _render_buffer->format(RB_ComponentType::RB_FLOAT_COMPONENT, true, false, 32, 32, 32, 0), RB_VertexSemantic::RB_POSITION_SEMANTIC,0, 0, false },
@@ -233,7 +318,6 @@ static int create_logo(struct lua_State *L)
 	uint32_t stride = 0;
 	for (uint32_t i=0; i!=n_channels; ++i) {
 		stride += _render_buffer->num_bits(vchannels[i].format) / 8;
-//		uint32_t n_components = _render_buffer->num_components(vchannels[i].format);
 		vdesc.channels[i] = vchannels[i];
 	}
 	o.vdecl = _render_buffer->create_description(RB_Description::RB_VERTEX_DESCRIPTION, &vdesc);
@@ -245,8 +329,8 @@ static int create_logo(struct lua_State *L)
 		0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1,
 		1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1
 	};
-	uint32_t height = 5;
-	uint32_t width = sizeof(stingray_logo) / height;
+	uint32_t logo_height = 5;
+	uint32_t logo_width = sizeof(stingray_logo) / logo_height;
 
 	RB_VertexBufferView vb_view;
 	vb_view.stride = stride;
@@ -262,14 +346,14 @@ static int create_logo(struct lua_State *L)
 	const float pixel_size = 1;
 	const float sub_pixel_size = pixel_size / sub_division;
 	float x_offs = 0;
-	float y_offs = (float)(height / 2) * pixel_size;
-	for (uint32_t y=0; y!=height*sub_division; ++y, y_offs -= sub_pixel_size) {
-		x_offs = -(float)(width / 2) * pixel_size;
-		for (uint32_t x=0; x!=width*sub_division; ++x, x_offs += sub_pixel_size) {
-			uint32_t pixel_idx = (y / sub_division) * width + x / sub_division;
-			uint32_t next_pixel_idx = (y / sub_division) * width + (x+1) / sub_division;
+	float y_offs = (float)(logo_height / 2) * pixel_size;
+	for (uint32_t y=0; y!= logo_height*sub_division; ++y, y_offs -= sub_pixel_size) {
+		x_offs = -(float)(logo_width / 2) * pixel_size;
+		for (uint32_t x=0; x!= logo_width*sub_division; ++x, x_offs += sub_pixel_size) {
+			uint32_t pixel_idx = (y / sub_division) * logo_width + x / sub_division;
+			uint32_t next_pixel_idx = (y / sub_division) * logo_width + (x+1) / sub_division;
 			bool pixel = stingray_logo[pixel_idx] != 0;
-			uint32_t fixed_flag = (y == 0) ? (x == 0) ? UPPER_LEFT : (x == (width*sub_division-1)) ? UPPER_RIGHT : (pixel && stingray_logo[next_pixel_idx] == 0) ? UPPER_RIGHT : (!pixel && stingray_logo[next_pixel_idx] != 0) ? UPPER_LEFT : 0 : 0;
+			uint32_t fixed_flag = (y == 0) ? (x == 0) ? UPPER_LEFT : (x == (logo_width*sub_division-1)) ? UPPER_RIGHT : (pixel && stingray_logo[next_pixel_idx] == 0) ? UPPER_RIGHT : (!pixel && stingray_logo[next_pixel_idx] != 0) ? UPPER_LEFT : 0 : 0;
 			set_pixel(pixel ? o.indices : nullptr, *o.vertices, x_offs, y_offs, sub_pixel_size, o.cloth, fixed_flag);
 		}
 	}
@@ -277,26 +361,27 @@ static int create_logo(struct lua_State *L)
 	o.vbuffer = _render_buffer->create_buffer(o.vertices->size() * vb_view.stride, RB_Validity::RB_VALIDITY_UPDATABLE, RB_View::RB_VERTEX_BUFFER_VIEW, &vb_view, o.vertices->begin());
 	o.ibuffer = _render_buffer->create_buffer(o.indices->size() * ib_view.stride, RB_Validity::RB_VALIDITY_STATIC, RB_View::RB_INDEX_BUFFER_VIEW, &ib_view, o.indices->begin());
 
-	// create some ugly texture for testing -- some day i will make something nicer here.
-	RB_TextureBufferView tb_view;
-	tb_view.format =  _render_buffer->format(RB_ComponentType::RB_INTEGER_COMPONENT, false, true, 8, 8, 8, 8);
-	tb_view.depth = tb_view.mip_levels = tb_view.slices = 1;
-	tb_view.width = tb_view.height = 32;
-	tb_view.type = RB_TEXTURE_TYPE_2D;
-	memset(&tb_view.reserved, 0, sizeof(tb_view.reserved));
+	o.tview.format =  _render_buffer->format(RB_ComponentType::RB_INTEGER_COMPONENT, false, true, 8, 8, 8, 8);
+	o.tview.depth = o.tview.slices = 1;
+	o.tview.mip_levels = 8;
+	o.tview.width = 128; o.tview.height = 128;
+	o.tview.type = RB_TEXTURE_TYPE_2D;
+	memset(&o.tview.reserved, 0, sizeof(o.tview.reserved));
 	o.texture_data = MAKE_NEW(_allocator, Array<uint8_t>, _allocator);
-	uint32_t t_size = (tb_view.width * tb_view.height * _render_buffer->num_bits(tb_view.format)) / 8;
+	uint32_t bytes_per_pixel = _render_buffer->num_bits(o.tview.format) / 8;
+	uint32_t t_size = 0;
+	for (uint32_t m = 0; m != o.tview.mip_levels; ++m)
+		t_size += (o.tview.width >> m) * (o.tview.height >> m) * bytes_per_pixel;
 	o.texture_data->resize(t_size);
-	for (uint32_t i=0; i!=t_size; ++i)
-		(*o.texture_data)[i] = rand() % 255;
-	o.texture = _render_buffer->create_buffer(t_size, RB_Validity::RB_VALIDITY_STATIC, RB_View::RB_TEXTURE_BUFFER_VIEW, &tb_view, o.texture_data->begin());
+	mandelbrot(o.texture_data->begin(), o.tview.width, o.tview.height, 0.1f, o.tview.mip_levels);
+	o.texture = _render_buffer->create_buffer(t_size, RB_Validity::RB_VALIDITY_UPDATABLE, RB_View::RB_TEXTURE_BUFFER_VIEW, &o.tview, o.texture_data->begin());
 
 	uint32_t node_name = IdString64(_lua->tolstring(L, 2, NULL)).id() >> 32;
 	o.mesh = _mesh_api->create(_lua->getunit(L, 1), node_name, node_name, MO_Flags::MO_VIEWPORT_VISIBLE_FLAG | MO_Flags::MO_SHADOW_CASTER_FLAG);
 	o.transform = (const Matrix4x4*)_scene_graph->world(_unit->scene_graph(_lua->getunit(L, 1)), 0);
 
-	float bv_min[] = { -(float)(width/2), -0.001f, -(float)(height / 2) };
-	float bv_max[] = { (float)(width/2), 0.001f, (float)(height / 2) };
+	float bv_min[] = { -(float)(logo_width /2), -0.001f, -(float)(logo_height / 2) };
+	float bv_max[] = { (float)(logo_width /2), 0.001f, (float)(logo_height / 2) };
 	_mesh_api->set_bounding_box(o.mesh, bv_min, bv_max);
 
 	MO_BatchInfo batch_info = { MO_PrimitiveType::MO_TRIANGLE_LIST, 0, 0, o.indices->size() / 3, 0, 0, 1 };
@@ -337,6 +422,11 @@ static int destroy_logo(struct lua_State *L)
 	return 0;
 }
 
+static const char *get_name()
+{
+	return "render_plugin";
+}
+
 static void setup_game(GetApiFunction get_engine_api)
 {
 	_application_api = (ApplicationApi*)get_engine_api(APPLICATION_API_ID);
@@ -346,6 +436,7 @@ static void setup_game(GetApiFunction get_engine_api)
 	_resource_api = (ResourceManagerApi*)get_engine_api(RESOURCE_MANAGER_API_ID);
 	_unit = (UnitApi*)get_engine_api(UNIT_API_ID);
 	_scene_graph = (SceneGraphApi*)get_engine_api(SCENE_GRAPH_API_ID);
+	_profiler = (ProfilerApi*)get_engine_api(PROFILER_API_ID);
 	_allocator_api = (AllocatorApi*)get_engine_api(ALLOCATOR_API_ID);
 	_allocator_object = _allocator_api->make_plugin_allocator("RenderPlugin");
 	_allocator = ApiAllocator(_allocator_api, _allocator_object);
@@ -382,22 +473,32 @@ static void update_game(float dt)
 	for (auto &o : *_objects) {
 		if (!o.used || o.cloth == nullptr)
 			continue;
+		o.acc_time += dt;
 
-		// cloth simulation is stepped in 60Hz
-		const float simulation_dt = 1.f / 60.f;
-		uint32_t n_simulation_steps = (uint32_t)ceil(dt / simulation_dt);
-		for (uint32_t i=0; i!=n_simulation_steps;++i) {
-			cloth_simulation(o.cloth->points, *o.vertices, simulation_dt, transform_without_translation(inverse(*o.transform), vector3(0.f, 0.f, -9.82f)));
-			cloth_springs(o.cloth->springs, o.cloth->points, *o.vertices, 2);
+		_profiler->profile_start("cloth-simulation");
+		{
+			// cloth simulation is stepped in 60Hz
+			const float simulation_dt = 1.f / 60.f;
+			uint32_t n_simulation_steps = (uint32_t)ceil(dt / simulation_dt);
+			for (uint32_t i = 0; i != n_simulation_steps; ++i) {
+				cloth_simulation(o.cloth->points, *o.vertices, simulation_dt, transform_without_translation(inverse(*o.transform), vector3(0.f, 0.f, -9.82f)));
+				cloth_springs(o.cloth->springs, o.cloth->points, *o.vertices, 2);
+			}
+			calc_vertex_normals(*o.vertices, *o.indices);
+			_render_buffer->update_buffer(o.vbuffer, o.vertices->size() * sizeof(Vertex), o.vertices->begin());
+			Vector3 bv_min = vector3(FLT_MAX, FLT_MAX, FLT_MAX), bv_max = -bv_min;
+			calc_bounding_volume(*o.vertices, bv_min, bv_max);
+			_mesh_api->set_bounding_box(o.mesh, (float*)&bv_min, (float*)&bv_max);
 		}
+		_profiler->profile_stop();
 
-		calc_vertex_normals(*o.vertices, *o.indices);
+		_profiler->profile_start("texture-update");
+		{
+			mandelbrot(o.texture_data->begin(), o.tview.width, o.tview.height, o.acc_time, 8);
+			_render_buffer->update_buffer(o.texture, o.texture_data->size(), o.texture_data->begin());
+		}
+		_profiler->profile_stop();
 
-		_render_buffer->update_buffer(o.vbuffer, o.vertices->size() * sizeof(Vertex), o.vertices->begin());
-
-		Vector3 bv_min = vector3(FLT_MAX, FLT_MAX, FLT_MAX), bv_max = -bv_min;
-		calc_bounding_volume(*o.vertices, bv_min, bv_max);
-		_mesh_api->set_bounding_box(o.mesh, (float*)&bv_min, (float*)&bv_max);
 	}
 }
 
@@ -407,6 +508,7 @@ extern "C" {
 	{
 		if (api == PLUGIN_API_ID) {
 			static struct PluginApi api = {0};
+			api.get_name = get_name;
 			api.setup_game = setup_game;
 			api.shutdown_game = shutdown_game;
 			api.update_game = update_game;
