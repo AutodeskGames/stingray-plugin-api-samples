@@ -417,8 +417,6 @@ __forceinline void to_plugin(SDB_SceneImportOptions &dest, const SceneImportOpti
 	dest.combine_meshes = source.combine_meshes;
 	dest.combine_meshes_by_material = source.combine_meshes_by_material;
 	dest.reverse_forward_axis = source.reverse_forward_axis;
-	dest.skip_create_textures_folder = source.skip_create_textures_folder;
-	dest.skip_create_extra_root = source.skip_create_extra_root;
 	dest.skip_textures = source.skip_textures;
 	dest.skip_lights = source.skip_lights;
 	dest.skip_cameras = source.skip_cameras;
@@ -430,7 +428,6 @@ __forceinline void from_plugin(SceneImportOptions &dest, const SDB_SceneImportOp
 	dest.combine_meshes = source.combine_meshes == 1;
 	dest.combine_meshes_by_material = source.combine_meshes_by_material == 1;
 	dest.reverse_forward_axis = source.reverse_forward_axis == 1;
-	dest.skip_create_textures_folder = source.skip_create_textures_folder == 1;
 	dest.skip_create_extra_root = source.skip_create_extra_root == 1;
 	dest.skip_textures = source.skip_textures == 1;
 	dest.skip_lights = source.skip_lights == 1;

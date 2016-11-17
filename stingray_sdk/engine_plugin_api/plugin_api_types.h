@@ -25,6 +25,7 @@ typedef struct CApiVideoPlayer CApiVideoPlayer;
 typedef struct CApiReplay CApiReplay;
 typedef struct CApiVectorField CApiVectorField;
 typedef struct CApiScatterSystem CApiScatterSystem;
+typedef struct CApiMaterialData CApiMaterialData;
 
 typedef unsigned CApiUnitRef;
 typedef unsigned CApiInstanceId;

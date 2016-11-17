@@ -232,7 +232,6 @@ struct SDB_SceneImportOptions {
 	uint8_t combine_meshes;
 	uint8_t combine_meshes_by_material;
 	uint8_t reverse_forward_axis;
-	uint8_t skip_create_textures_folder;
 	uint8_t skip_create_extra_root;
 	uint8_t skip_textures;
 	uint8_t skip_lights;
@@ -338,7 +337,7 @@ struct SceneDatabaseApi
 
 	uint32_t (*channel_size)(SDB_ChannelType channel_type);
 
-	void (*apply_modifiers)(SD_Scene *scene, const char *platform_name);
+	void (*apply_modifiers)(SD_Scene *scene, const char *platform_name, const char *resource_name);
 };
 
 #endif /* CAN_COMPILE */

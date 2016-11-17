@@ -60,7 +60,7 @@ struct GuiCApi
 	void	(*set_visible) (GuiPtr, int visible);
 	int		(*is_visible) (GuiPtr);
 
-	MaterialPtr (*material) (GuiPtr, uint64_t material_id64);
+	MaterialPtr (*material) (GuiPtr, uint64_t material_id64, const char *optional_debug_material_name);
 
 	int		(*has_all_glyphs) (GuiPtr, const char* text, uint64_t font);
 	void	(*move) (GuiPtr, float x, float y);

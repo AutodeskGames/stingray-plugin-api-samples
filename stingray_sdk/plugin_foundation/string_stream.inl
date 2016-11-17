@@ -56,10 +56,18 @@ inline StringStream &StringStream::operator<<(wchar_t *s)
 	return *this;
 }
 
+inline StringStream &StringStream::operator<<(double d)
+{
+	char buffer[64];
+	sprintf(buffer, "%.17g", d);
+	(*this) << buffer;
+	return *this;
+}
+
 inline StringStream &StringStream::operator<<(float f)
 {
 	char buffer[20];
-	sprintf(buffer, "%g", f);
+	sprintf(buffer, "%.9g", f);
 	(*this) << buffer;
 	return *this;
 }
@@ -106,4 +114,3 @@ inline unsigned StringStream::size() const
 }
 
 } // namespace stingray_plugin_foundation
-

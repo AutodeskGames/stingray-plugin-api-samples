@@ -83,6 +83,7 @@ inline LocalTransform local_transform(const Matrix3x3 &rot, const Vector3 &pos)
 	tm.rot = rot;
 	tm.pos = pos;
 	tm.scale = vector3(1,1,1);
+	tm.dummy = 0.0f;
 	return tm;
 }
 
@@ -92,6 +93,7 @@ inline LocalTransform local_transform(const Matrix3x3 &rot, const Vector3 &pos, 
 	tm.rot = rot;
 	tm.pos = pos;
 	tm.scale = scale;
+	tm.dummy = 0.0f;
 	return tm;
 }
 
@@ -107,6 +109,7 @@ inline void set_to_identity(LocalTransform &tm)
 	set_to_identity(tm.rot);
 	tm.pos = vector3(0,0,0);
 	tm.scale = vector3(1,1,1);
+	tm.dummy = 0.0f;
 }
 
 inline Vector3 transform(const LocalTransform &tm, const Vector3 &p)
@@ -168,6 +171,7 @@ inline LocalTransform local_transform(const Matrix4x4 &m4)
 		tm.rot = matrix3x3_identity();
 
 	tm.pos = translation(m4);
+	tm.dummy = 0.0f;
 
 	return tm;
 }
