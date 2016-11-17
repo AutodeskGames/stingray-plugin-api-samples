@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -15,7 +15,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{73BA4B5C-A84A-3473-863A-F735BD3C65E4}</ProjectGUID>
+    <ProjectGUID>{610BA79A-9D4F-3D26-92B5-41583D9D6B24}</ProjectGUID>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
     <ProjectName>bigger_plugin</ProjectName>
@@ -25,19 +25,19 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -54,19 +54,19 @@
   </PropertyGroup>
     <PropertyGroup>
       <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)..\..\..\build\vc11\win32\Debug\</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)..\..\..\build\vc14\win32\Debug\</OutDir>
       <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">bigger_plugin.dir\Debug\</IntDir>
       <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">bigger_pluginw32_debug</TargetName>
       <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.dll</TargetExt>
       <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
       <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">$(SolutionDir)..\..\..\build\vc11\win32\Dev\</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">$(SolutionDir)..\..\..\build\vc14\win32\Dev\</OutDir>
       <IntDir Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">bigger_plugin.dir\Dev\</IntDir>
       <TargetName Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">bigger_pluginw32_dev</TargetName>
       <TargetExt Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">.dll</TargetExt>
       <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">false</LinkIncremental>
       <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">true</GenerateManifest>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\..\..\build\vc11\win32\Release\</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\..\..\build\vc14\win32\Release\</OutDir>
       <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">bigger_plugin.dir\Release\</IntDir>
       <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">bigger_pluginw32_release</TargetName>
       <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.dll</TargetExt>
@@ -112,10 +112,10 @@
       <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)../../../build/vc11/win32/Debug/bigger_pluginw32_debug.lib</ImportLibrary>
-      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc11/win32/Debug/bigger_pluginw32_debug.pdb</ProgramDataBaseFile>
+      <ImportLibrary>$(SolutionDir)../../../build/vc14/win32/Debug/bigger_pluginw32_debug.lib</ImportLibrary>
+      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc14/win32/Debug/bigger_pluginw32_debug.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version></Version>
     </Link>
@@ -163,10 +163,10 @@
       <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>No</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)../../../build/vc11/win32/Dev/bigger_pluginw32_dev.lib</ImportLibrary>
-      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc11/win32/Dev/bigger_pluginw32_dev.pdb</ProgramDataBaseFile>
+      <ImportLibrary>$(SolutionDir)../../../build/vc14/win32/Dev/bigger_pluginw32_dev.lib</ImportLibrary>
+      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc14/win32/Dev/bigger_pluginw32_dev.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version></Version>
     </Link>
@@ -214,10 +214,10 @@
       <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>No</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)../../../build/vc11/win32/Release/bigger_pluginw32_release.lib</ImportLibrary>
-      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc11/win32/Release/bigger_pluginw32_release.pdb</ProgramDataBaseFile>
+      <ImportLibrary>$(SolutionDir)../../../build/vc14/win32/Release/bigger_pluginw32_release.lib</ImportLibrary>
+      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc14/win32/Release/bigger_pluginw32_release.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version></Version>
     </Link>
@@ -270,6 +270,7 @@
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_data_component.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_debug_name_component.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_mesh_component.h" />
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_render_data_component.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_scene_graph_component.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_tag_component.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_transform_component.h" />
@@ -344,7 +345,7 @@
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\vector3.inl" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\vector4.inl" />
     <ClCompile Include="$(SolutionDir)..\..\..\plugin.cpp"  />
-    <ResourceCompile Include="$(SolutionDir)..\..\..\build\vc11\win32\bigger_plugin.rc"  />
+    <ResourceCompile Include="$(SolutionDir)..\..\..\build\vc14\win32\bigger_plugin.rc"  />
     <None Include="$(SolutionDir)..\..\..\CMakeLists.txt" />
     <None Include="$(SolutionDir)..\..\..\README.md" />
   </ItemGroup>

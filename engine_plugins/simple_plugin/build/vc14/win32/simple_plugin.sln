@@ -1,11 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ALL_BUILD", "ALL_BUILD.vcxproj", "{B2338EE1-0842-3031-95D1-6E977F72FA8C}"
+# Visual Studio 14
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ALL_BUILD", "ALL_BUILD.vcxproj", "{AEAF0B7D-4354-38B0-A395-3961DB58C1BC}"
 	ProjectSection(ProjectDependencies) = postProject
-		{C2219EB7-EED8-3B90-9C8A-C534ED6F0A53} = {C2219EB7-EED8-3B90-9C8A-C534ED6F0A53}
+		{FC481D20-E195-3FA0-9489-217C9ABD7A31} = {FC481D20-E195-3FA0-9489-217C9ABD7A31}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simple_plugin", "simple_plugin.vcxproj", "{C2219EB7-EED8-3B90-9C8A-C534ED6F0A53}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simple_plugin", "simple_plugin.vcxproj", "{FC481D20-E195-3FA0-9489-217C9ABD7A31}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -16,15 +16,15 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B2338EE1-0842-3031-95D1-6E977F72FA8C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B2338EE1-0842-3031-95D1-6E977F72FA8C}.Dev|Win32.ActiveCfg = Dev|Win32
-		{B2338EE1-0842-3031-95D1-6E977F72FA8C}.Release|Win32.ActiveCfg = Release|Win32
-		{C2219EB7-EED8-3B90-9C8A-C534ED6F0A53}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C2219EB7-EED8-3B90-9C8A-C534ED6F0A53}.Debug|Win32.Build.0 = Debug|Win32
-		{C2219EB7-EED8-3B90-9C8A-C534ED6F0A53}.Dev|Win32.ActiveCfg = Dev|Win32
-		{C2219EB7-EED8-3B90-9C8A-C534ED6F0A53}.Dev|Win32.Build.0 = Dev|Win32
-		{C2219EB7-EED8-3B90-9C8A-C534ED6F0A53}.Release|Win32.ActiveCfg = Release|Win32
-		{C2219EB7-EED8-3B90-9C8A-C534ED6F0A53}.Release|Win32.Build.0 = Release|Win32
+		{AEAF0B7D-4354-38B0-A395-3961DB58C1BC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AEAF0B7D-4354-38B0-A395-3961DB58C1BC}.Dev|Win32.ActiveCfg = Dev|Win32
+		{AEAF0B7D-4354-38B0-A395-3961DB58C1BC}.Release|Win32.ActiveCfg = Release|Win32
+		{FC481D20-E195-3FA0-9489-217C9ABD7A31}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FC481D20-E195-3FA0-9489-217C9ABD7A31}.Debug|Win32.Build.0 = Debug|Win32
+		{FC481D20-E195-3FA0-9489-217C9ABD7A31}.Dev|Win32.ActiveCfg = Dev|Win32
+		{FC481D20-E195-3FA0-9489-217C9ABD7A31}.Dev|Win32.Build.0 = Dev|Win32
+		{FC481D20-E195-3FA0-9489-217C9ABD7A31}.Release|Win32.ActiveCfg = Release|Win32
+		{FC481D20-E195-3FA0-9489-217C9ABD7A31}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

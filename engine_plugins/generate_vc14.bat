@@ -1,6 +1,5 @@
 @echo OFF
 
-
 if "%~1"=="" (
     echo Usage: %~nn0 plugin_folder
     goto :end
@@ -40,31 +39,31 @@ set "STINGRAY_SDK_SOURCE_PATH=!RESOLVED_STINGRAY_SDK_PATH!"
 set "STINGRAY_SDK_SOURCE_PATH_REPLACE=!RESOLVED_STINGRAY_SDK_SOURCE_PATH_REPLACE!"
 
 REM CMake generators
-set GENERATOR_VC11_WIN32="Visual Studio 11 2012"
-set OUTPUT_VC11_WIN32="%ROOT%\build\vc11\win32"
+set GENERATOR_VC14_WIN32="Visual Studio 14 2015"
+set OUTPUT_VC14_WIN32="%ROOT%\build\vc14\win32"
 
-set GENERATOR_VC11_WIN64="Visual Studio 11 2012 Win64"
-set OUTPUT_VC11_WIN64="%ROOT%\build\vc11\win64"
+set GENERATOR_VC14_WIN64="Visual Studio 14 2015 Win64"
+set OUTPUT_VC14_WIN64="%ROOT%\build\vc14\win64"
 
-REM Generate VC11 32bit
-echo %GENERATOR_VC11_WIN32%...
+REM Generate VC14 32bit
+echo %GENERATOR_VC14_WIN32%...
 pushd %ROOT%
-if not exist %OUTPUT_VC11_WIN32% ( mkdir %OUTPUT_VC11_WIN32% )
+if not exist %OUTPUT_VC14_WIN32% ( mkdir %OUTPUT_VC14_WIN32% )
 if %errorlevel% neq 0 goto :failed
-chdir %OUTPUT_VC11_WIN32%
+chdir %OUTPUT_VC14_WIN32%
 if %errorlevel% neq 0 goto :failed
-cmake -G %GENERATOR_VC11_WIN32% -DCMAKE_CONFIGURATION_TYPES="Debug;Dev;Release" -DENGINE_PLUGIN_SUFFIX="w32" -DPLATFORM_WINDOWS=TRUE -DGENERATED_FILES_DIR="build" ../../../
+cmake -G %GENERATOR_VC14_WIN32% -DCMAKE_CONFIGURATION_TYPES="Debug;Dev;Release" -DENGINE_PLUGIN_SUFFIX="w32" -DPLATFORM_WINDOWS=TRUE -DGENERATED_FILES_DIR="build" ../../../
 if %errorlevel% neq 0 goto :failed
 
 call :replace_absolute_paths
 
-REM Generate VC11 64bit
-echo %GENERATOR_VC11_WIN64%...
-if not exist %OUTPUT_VC11_WIN64% ( mkdir %OUTPUT_VC11_WIN64% )
+REM Generate VC14 64bit
+echo %GENERATOR_VC14_WIN64%...
+if not exist %OUTPUT_VC14_WIN64% ( mkdir %OUTPUT_VC14_WIN64% )
 if %errorlevel% neq 0 goto :failed
-chdir %OUTPUT_VC11_WIN64%
+chdir %OUTPUT_VC14_WIN64%
 if %errorlevel% neq 0 goto :failed
-cmake -G %GENERATOR_VC11_WIN64% -DCMAKE_CONFIGURATION_TYPES="Debug;Dev;Release" -DENGINE_PLUGIN_SUFFIX="w64" -DPLATFORM_WINDOWS=TRUE -DGENERATED_FILES_DIR="build" ../../../
+cmake -G %GENERATOR_VC14_WIN64% -DCMAKE_CONFIGURATION_TYPES="Debug;Dev;Release" -DENGINE_PLUGIN_SUFFIX="w64" -DPLATFORM_WINDOWS=TRUE -DGENERATED_FILES_DIR="build" ../../../
 if %errorlevel% neq 0 goto :failed
 
 call :replace_absolute_paths

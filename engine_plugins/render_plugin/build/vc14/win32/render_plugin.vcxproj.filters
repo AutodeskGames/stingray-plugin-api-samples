@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="$(SolutionDir)..\..\..\plugin.cpp" />
   </ItemGroup>
@@ -132,6 +132,9 @@
       <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
     </ClInclude>
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_mesh_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_render_data_component.h">
       <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
     </ClInclude>
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_scene_graph_component.h">
@@ -359,28 +362,28 @@
     <None Include="$(SolutionDir)..\..\..\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="$(SolutionDir)..\..\..\build\vc11\win32\render_plugin.rc">
+    <ResourceCompile Include="$(SolutionDir)..\..\..\build\vc14\win32\render_plugin.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="stingray_sdk\engine_plugin_api\c_api">
-      <UniqueIdentifier>{02F1606E-2CB6-3E31-B15B-D94079F5DFBA}</UniqueIdentifier>
+      <UniqueIdentifier>{F424BC84-3975-30E6-8AF8-7BF819F8F98A}</UniqueIdentifier>
     </Filter>
     <Filter Include="stingray_sdk\engine_plugin_api\c_api\entity_components">
-      <UniqueIdentifier>{A572DC4C-1FCA-3E4E-AB4F-3474B8BDA01A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{54D894A5-D78D-3820-8856-A7057834224F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="stingray_sdk">
-      <UniqueIdentifier>{A7FF56BA-2C4E-347C-9119-3BEE2E26EDEB}</UniqueIdentifier>
+      <UniqueIdentifier>{3E6D1236-7F93-3B88-9615-D3B448EF0672}</UniqueIdentifier>
     </Filter>
     <Filter Include="stingray_sdk\engine_plugin_api">
-      <UniqueIdentifier>{02256E0A-EB9E-3712-8ADF-AA921A184A93}</UniqueIdentifier>
+      <UniqueIdentifier>{3D3DA9AB-9425-3F94-9A4D-42A1B1709413}</UniqueIdentifier>
     </Filter>
     <Filter Include="stingray_sdk\plugin_foundation">
-      <UniqueIdentifier>{9C31866B-7F77-3A08-8C4A-B99211A57CE7}</UniqueIdentifier>
+      <UniqueIdentifier>{A3C2EDEA-FE0A-3F02-8E71-1F3FD2BC7003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{6CEB4DD4-2A0C-31C8-8440-ADBFA82670A5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stingray_sdk">
+      <UniqueIdentifier>{412AF52D-7FD4-36E5-80C9-DA35AFFF1846}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
