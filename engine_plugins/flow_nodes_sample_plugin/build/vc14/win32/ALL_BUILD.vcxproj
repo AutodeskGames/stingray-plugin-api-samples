@@ -15,7 +15,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{40AE99CE-D9FF-3714-A327-E01608C3F1B9}</ProjectGUID>
+    <ProjectGUID>{BA93200D-47B1-39CF-AF53-767FD2E7F2B3}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
     <ProjectName>ALL_BUILD</ProjectName>
@@ -92,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)../../../build/vc14/win32/flow_nodes_sample_plugin.vcxproj">
-      <Project>6E91742E-5F83-30B5-BF2C-5FD22E1C778C</Project>
+      <Project>27F4DA7F-2083-3C9B-928B-482B1E3E0F6F</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

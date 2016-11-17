@@ -15,7 +15,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{AF97FDD4-D96B-3112-BC88-8ACC5C9D292F}</ProjectGUID>
+    <ProjectGUID>{F59E11BC-5893-3F4D-9BAB-B889E1FB52D1}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>flow_nodes_sample_plugin</ProjectName>
@@ -111,7 +112,7 @@
     <PreBuildEvent>
       <Message></Message>
       <Command>setlocal
-D:\BigWork\lib\cmake-3.7.0.rc3\win\cmake.exe -P $(SolutionDir)../../../build/vc14/win64/clean-dlls-and-pdbs.cmake
+call ..\..\..\..\clean-dlls-and-pdbs.bat $(OutDir) flow_nodes_sample_pluginw64_debug
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -174,7 +175,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PreBuildEvent>
       <Message></Message>
       <Command>setlocal
-D:\BigWork\lib\cmake-3.7.0.rc3\win\cmake.exe -P $(SolutionDir)../../../build/vc14/win64/clean-dlls-and-pdbs.cmake
+call ..\..\..\..\clean-dlls-and-pdbs.bat $(OutDir) flow_nodes_sample_pluginw64_dev
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -237,7 +238,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PreBuildEvent>
       <Message></Message>
       <Command>setlocal
-D:\BigWork\lib\cmake-3.7.0.rc3\win\cmake.exe -P $(SolutionDir)../../../build/vc14/win64/clean-dlls-and-pdbs.cmake
+call ..\..\..\..\clean-dlls-and-pdbs.bat $(OutDir) flow_nodes_sample_pluginw64_release
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone

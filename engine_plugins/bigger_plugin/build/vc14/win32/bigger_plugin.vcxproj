@@ -15,7 +15,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{610BA79A-9D4F-3D26-92B5-41583D9D6B24}</ProjectGUID>
+    <ProjectGUID>{51576FD0-AA04-382F-9D5C-CF10D3B789DF}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
     <ProjectName>bigger_plugin</ProjectName>
@@ -111,7 +112,7 @@
     <PreBuildEvent>
       <Message></Message>
       <Command>setlocal
-D:\BigWork\lib\cmake-3.7.0.rc3\win\cmake.exe -P $(SolutionDir)../../../build/vc14/win32/clean-dlls-and-pdbs.cmake
+call ..\..\..\..\clean-dlls-and-pdbs.bat $(OutDir) bigger_pluginw32_debug
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -174,7 +175,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PreBuildEvent>
       <Message></Message>
       <Command>setlocal
-D:\BigWork\lib\cmake-3.7.0.rc3\win\cmake.exe -P $(SolutionDir)../../../build/vc14/win32/clean-dlls-and-pdbs.cmake
+call ..\..\..\..\clean-dlls-and-pdbs.bat $(OutDir) bigger_pluginw32_dev
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -237,7 +238,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PreBuildEvent>
       <Message></Message>
       <Command>setlocal
-D:\BigWork\lib\cmake-3.7.0.rc3\win\cmake.exe -P $(SolutionDir)../../../build/vc14/win32/clean-dlls-and-pdbs.cmake
+call ..\..\..\..\clean-dlls-and-pdbs.bat $(OutDir) bigger_pluginw32_release
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone

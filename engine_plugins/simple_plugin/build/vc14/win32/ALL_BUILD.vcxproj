@@ -15,7 +15,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{AEAF0B7D-4354-38B0-A395-3961DB58C1BC}</ProjectGUID>
+    <ProjectGUID>{B64A28B2-A807-38C0-97E7-A203429FBF79}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
     <ProjectName>ALL_BUILD</ProjectName>
@@ -92,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)../../../build/vc14/win32/simple_plugin.vcxproj">
-      <Project>FC481D20-E195-3FA0-9489-217C9ABD7A31</Project>
+      <Project>8CAB4172-9120-3B5E-BF10-A4C0CEED81B0</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

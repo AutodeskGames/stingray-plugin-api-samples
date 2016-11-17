@@ -39,15 +39,7 @@ endif()
 
 # Setup shared library
 add_library(${PROJECT_NAME} SHARED ${ALL_SOURCE_FILES})
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}${ENGINE_PLUGIN_SUFFIX}_$<LOWER_CASE:$<CONFIG>>")
+set(TARGET_BASE_NAME "${PROJECT_NAME}${ENGINE_PLUGIN_SUFFIX}_$<LOWER_CASE:$<CONFIG>>")
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${TARGET_BASE_NAME}")
 
-# Clean dlls and pdbs
-configure_file(
-	${CMAKE_CURRENT_SOURCE_DIR}/clean-dlls-and-pdbs.cmake.in
-	${CMAKE_CURRENT_BINARY_DIR}/clean-dlls-and-pdbs.cmake
-	COPYONLY
-)
-
-add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-	COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/clean-dlls-and-pdbs.cmake
-)
+add_dll_pdb_hotload_cleanup("${TARGET_BASE_NAME}")

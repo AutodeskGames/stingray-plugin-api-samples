@@ -115,3 +115,9 @@ macro(find_source_files pResult)
 	set_source_groups("${FileList}")
 endmacro()
 
+# Safely clean out previously built dlls 
+macro(add_dll_pdb_hotload_cleanup target_name)
+	if (PLATFORM_WINDOWS)
+		add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../clean-dlls-and-pdbs.bat ARGS "$(OutDir)" "${target_name}")
+	endif()
+endmacro()
