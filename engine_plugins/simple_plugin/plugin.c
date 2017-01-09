@@ -54,7 +54,7 @@ static void setup_game(GetApiFunction get_engine_api)
 
 static void shutdown_game()
 {
-	_lua->remove_module("SimplePlugin");
+	_lua->remove_all_module_entries("SimplePlugin");
 }
 
 static const char* get_name()

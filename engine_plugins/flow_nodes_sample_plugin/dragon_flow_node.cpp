@@ -2,6 +2,7 @@
 
 #include <plugin_foundation/vector3.h>
 #include <plugin_foundation/id_string.h>
+#include <plugin_foundation/flow.h>
 
 using namespace stingray_plugin_foundation;
 
@@ -34,7 +35,7 @@ extern "C" void create_dragon_trigger(struct FlowTriggerContext* tc, const struc
 {
 	const struct NodeData {
 		const int *type;
-		const char *name;
+		const FlowString *name;
 		const float *age;
 		const float *weight;
 		Dragon &dragon;
@@ -43,7 +44,7 @@ extern "C" void create_dragon_trigger(struct FlowTriggerContext* tc, const struc
 	if (node_data.type && node_data.name && node_data.weight)
 	{
 		node_data.dragon.type = IdString32((unsigned)*node_data.type);
-		strncpy(node_data.dragon.name, node_data.name, PLUGIN_FLOW_STRING_VARIABLE_LENGTH);
+		strncpy(node_data.dragon.name, get_c_string(*node_data.name), PLUGIN_FLOW_STRING_VARIABLE_LENGTH);
 		node_data.dragon.name[PLUGIN_FLOW_STRING_VARIABLE_LENGTH - 1] = 0;
 		node_data.dragon.age = *node_data.age;
 		node_data.dragon.weight = *node_data.weight;
@@ -75,22 +76,22 @@ extern "C" void get_dragon_type_trigger(struct FlowTriggerContext* tc, const str
 {
 	const struct NodeData {
 		const Dragon *dragon;
-		char *type;
+		FlowString &type;
 	} &node_data = (const NodeData&)*fp;
 
-	node_data.type[0] = 0;
+	set_c_string(node_data.type, "");
 	if (node_data.dragon)
 	{
 		if (node_data.dragon->type != IdString32())
 		{
 			if (node_data.dragon->type == lindworm)
-				strncpy(node_data.type, "Lindworm", PLUGIN_FLOW_STRING_VARIABLE_LENGTH);
+				set_c_string(node_data.type, "Lindworm");
 			else if(node_data.dragon->type == wyvern)
-				strncpy(node_data.type, "Wyvern", PLUGIN_FLOW_STRING_VARIABLE_LENGTH);
+				set_c_string(node_data.type, "Wyvern");
 			else if(node_data.dragon->type == y_ddraig_goch)
-				strncpy(node_data.type, "Y Ddraig Goch", PLUGIN_FLOW_STRING_VARIABLE_LENGTH);
+				set_c_string(node_data.type, "Y Ddraig Goch");
 			else if(node_data.dragon->type == kulshedra)
-				strncpy(node_data.type, "Kulshedra", PLUGIN_FLOW_STRING_VARIABLE_LENGTH);
+				set_c_string(node_data.type, "Kulshedra");
 		}
 	}
 }

@@ -1,7 +1,7 @@
 #include "profiler_flow_node.h"
 
 #include <plugin_foundation/vector3.h>
-#include <plugin_foundation/platform.h>
+#include <plugin_foundation/flow.h>
 
 using namespace stingray_plugin_foundation;
 
@@ -27,7 +27,7 @@ enum class ProfilerOutputEvent
 
 struct ProfilerTriggerNodeData
 {
-	const char *name;		// Input parameters are const inputs pointer that can be null if not connected in the flow graph
+	const FlowString *name;		// Input parameters are const inputs pointer that can be null if not connected in the flow graph
 };
 
 extern "C" void profiler_trigger(struct FlowTriggerContext* tc, const struct FlowData *fd, const struct FlowParameters *fp)
@@ -39,7 +39,7 @@ extern "C" void profiler_trigger(struct FlowTriggerContext* tc, const struct Flo
 		switch (fd->event_index)
 		{
 			case (int)ProfilerInputEvent::start:
-				_profiler_api->profile_start(node_data.name);
+				_profiler_api->profile_start(get_c_string(*node_data.name));
 				_flow_nodes_api->trigger_out_event(tc, fd, (int)ProfilerOutputEvent::started);
 				break;
 			case (int)ProfilerInputEvent::stop:
