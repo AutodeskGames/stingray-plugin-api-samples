@@ -5,25 +5,13 @@ define([
     'properties/property-editor-component',
     'common/project-utils',
     'common/file-system-utils',
-    'services/file-system-service',
-    'services/marshalling-service',
-    'services/host-service',
-    'services/project-service',
-    'services/asset-service',
-    'services/thumbnail-service',
     'attributes/core-src'
-], function (m, props, PropertyEditor, projectUtils, fileSystemUtils, fileSystemService,
-             marshallingService, hostService, projectService, assetService,thumbnailService) {
+], function (m, props, PropertyEditor, projectUtils, fileSystemUtils) {
     'use strict';
     document.title = "Mithril List";
 
-    var services = {
-        hostService: hostService,
-        projectService: projectService,
-        assetService: assetService,
-        fileSystemService: fileSystemService,
-        thumbnailService: thumbnailService
-    };
+    const hostService = require('services/host-service');
+    const projectService = require('services/project-service');
 
     function createElement (rowIndex, name, path) {
         if (path && name) {
@@ -37,7 +25,7 @@ define([
             };
         }
 
-        return projectUtils.selectResource(services.projectService, services.hostService, 'unit').then(function (resourceName) {
+        return projectUtils.selectResource(projectService, hostService, 'unit').then(function (resourceName) {
             name = fileSystemUtils.getFileName(resourceName, true);
             path = resourceName;
             return createElement(rowIndex, name, path);
@@ -58,9 +46,9 @@ define([
         displayNameProperty: "name"
     };
 
-    var collectionModel = m.property.defaultCollectionModel(elements, createElement);
+    var collectionModel = m.property.arrayCollectionModel(elements, createElement);
 
-    var editorContext = props.makeEditorContext(services);
+    var editorContext = props.makeEditorContext();
 
     var carousel1 = props.editor(editorContext, [
         props.category("Carousel1", {}, [

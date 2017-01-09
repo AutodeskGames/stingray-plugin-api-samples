@@ -1,0 +1,23 @@
+materials = {
+	default = {density = 1000, dynamic_friction = 0.1, static_friction = 0.1, restitution = 0.1, restitution_combine_mode = "max"}
+}
+
+collision_types = [
+	"default"
+]
+
+collision_filters = {
+	default = {is = ["default"] collides_with_all_except = []}
+}
+
+shapes = {
+	default = {}
+	trigger = {trigger = true}
+	sweeper = {sweep = true}
+}
+
+actors = {
+	static = {dynamic = false}
+	dynamic = {dynamic = true linear_damping = 0.1 angular_damping = 0.1}
+	keyframed = {dynamic = true  kinematic = true linear_damping = 0.1 angular_damping = 0.1}
+}

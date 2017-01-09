@@ -1,4 +1,4 @@
-define(['3rdparty/mithril/mithril.min'], function (m) {
+define(['mithril'], function (m) {
     'use strict';
 
     // Mithril playground

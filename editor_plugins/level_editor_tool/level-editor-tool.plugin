@@ -1,0 +1,68 @@
+// About
+//
+name = "Level viewport tool"
+description = "Prototype on how to replace an existing levele diting tool."
+version = "1.0.0"
+author = {
+	name = "Stingray"
+	company = "Autodesk inc."
+	url = "https://git.autodesk.com/gameware/stingray.git"
+}
+
+// Configuration
+//
+platforms = ["win64"]
+config = {
+}
+
+// Extensions
+//
+extensions = {
+	// Ensure all lua files are available for lua require.
+	resources = [{
+		path = "level_editor_tool"
+	}]
+
+	views = [
+		{
+			type = "panel"
+			name = "level-editor-tool-config-panel"
+			path = "level-editor-tool-config-panel"
+			title = "Tool Config"
+		}
+	]
+
+	events = [
+		{
+			on = "EditorStarted"
+			do = [
+				{
+					name = "init-level-editor-tool"
+					type = "js"
+					module = "level-editor-tool-actions"
+					function_name = "initLevelEditorTool"
+				}
+			]
+		}
+	]
+
+	resources = [
+		{
+			path = "level_editor_tool"
+		}
+	]
+
+	menus = [
+		{
+			path = "Developer/Level Editor Tool Config"
+			order = 378
+			view = "level-editor-tool-config-panel"
+		}
+	]
+}
+
+// Dependencies
+//
+dependencies = {
+	"stingray" = ">=1.6"
+}

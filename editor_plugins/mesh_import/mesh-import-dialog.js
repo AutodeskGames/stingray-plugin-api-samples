@@ -110,7 +110,7 @@ define([
             // Allow the user to change the texture
             $textureSelect.click(function () {
                 hostService.openNativeDialog(hostService.DialogType.OpenFile, null, 'Select texture file',
-                    'Texture files (*.jpg *.png *.bmp)').then(function(textureFile) {
+                    'Texture files|.jpg;.png;.bmp)').then(function(textureFile) {
                     if (!textureFile)
                         return;
 
