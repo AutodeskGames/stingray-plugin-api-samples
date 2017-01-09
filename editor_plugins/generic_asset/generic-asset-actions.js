@@ -1,9 +1,11 @@
 /*global console, define*/
-define([
-    'lodash',
-    'components/mithril-ext'
-], function (_, m) {
+define(function (require) {
     'use strict';
+
+    const _ = require('lodash');
+    const m = require('components/mithril-ext');
+    const objectEditingService = require('services/object-editing-service');
+    const dataTypeService = require('services/data-type-service');
 
     var exports = {};
 
@@ -41,6 +43,38 @@ define([
 
     exports.populateActions = function (/*property, actionInfo*/) {
         return Promise.resolve(useOptions1 ? enumStringOptions1 : enumStringOptions2);
+    };
+
+    exports.selectGenericDataInlineType = function () {
+        console.log('select generic data!');
+        let typeDesc = {
+            type: ':struct',
+            fields: {
+                Number: {
+                    type: ":number",
+                    default: 1,
+                    min: 0,
+                    max: 1,
+                    editor: {
+                        control: "Number",
+                        step: 0.3,
+                        priority: 4
+                    }
+                }
+            }
+        };
+        let value = dataTypeService.createDefaultValue(typeDesc);
+
+        return objectEditingService.performSetSelectionCommand({displayType: 'FromType', displayName: 'Pow', typeDesc: typeDesc, value: value});
+    };
+
+    exports.selectGenericDataTypeFile = function () {
+        console.log('select generic data!');
+        let value = {
+            Number: 0.7
+        };
+
+        return objectEditingService.performSetSelectionCommand({displayType: 'FromType', displayName: 'Pow', typeFile: 'all_ui/all_ui.type', value: value});
     };
 
     return exports;

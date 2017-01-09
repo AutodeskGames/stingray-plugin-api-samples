@@ -4,35 +4,17 @@ define([
     'properties/property-editor-utils',
     'properties/property-editor-component',
     'components/color-gradient',
-    'components/component-harness',
     'components/dom-tools',
-    'services/marshalling-service',
-    'services/host-service',
-    'services/project-service',
-    'services/element-service',
-    'services/asset-service',
     'components/checkbox',
     'components/button',
-    'services/file-system-service',
-], function (m, props, PropertyEditor, Gradient, Harness,  domTools, marshallingService, hostService,
-                          projectService, elementService, assetService,  CheckboxComponent,ButtonComponent,
-                          fileSystemService
-) {
+], function (m, props, PropertyEditor, Gradient, domTools, CheckboxComponent, ButtonComponent) {
     'use strict';
     document.title = "Mithril Property Editor";
 
     domTools.loadCss("core/css/widgets/json-component.css");
     domTools.loadCss("core/css/widgets/property-editor.css");
 
-    var services = {
-        marshallingService: marshallingService,
-        elementService: elementService,
-        projectService: projectService,
-        assetService: assetService,
-        fileSystemService: fileSystemService
-    };
-
-    var editorContext = props.makeEditorContext(services);
+    var editorContext = props.makeEditorContext();
 
     var models = {};
     var propertyModel = function (id, initialValue, forceRefresh) {
@@ -90,6 +72,11 @@ define([
         );
     }
 
+    var gradientModel = m.property.arrayCollectionModel([
+        createNewGradientElement(0.25, [0.2, 0.5, 0.7]),
+        createNewGradientElement(0.75, [0.5, 0.6, 1])
+    ], createNewGradientElement);
+
     function createNewRow (rowIndex, name, x, y) {
         modelId++;
         return [
@@ -129,7 +116,7 @@ define([
         createNewRow(0, "this is something else", -99, 12)
     ];
 
-    var jsonTableModel = m.property.defaultCollectionModel(jsonTableRow, createNewRow);
+    var jsonTableModel = m.property.arrayCollectionModel(jsonTableRow, createNewRow);
 
     function createNewRowWithHelper (rowIndex, name, vec) {
         modelId++;
@@ -144,7 +131,7 @@ define([
         createNewRowWithHelper(0, "this is something else", -99, 12)
     ];
 
-    var jsonTableModelWithHelper = m.property.defaultCollectionModel(jsonTableRowWithHelper, createNewRowWithHelper);
+    var jsonTableModelWithHelper = m.property.arrayCollectionModel(jsonTableRowWithHelper, createNewRowWithHelper);
 
     var leftModel = {
         editorContext: editorContext,
@@ -735,11 +722,7 @@ define([
                         label: "Gradient",
                         displayType: 'ColorGradient',
                         showValue: true,
-                        elements: [
-                            createNewGradientElement(0.25, [0.2, 0.5, 0.7]),
-                            createNewGradientElement(0.75, [0.5, 0.6, 1])
-                        ],
-                        createNewElement: createNewGradientElement
+                        collectionModel: gradientModel
                     }
                 ]
             }
@@ -876,13 +859,13 @@ define([
         ]),
 
         props.category('Gradients', {}, [
-            props.gradient("Gradient", [
-                    createNewGradientElement(0.25, [0.2, 0.5, 0.7]),
-                    createNewGradientElement(0.75, [0.5, 0.6, 1])
-                ],
-                {
-                    createNewElement: createNewGradientElement
-                })
+            props.gradient("Gradient", gradientModel)
+        ])
+    ]);
+
+    var gradientTestModel =  props.editor(editorContext, [
+        props.category('Gradients', {}, [
+            props.gradient("Gradient",gradientModel)
         ])
     ]);
 

@@ -85,6 +85,13 @@ extensions = {
                 }
             }
             {
+                path = "Developer/Mithril/resizer"
+                view = {
+                    type = "panel"
+                    path = "resizer-layout-test"
+                }
+            }
+            {
                 path = "Developer/Mithril/table"
                 view = {
                     type = "panel"
@@ -117,6 +124,13 @@ extensions = {
                 view = {
                     type = "panel"
                     path = "string-component-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/tree view"
+                view = {
+                    type = "panel"
+                    path = "tree-view-test"
                 }
             }
             {

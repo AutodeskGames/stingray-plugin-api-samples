@@ -1,18 +1,21 @@
 // About
 //
 name = "Widget Playground"
-description = "Stingray developer playground to test and implement new widgets."
-version = "1.0.3"
+description = "Stingray developer playground to test and implement new widgets, extensions and plugins."
+version = "1.7.0"
 changelog = {
     "1.0.1": ""
     "1.0.2": "Cleanup template"
     "1.0.3": "Split angular and mithril playground"
+    "1.0.4": "Update plugin description"
+    "1.7.0": "Sync with Stingray 1.7"
 }
 author = {
     name = "Stingray"
     company = "Autodesk inc."
     url = "https://git.autodesk.com/gameware/stingray.git"
 }
+keywords = ["plugin", "example"]
 
 // Extensions
 //
@@ -51,5 +54,5 @@ extensions = {
 // Dependencies
 //
 dependencies = {
-    "stingray" = ">=1.5"
+    "stingray" = ">=1.7"
 }

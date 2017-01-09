@@ -1,0 +1,4 @@
+description = "This is a project template extension!"
+name = "From extension 2"
+source_directory = "./"
+version = "1.7.0.0"

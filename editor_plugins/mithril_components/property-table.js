@@ -3,27 +3,13 @@ define([
     'properties/property-editor-utils',
     'properties/property-editor-component',
     'components/color-gradient',
-    'services/marshalling-service',
-    'services/host-service',
-    'services/project-service',
-    'services/element-service',
-    'services/asset-service',
-    'services/file-system-service',
     'components/dom-tools'
-], function ( m, props, PropertyEditor, GradientComponent, marshallingService,hostService, projectService, elementService,assetService,fileSystemService,domTools) {
+], function ( m, props, PropertyEditor, GradientComponent,domTools) {
     'use strict';
     document.title = "Mithril Propery Table";
 
     domTools.loadCss("core/css/widgets/property-editor.css");
     domTools.loadCss("core/css/widgets/json-component.css");
-
-    var services = {
-        marshallingService: marshallingService,
-        elementService: elementService,
-        projectService: projectService,
-        assetService: assetService,
-        fileSystemService: fileSystemService
-    };
 
     var elements = [
         createElement("pow", [56, 89]),
@@ -50,9 +36,9 @@ define([
         }
     ];
 
-    var collectionModel = m.property.defaultCollectionModel(elements, createElement);
+    var collectionModel = m.property.arrayCollectionModel(elements, createElement);
 
-    var editorContext = props.makeEditorContext(services);
+    var editorContext = props.makeEditorContext();
     var propArgs1 = props.editor(editorContext, [
         props.category("Table", {}, [
             props.table("Table 1", header, collectionModel)

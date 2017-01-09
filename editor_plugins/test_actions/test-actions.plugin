@@ -103,12 +103,15 @@ extensions = {
 
     menus = [
         {
-            path = "Developer/Tests/Compile"
+            path = "Developer/Test Actions"
+        }
+        {
+            path = "Developer/Test Actions/Compile"
             action = "test-compile-data"
         }
 
         {
-            path = "Developer/Print Message"
+            path = "Developer/Test Actions/Print Message"
             action = {
                 type = "js"
                 script = "console.log('[NOTICE] Hello version 8');"
@@ -116,7 +119,7 @@ extensions = {
         }
 
         {
-            path = "Developer/Tests/Spawn terrain"
+            path = "Developer/Test Actions/Spawn terrain"
             action = {
                 type = "lua"
                 script = """
@@ -132,7 +135,7 @@ extensions = {
             }
         }
 
-        { path = "Developer/Invalid Actions" }
+        { path = "Developer/Test Actions/Invalid Actions" }
 
         {
             path = "Developer/Invalid Actions/no function_name defined"
@@ -143,10 +146,46 @@ extensions = {
         }
 
         {
-            path = "Developer/Invalid Actions/module not resolvable"
+            path = "Developer/Test Actions/Invalid Actions/module not resolvable"
             action = {
                 type = "js"
                 module = "invalid_ref"
+            }
+        }
+
+        {
+            path = "Developer/Test Actions/Copy file in directory with spaces"
+            action = {
+                type = "copy"
+                source = "README.md"
+                destination = "$project/dir with spaces/"
+            }
+        }
+
+        {
+            path = "Developer/Test Actions/Copy as new file"
+            action = {
+                type = "copy"
+                source = "README.md"
+                destination = "$project/dir_without_spaces/copied_$source_file_name"
+            }
+        }
+
+        {
+            path = "Developer/Test Actions/Copy directory at root"
+            action = {
+                type = "copy"
+                source = "./"
+                destination = "$project"
+            }
+        }
+
+        {
+            path = "Developer/Test Actions/Copy directory with folder"
+            action = {
+                type = "copy"
+                source = "./"
+                destination = "$project/$source_file_name"
             }
         }
     ]
@@ -180,76 +219,4 @@ extensions = {
             function_name = "createIniAsset"
         }]
     }]
-
-    // Migration extensions allow a plugin developer to define actions that gets triggered
-    // to migration a project.
-    //
-    // When loading a project the system gets all the migration extensions and checks if any
-    // of them needs to be ran. If a project version is lower or equals to the migration version,
-    // then
-    migrations = [
-        {
-            // Patch unique id
-            // This patch id gets stored in the project settings.
-            // If the project settings already include the patch id, then the migration is skipped.
-            id = "test-1"
-
-            // Minimum version to check for migration.
-            // If the this number is higher or equals to the project version, then run this migration patch.
-            version = "0.0.9"
-
-            // Execute this set of actions if the migration needs to run.
-            do = [
-                {
-                    type = "js"
-                    module = "module-actions"
-                    function_name = "test"
-                }
-            ]
-        }
-
-//        {
-//            // Patch unique id
-//            // This patch id gets stored in the project settings.
-//            // If the project settings already include the patch id, then the migration is skipped.
-//            id = "patch-should-fail"
-//
-//            // Minimum version to check for migration.
-//            version = "0.0.9.1"
-//
-//            // Execute this set of actions if the migration needs to run.
-//            do = [
-//                {
-//                    type = "js"
-//                    module = "module-actions"
-//                    function_name = "fail"
-//                }
-//            ]
-//        }
-
-        {
-            // Patch unique id
-            // This patch id gets stored in the project settings.
-            // If the project settings already include the patch id, then the migration is skipped.
-            id = "test-2"
-
-            // Minimum version to check for migration.
-            // If the this number is higher or equals to the project version, then run this migration patch.
-            version = "0.1.0"
-
-            // Execute this set of actions if the migration needs to run.
-            do = [
-                {
-                    type = "js"
-                    script = "console.warn('Migrating $1 data...')"
-                }
-
-                {
-                    type = "js"
-                    module = "module-actions"
-                    function_name = "patchLuaFiles"
-                }
-            ]
-        }
-    ]
 }

@@ -3,18 +3,18 @@ define([
     'properties/property-editor-utils',
     'properties/property-document',
     'properties/property-editor-component',
-    'services/data-type-service',
-    'services/marshalling-service',
-    'services/host-service',
-    'services/project-service',
-    'services/element-service',
-    'services/asset-service',
-    'services/file-system-service',
     'components/dom-tools',
-    'components/button'
-], function (m, props, PropertyDocument, PropertyEditor, dataTypeService, marshallingService, hostService, projectService, elementService,
-             assetService, fileSystemService, domTools, ButtonComponent) {
+    'components/button',
+    'services/data-type-service',
+    'services/host-service',
+    'services/file-system-service'
+], function (m, props, PropertyDocument, PropertyEditor, domTools, ButtonComponent) {
     'use strict';
+
+    const dataTypeService = require('services/data-type-service');
+    const hostService = require('services/host-service');
+    const fileSystemService = require('services/file-system-service');
+
     document.title = "Mithril Property Editor from type";
 
     domTools.loadCss("core/css/widgets/json-component.css");
@@ -22,15 +22,7 @@ define([
 
     const propertyTextAreaId = "PropertyTextArea";
 
-    var services = {
-        marshallingService: marshallingService,
-        elementService: elementService,
-        projectService: projectService,
-        assetService: assetService,
-        fileSystemService: fileSystemService
-    };
-
-    var editorContext = props.makeEditorContext(services);
+    var editorContext = props.makeEditorContext();
 
     var typeFile = "No type file loaded";
     var typeFileData = m.prop("");
@@ -43,7 +35,7 @@ define([
     };
 
     var load = function () {
-        return hostService.openNativeDialog(hostService.DialogType.OpenFile, "", "Select type file", '*.type', true).then(function (path) {
+        return hostService.openNativeDialog(hostService.DialogType.OpenFile, "", "Select type file", '.type', true).then(function (path) {
             if (!path) {
                 return;
             }
@@ -79,7 +71,7 @@ define([
                 typeFile = toLoadFile;
                 typeDefinition = typeDefinitionArgs;
 
-                pdoc = new PropertyDocument(editorContext.services.dataTypeService);
+                pdoc = new PropertyDocument(dataTypeService);
 
                 _.each(typeDefinitionArgs.types, function (typeDesc, typeKey) {
                     var value = dataTypeService.createDefaultValue(typeDesc);
@@ -101,8 +93,10 @@ define([
                 });
 
                 helperArgs = props.editor(editorContext, pdoc.getCategories());
+                helperArgs.key = stingray.guid();
                 fileSystemService.readFile(typeFile).then(function (content) {
                     typeFileData(content);
+                    m.utils.redraw();
                 });
             }
         });
@@ -134,11 +128,11 @@ define([
                 ]),
                 m('textarea', {class: "panel-fill", style: "width: 100%; height: 100%;", value: typeFileData(), onchange: m.withAttr('value', typeFileData)})
             ]),
-            m('div', {class: "panel-fill"}, [
+            m('div', {class: "panel-fill", key: helperArgs.key}, [
                 m('div', { class: "toolbar"}, [
                     "Property Editor"
                 ]),
-                PropertyEditor.view(PropertyEditor.controller(helperArgs))
+                PropertyEditor.component(helperArgs)
             ]),
             m('div', {class: "panel-fill"}, [
                 m('div', { class: "toolbar"}, [
