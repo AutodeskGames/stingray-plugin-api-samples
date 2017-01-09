@@ -33,9 +33,9 @@ struct GuiCApi
 				ConstVector2Ptr size, ConstVector4Ptr optional_color, ConstVector2Ptr optional_uv00, ConstVector2Ptr optional_uv11);
 	void	 (*destroy_bitmap) (GuiPtr, unsigned id);
 
-	unsigned (*bitmap_3d) (GuiPtr, ConstMatrix4x4Ptr transform, MaterialPtr, ConstVector2Ptr position, unsigned layer, ConstVector2Ptr size,
+	unsigned (*bitmap_3d) (GuiPtr, ConstMatrix4x4Ptr transform, MaterialPtr, ConstVector3Ptr position, unsigned layer, ConstVector2Ptr size,
 				ConstVector4Ptr optional_color, ConstVector2Ptr optional_uv00, ConstVector2Ptr optional_uv11);
-	void	 (*update_bitmap_3d) (GuiPtr, unsigned id, ConstMatrix4x4Ptr transform, MaterialPtr, ConstVector2Ptr position, unsigned layer,
+	void	 (*update_bitmap_3d) (GuiPtr, unsigned id, ConstMatrix4x4Ptr transform, MaterialPtr, ConstVector3Ptr position, unsigned layer,
 				ConstVector2Ptr size, ConstVector4Ptr optional_color, ConstVector2Ptr optional_uv00, ConstVector2Ptr optional_uv11);
 	void	 (*destroy_bitmap_3d) (GuiPtr, unsigned id);
 
@@ -57,6 +57,18 @@ struct GuiCApi
 	unsigned (*word_wrap) (GuiPtr, const char* text, uint64_t font, float font_size, float width, const char* whitespace,
 		const char* soft_dividers, const char* return_dividers, float letter_spacing, unsigned* row_length_buffer, unsigned buffer_size);
 
+	unsigned (*video)(GuiPtr gui_pointer, VideoPlayerPtr video_player, MaterialPtr material_pointer,
+		ConstVector2Ptr pos, unsigned layer, ConstVector2Ptr opt_size, ConstVector4Ptr opt_color);
+	void (*update_video)(GuiPtr gui_pointer, unsigned id, VideoPlayerPtr video_player, MaterialPtr material_pointer,
+		ConstVector2Ptr pos, unsigned layer, ConstVector2Ptr opt_size, ConstVector4Ptr opt_color);
+	void (*destroy_video)(GuiPtr gui_pointer, unsigned id);
+
+	unsigned (*video_3d)(GuiPtr gui_pointer, VideoPlayerPtr video_player, ConstMatrix4x4Ptr transform, MaterialPtr material_pointer,
+		ConstVector3Ptr pos, unsigned layer, ConstVector2Ptr opt_size, ConstVector4Ptr opt_color);
+	void (*update_video_3d)(GuiPtr gui_pointer, unsigned id, VideoPlayerPtr video_player, ConstMatrix4x4Ptr transform, MaterialPtr material_pointer,
+		ConstVector3Ptr pos, unsigned layer, ConstVector2Ptr opt_size, ConstVector4Ptr opt_color);
+	void (*destroy_video_3d)(GuiPtr gui_pointer, unsigned id);
+
 	void	(*set_visible) (GuiPtr, int visible);
 	int		(*is_visible) (GuiPtr);
 
@@ -75,9 +87,20 @@ struct GuiCApi
 	/*	Equivalent to vector4(a, r, g, b).		*/
 	CApiVector4	(*color_argb) (float a, float r, float g, float b);
 
+	void (*set_video_playback_speed)(VideoPlayerPtr video_player, float speed);
+	void (*set_video_loop)(VideoPlayerPtr video_player, unsigned loop);
+	unsigned (*video_has_audio)(VideoPlayerPtr video_player);
+	StreamSourcePtr (*video_sound_stream_source)(VideoPlayerPtr video_player);
+	void (*set_video_sound_stream_enabled)(VideoPlayerPtr video_player, unsigned enabled);
+	unsigned (*video_number_of_frames)(VideoPlayerPtr video_player);
+	unsigned (*video_current_frame)(VideoPlayerPtr video_player);
+	unsigned (*video_times_looped)(VideoPlayerPtr video_player);
 
 	/*	Not available in Release builds.	*/
 	CApiVector2 (*texture_size) (uint64_t resource_id64);
+	GuiThumbnailPtr (*thumbnail_load_texture)(unsigned num_textures, uint64_t* names_id64);
+	GuiThumbnailPtr (*thumbnail_load_dds)(const char *path, uint64_t name_id64);
+	void (*thumbnail_unload)(GuiThumbnailPtr thumbnail);
 };
 
 #ifdef __cplusplus

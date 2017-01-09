@@ -18,7 +18,8 @@ enum DynamicScriptDataType
 	D_DATA_CUSTOM_TMATRIX4X4,
 	D_DATA_CUSTOM_TUNITREFERENCE,
 	D_DATA_CUSTOM_TPOINTER,
-	D_DATA_CUSTOM_TLUAREF /* Custom Lua reference is currently not supported via the C Api's DynamicScriptData. */
+	D_DATA_CUSTOM_TLUAREF, /* Custom Lua reference is currently not supported via the C Api's DynamicScriptData. */
+	D_DATA_CUSTOM_ID64
 };
 
 typedef struct DynamicScriptDataItem {
