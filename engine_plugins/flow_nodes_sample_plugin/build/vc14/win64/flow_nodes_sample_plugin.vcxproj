@@ -15,8 +15,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{F59E11BC-5893-3F4D-9BAB-B889E1FB52D1}</ProjectGUID>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <ProjectGUID>{A108A2AF-9A05-338C-9A3E-7E1AE6578F4D}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>flow_nodes_sample_plugin</ProjectName>
@@ -330,6 +330,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\const_config.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\encoding.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\exception_handling.h" />
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\flow.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\functional.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\hash_function.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\hash_function_string.h" />

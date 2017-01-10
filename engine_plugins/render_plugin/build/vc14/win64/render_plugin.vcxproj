@@ -15,8 +15,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{2FFBD2B5-1080-3CD9-A6DD-1169351A698B}</ProjectGUID>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <ProjectGUID>{C6C428C2-507B-3B68-8911-B3A5186F1AF3}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>render_plugin</ProjectName>
@@ -327,6 +327,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\const_config.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\encoding.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\exception_handling.h" />
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\flow.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\functional.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\hash_function.h" />
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\hash_function_string.h" />

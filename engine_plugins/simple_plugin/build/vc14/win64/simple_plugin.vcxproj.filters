@@ -194,6 +194,9 @@
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\exception_handling.h">
       <Filter>stingray_sdk\plugin_foundation</Filter>
     </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\flow.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
     <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\functional.h">
       <Filter>stingray_sdk\plugin_foundation</Filter>
     </ClInclude>
@@ -367,23 +370,23 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="stingray_sdk\engine_plugin_api">
-      <UniqueIdentifier>{4D4F5F5F-4920-3072-822A-3EED784A593B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="stingray_sdk\plugin_foundation">
-      <UniqueIdentifier>{F10821CA-1A82-3B60-9592-225616929F3D}</UniqueIdentifier>
+    <Filter Include="stingray_sdk\engine_plugin_api\c_api">
+      <UniqueIdentifier>{F134F4D1-1C2E-3C3F-A467-31AAC6E0F9E0}</UniqueIdentifier>
     </Filter>
     <Filter Include="stingray_sdk\engine_plugin_api\c_api\entity_components">
-      <UniqueIdentifier>{A78789BA-CF94-3272-9403-03E55156281B}</UniqueIdentifier>
+      <UniqueIdentifier>{1A829B3C-6CF0-356F-8C74-6DD8BDA19878}</UniqueIdentifier>
     </Filter>
-    <Filter Include="stingray_sdk\engine_plugin_api\c_api">
-      <UniqueIdentifier>{D769BF78-F6CA-3641-BD16-59E789E89672}</UniqueIdentifier>
+    <Filter Include="stingray_sdk\engine_plugin_api">
+      <UniqueIdentifier>{A415FD36-61F9-3880-8DCD-F41FB46399CB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stingray_sdk\plugin_foundation">
+      <UniqueIdentifier>{7D502367-77B8-3A79-9B9B-039FCCF3B2DE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources">
-      <UniqueIdentifier>{D6215910-819C-37DD-9A74-A46BA8BA41A9}</UniqueIdentifier>
+      <UniqueIdentifier>{E7AA657B-961C-3B95-9791-DA219F1C2E19}</UniqueIdentifier>
     </Filter>
     <Filter Include="stingray_sdk">
-      <UniqueIdentifier>{2D1F879B-052B-3A59-BB0D-AE87C07F2737}</UniqueIdentifier>
+      <UniqueIdentifier>{398B7DB1-8D31-3AB9-81C2-7E73EAC9BF4C}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
