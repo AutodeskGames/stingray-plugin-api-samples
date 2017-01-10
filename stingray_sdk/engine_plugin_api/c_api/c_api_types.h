@@ -45,6 +45,10 @@ extern "C" {
 	typedef CApiVideoPlayer* VideoPlayerPtr;
 	typedef CApiReplay* ReplayPtr;
 	typedef CApiCallbackData32* CallbackData32Ptr;
+	typedef CApiStreamSource* StreamSourcePtr;
+	typedef CApiTimpaniWorldInterface* TimpaniWorldInterfacePtr;
+	typedef CApiGuiThumbnail* GuiThumbnailPtr;
+	typedef CApiCaptureBuffer* CApiCaptureBufferPtr;
 
 	typedef void* TransformComponentPtr;
 	typedef void* MeshComponentPtr;

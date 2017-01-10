@@ -82,7 +82,7 @@ enum PluginApiID {
 	TIMER_API_ID =						33,
 	MATERIAL_API_ID =					34,
 	SCENE_DATABASE_API_ID =				35,
-	STREAM_CAPTURE_API =				36,
+	STREAM_CAPTURE_API_ID =				36,
 	FLOW_NODES_API_ID =					37,
 	CAMERA_API_ID =						38,
 	END_OF_ENGINE_RESERVED_RANGE =		65535,
@@ -347,9 +347,8 @@ struct LuaApi
 			(void*)nullptr); */
 	void (*add_console_command)(const char *command, lua_CFunction f, const char *desc, ...);
 
-	/* Removes the specified module from the Lua runtime. Note that this will also remove any
-	   custom modifications that the user script might have made to the module. */
-	void (*remove_module)(const char *module);
+	/* Removes all entries from the specified module. */
+	void (*remove_all_module_entries)(const char *module);
 
 	/* Removes the specified module entry from the runtime. */
 	void (*remove_module_entry)(const char *module, const char *entry);
@@ -1282,6 +1281,9 @@ struct UnitApi
 	/* Returns the index of the scene graph node that owns the mesh at the specified index. */
 	int (*mesh_node)(CApiUnit *unit, int mesh_index);
 
+	/* True if the specified mesh is visible. */
+	int (*is_mesh_visible)(CApiUnit *unit, int mesh_index);
+
 	/* Returns the number of actors in the unit. */
 	int (*num_actors)(CApiUnit *unit);
 
@@ -1507,7 +1509,7 @@ struct ApplicationApi
 	   API in the plugi foundation. */
 	const void * (*settings)();
 
-	/* Returns the activity interface for for native lifecycle handeling. */
+	/* Returns the activity interface for native lifecycle handeling. */
 	struct AP_PlatformActivity * (*platform_activity)();
 
 	/* Register platform activity callbacks to be called on platform activity events. */
@@ -2344,6 +2346,15 @@ struct StreamCaptureApi
 	uint8_t (*capture_buffer)(void *window, uint32_t name, struct AllocatorObject *allocator,
 		struct SC_Buffer *output);
 
+	/* Returns the name of a stream capture modifier */
+	const char* (*capture_target_name)(CApiCaptureBufferPtr buffer);
+
+	/* Returns an opaque pointer to a stream capture modifier */
+	CApiCaptureBufferPtr (*capture_target)(unsigned index);
+
+	/* Returns the length of currently available stream capture modifiers */
+	unsigned (*num_available_capture_targets)();
+
 	/* Reserved for expansion of the API. */
 	void *reserved[32];
 };
@@ -2362,11 +2373,16 @@ struct FlowOutputEvents;
 	their data. */
 #define PLUGIN_QUERY_EVENT	0xffff
 
+typedef uint32_t FlowNodeType;
+
 /* Data for a flow trigger event. */
 struct FlowData
 {
 	/* An integer identifying the type of the flow node. */
-	unsigned short node_type;
+	FlowNodeType node_type;
+
+	/* Identifier for the node. */
+	unsigned short node;
 
 	/* Index of the in event that was triggered on the flow node. */
 	unsigned short event_index;
@@ -2387,6 +2403,19 @@ struct FlowParameters {
 	const void* parameters[PLUGIN_FLOW_NODES_MAX_PARAMS + 1];
 };
 
+struct FlowString
+{
+	unsigned char is_id64;	// Always set to zero
+	char plain[PLUGIN_FLOW_STRING_VARIABLE_LENGTH];
+};
+
+struct FlowId
+{
+	unsigned char is_id64;	// May be 0 or 1 for input, always 1 for output
+	unsigned char padding[7];
+	uint64_t id;	// Caution, this will need to be aligned when packed!
+};
+
 /* Callback function for performing an action when a flow node is triggerred. */
 typedef void (*FlowFunction)(struct FlowTriggerContext* tc, const struct FlowData *fd, const struct FlowParameters *fp);
 
@@ -2404,15 +2433,15 @@ typedef void (*EventCallbackFunction)(struct FlowTriggerContext* tc, const struc
 	"vector3"       const CApiVector3*                        CApiVector3*
 	"float"         const float*                              float*
 	"bool"          const unsigned*                           unsigned*
-	"string"        const char*                               char[PLUGIN_FLOW_STRING_VARIABLE_LENGTH]
-	"id"            const uint64_t*                           uint64_t*
+	"string"        const FlowString*                         FlowString*
+	"id"            const FlowId*                             FlowId*
 	"quaternion"    const CApiQuaternion*                     CApiQuaternion*
 	"unsigned"      const unsigned*                           unsigned*
 	"camera"        const CApiCamera*                         CApiCamera*
 	"light"         const CApiLight*                          CApiLight*
 	"mesh"          const CApiMesh*                           CApiMesh*
 	"material"      const CApiMaterial*                       CApiMaterial*
-	"resource"      char[PLUGIN_FLOW_STRING_VARIABLE_LENGTH]
+	"resource"      const FlowString*
 	"enum"          int
 */
 

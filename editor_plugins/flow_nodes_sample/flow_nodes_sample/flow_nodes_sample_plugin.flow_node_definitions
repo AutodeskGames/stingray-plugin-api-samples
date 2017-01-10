@@ -1,0 +1,262 @@
+custom_types =  {
+	dragon = {
+		type = "custom_type_dragon"
+		ui_name = "Dragon"
+		size = 140
+		align = 4
+	}
+}
+
+nodes = [
+  {
+    name = "sample_flow_node"
+    ui_scopes = { }
+    ui_category = "Sample Plugin Flow Nodes"
+    ui_brief = "Sample plugin flow example node"
+    inputs = [
+      {
+        name = "first_input_event"
+        type = "event"
+      }
+      {
+        name = "second_input_event"
+        type = "event"
+      }
+      {
+        name = "scale"
+        type = "float"
+      }
+      {
+        name = "size"
+        type = "vector3"
+      }
+    ]
+    statics = [
+      {
+        type = "string"
+      }
+    ]
+    dynamics = [
+      {
+        type = "unsigned"
+        default_value = 5
+      }
+    ]
+    outputs = [
+      {
+        name = "event_id"
+        type = "float"
+        default_value = -1
+      }
+	  {
+		name = "scaled_size"
+		type = "vector3"
+	  }
+      {
+        name = "kalle"
+        type = "event"
+      }
+      {
+        name = "pelle"
+        type = "event"
+      }
+    ]
+  }
+
+  {
+    name = "profiler"
+    ui_scopes = { }
+    ui_category = "Sample Plugin Flow Nodes"
+    ui_brief = "Sample plugin flow profiler node"
+    inputs = [
+      {
+        name ="start"
+        type = "event"
+      }
+      {
+        name = "stop"
+        type = "event"
+      }
+      {
+        name = "name"
+        type = "string"
+      }
+    ]
+    outputs = [
+      {
+        name = "started"
+        type = "event"
+      }
+      {
+        name = "stopped"
+        type = "event"
+      }
+    ]
+  }
+
+  {
+	name = "create_dragon"
+	ui_category = "Dragon"
+	ui_brief = "Creates a dragon"
+	inputs = [
+		{
+			name = "type"
+			type = "enum"
+			enum = [
+				{
+					name = "Lindworm"
+				}
+				{
+					name = "Wyvern"
+				}
+				{
+					name = "Y Ddraig Goch"
+				}
+				{
+					name = "Kulshedra"
+				}
+			]
+		}
+		{
+			name = "name"
+			type = "string"
+		}
+		{
+			name = "age"
+			type = "float"
+		}
+		{
+			name = "weight"
+			type = "float"
+		}
+		{
+			name = "in"
+			type = "event"
+		}
+	]
+	outputs = [
+		{
+			name = "dragon"
+			type = "custom"
+			custom_type = "dragon"
+		}
+		{
+			name = "out"
+			type = "event"
+		}
+	]
+  }
+
+  {
+	name = "kill_dragon"
+	ui_category = "Dragon"
+	ui_brief = "Kills a dragon"
+	inputs = [
+		{
+			name = "dragon"
+			type = "custom"
+			custom_type = "dragon"
+		}
+		{
+			name = "in"
+			type = "event"
+		}
+	]
+
+	outputs = [
+		{
+			name = "out"
+			type = "event"
+		}
+	]
+  }
+
+  {
+	name = "get_dragon_type"
+	ui_category = "Dragon"
+	ui_brief = "Gets the type of the dragon"
+	inputs = [
+		{
+			name = "dragon"
+			type = "custom"
+			custom_type = "dragon"
+		}
+	]
+	outputs = [
+		{
+			name = "type"
+			type = "string"
+			data_update = "query"
+		}
+	]
+  }
+
+  {
+	name = "get_dragon_age"
+	ui_category = "Dragon"
+	ui_brief = "Gets the age of the dragon"
+	inputs = [
+		{
+			name = "dragon"
+			type = "custom"
+			custom_type = "dragon"
+		}
+	]
+	outputs = [
+		{
+			name = "age"
+			type = "float"
+			data_update = "query"
+		}
+	]
+  }
+
+  {
+	name = "get_dragon_weight"
+	ui_category = "Dragon"
+	ui_brief = "Gets the weight of the dragon"
+	inputs = [
+		{
+			name = "dragon"
+			type = "custom"
+			custom_type = "dragon"
+		}
+	]
+	outputs = [
+		{
+			name = "weight"
+			type = "float"
+			data_update = "query"
+		}
+	]
+  }
+
+  {
+	name = "feed_dragon"
+	ui_category = "Dragon"
+	ui_brief = "Feeds a dragon"
+	inputs = [
+		{
+			name = "dragon"
+			type = "custom"
+			custom_type = "dragon"
+		}
+		{
+			name = "food"
+			type = "enum"
+			enum = [ {name = "sheep"} {name = "carrots"} {name = "apples"} {name = "frog"} ]
+		}
+	]
+	outputs = [
+		{
+			name = "ate"
+			type = "event"
+		}
+		{
+			name = "hate"
+			type = "event"
+		}
+	]
+  }
+
+]

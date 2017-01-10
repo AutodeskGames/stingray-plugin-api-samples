@@ -3,6 +3,7 @@
 #include <plugin_foundation/vector3.h>
 #include <plugin_foundation/id_string.h>
 #include <plugin_foundation/string.h>
+#include <plugin_foundation/flow.h>
 
 using namespace stingray_plugin_foundation;
 
@@ -27,7 +28,7 @@ enum class SampleOutputEvent
 
 struct SampleTriggerStaticData
 {
-	char* name;	// Static data should not change once loaded (set_variable_callbacks may change content, trigger functions etc may not)
+	FlowString name;	// Static data should not change once loaded (set_variable_callbacks may change content, trigger functions etc may not)
 };
 
 struct SampleTriggerNodeData
@@ -66,9 +67,9 @@ extern "C" void sample_trigger(struct FlowTriggerContext* tc, const struct FlowD
 		node_data.scaled_size = (*node_data.size) * (*node_data.scale);
 	}
 
-	if (carl == node_data.static_data.name)
+	if (carl == get_c_string(node_data.static_data.name))
 		_flow_nodes_api->trigger_out_event(tc, fd, (int)SampleOutputEvent::carl);
-	else if (peter == node_data.static_data.name)
+	else if (peter == get_c_string(node_data.static_data.name))
 		_flow_nodes_api->trigger_out_event(tc, fd, (int)SampleOutputEvent::peter);
 }
 
@@ -83,8 +84,8 @@ extern "C" void sample_set_variable_callback(struct FlowTriggerContext* tc, cons
 
 	if (name_variable_id.id() == key)
 	{
-		strncpy(node_data.static_data.name, (const char*)data, PLUGIN_FLOW_STRING_VARIABLE_LENGTH);
-		node_data.static_data.name[PLUGIN_FLOW_STRING_VARIABLE_LENGTH] = 0;
+		SampleTriggerStaticData static_data = (SampleTriggerStaticData&)node_data.static_data;
+		set_c_string(static_data.name, (const char*)data);
 	}
 }
 

@@ -10,10 +10,6 @@
 #define PLATFORM_NAME_WEBGL		"webgl"
 #define PLATFORM_NAME_LINUX		"linux"
 
-#if defined(PS4)
-	#define __forceinline __inline__ __attribute__((always_inline))
-#endif
-
 #if defined(XBOXONE)
 	#include <intrin.h>
 	#include <stdint.h>
@@ -24,10 +20,19 @@
 	#include <errno.h>
 #endif
 
-#if defined (IOS) || defined (ANDROID) || defined (WEBGL) || defined(LINUXPC)
-	#define nullptr NULL
+#if defined(WINDOWSPC) || defined(WINUWP) || defined(XBOXONE)
+	#define __ALIGN(x) __declspec(align(x))
+	#define __THREAD __declspec(thread)
+#elif defined(IOS) || defined(ANDROID) || defined(WEBGL) || defined(LINUXPC)
 	#define __forceinline __attribute__((__always_inline__)) inline
+	#define __ALIGN(x) __attribute__((aligned(x)))
+	#define __THREAD
+#elif defined(PS4)
+	#define __forceinline __inline__ __attribute__((always_inline))
+	#define __ALIGN(x) __attribute__((aligned(x)))
+	#define __THREAD __thread
 #endif
+
 #if defined(ANDROID)
 	#define PLUGIN_DLLEXPORT
 #else

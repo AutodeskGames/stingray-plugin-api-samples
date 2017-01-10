@@ -417,6 +417,7 @@ __forceinline void to_plugin(SDB_SceneImportOptions &dest, const SceneImportOpti
 	dest.combine_meshes = source.combine_meshes;
 	dest.combine_meshes_by_material = source.combine_meshes_by_material;
 	dest.reverse_forward_axis = source.reverse_forward_axis;
+	dest.skip_create_extra_root = source.skip_create_extra_root;
 	dest.skip_textures = source.skip_textures;
 	dest.skip_lights = source.skip_lights;
 	dest.skip_cameras = source.skip_cameras;
