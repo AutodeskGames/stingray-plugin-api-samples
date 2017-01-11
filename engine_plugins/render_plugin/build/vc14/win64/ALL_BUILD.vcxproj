@@ -15,8 +15,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{B9327AA2-3960-36D9-A2E4-EC8D0BA5E971}</ProjectGUID>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <ProjectGUID>{3A442FC4-8E3D-34F7-B8A0-D0358EE28025}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>ALL_BUILD</ProjectName>
@@ -93,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)../../../build/vc14/win64/render_plugin.vcxproj">
-      <Project>C6C428C2-507B-3B68-8911-B3A5186F1AF3</Project>
+      <Project>2FFBD2B5-1080-3CD9-A6DD-1169351A698B</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

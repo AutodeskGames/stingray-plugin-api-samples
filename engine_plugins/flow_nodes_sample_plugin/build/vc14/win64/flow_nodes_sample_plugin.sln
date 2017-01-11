@@ -1,11 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ALL_BUILD", "ALL_BUILD.vcxproj", "{3DB723C6-D493-38E8-8D31-65404B577553}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ALL_BUILD", "ALL_BUILD.vcxproj", "{3ECAF228-B9E8-3890-BCBD-8E102138FDD7}"
 	ProjectSection(ProjectDependencies) = postProject
-		{A108A2AF-9A05-338C-9A3E-7E1AE6578F4D} = {A108A2AF-9A05-338C-9A3E-7E1AE6578F4D}
+		{F59E11BC-5893-3F4D-9BAB-B889E1FB52D1} = {F59E11BC-5893-3F4D-9BAB-B889E1FB52D1}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flow_nodes_sample_plugin", "flow_nodes_sample_plugin.vcxproj", "{A108A2AF-9A05-338C-9A3E-7E1AE6578F4D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flow_nodes_sample_plugin", "flow_nodes_sample_plugin.vcxproj", "{F59E11BC-5893-3F4D-9BAB-B889E1FB52D1}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -16,15 +16,15 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3DB723C6-D493-38E8-8D31-65404B577553}.Debug|x64.ActiveCfg = Debug|x64
-		{3DB723C6-D493-38E8-8D31-65404B577553}.Dev|x64.ActiveCfg = Dev|x64
-		{3DB723C6-D493-38E8-8D31-65404B577553}.Release|x64.ActiveCfg = Release|x64
-		{A108A2AF-9A05-338C-9A3E-7E1AE6578F4D}.Debug|x64.ActiveCfg = Debug|x64
-		{A108A2AF-9A05-338C-9A3E-7E1AE6578F4D}.Debug|x64.Build.0 = Debug|x64
-		{A108A2AF-9A05-338C-9A3E-7E1AE6578F4D}.Dev|x64.ActiveCfg = Dev|x64
-		{A108A2AF-9A05-338C-9A3E-7E1AE6578F4D}.Dev|x64.Build.0 = Dev|x64
-		{A108A2AF-9A05-338C-9A3E-7E1AE6578F4D}.Release|x64.ActiveCfg = Release|x64
-		{A108A2AF-9A05-338C-9A3E-7E1AE6578F4D}.Release|x64.Build.0 = Release|x64
+		{3ECAF228-B9E8-3890-BCBD-8E102138FDD7}.Debug|x64.ActiveCfg = Debug|x64
+		{3ECAF228-B9E8-3890-BCBD-8E102138FDD7}.Dev|x64.ActiveCfg = Dev|x64
+		{3ECAF228-B9E8-3890-BCBD-8E102138FDD7}.Release|x64.ActiveCfg = Release|x64
+		{F59E11BC-5893-3F4D-9BAB-B889E1FB52D1}.Debug|x64.ActiveCfg = Debug|x64
+		{F59E11BC-5893-3F4D-9BAB-B889E1FB52D1}.Debug|x64.Build.0 = Debug|x64
+		{F59E11BC-5893-3F4D-9BAB-B889E1FB52D1}.Dev|x64.ActiveCfg = Dev|x64
+		{F59E11BC-5893-3F4D-9BAB-B889E1FB52D1}.Dev|x64.Build.0 = Dev|x64
+		{F59E11BC-5893-3F4D-9BAB-B889E1FB52D1}.Release|x64.ActiveCfg = Release|x64
+		{F59E11BC-5893-3F4D-9BAB-B889E1FB52D1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

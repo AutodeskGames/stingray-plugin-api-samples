@@ -377,23 +377,23 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="stingray_sdk\engine_plugin_api\c_api">
-      <UniqueIdentifier>{6556CE98-2ED6-38E2-B45B-BDAF88DDAE4F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="stingray_sdk\engine_plugin_api\c_api\entity_components">
-      <UniqueIdentifier>{A18D3E6F-F096-375F-9A76-5D048A0853AD}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{E742666A-34CA-364D-A767-E9EEF7F9D45E}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="stingray_sdk">
-      <UniqueIdentifier>{6EE6DA65-FF7D-3772-BBD0-0804A5B8E626}</UniqueIdentifier>
-    </Filter>
     <Filter Include="stingray_sdk\engine_plugin_api">
-      <UniqueIdentifier>{C5F19CE5-0676-39B9-87F5-C90AAFA7B8CA}</UniqueIdentifier>
+      <UniqueIdentifier>{2AD1C8A1-B3C6-3FBD-9F64-CD6E20836A0F}</UniqueIdentifier>
     </Filter>
     <Filter Include="stingray_sdk\plugin_foundation">
-      <UniqueIdentifier>{BBCB4690-826A-3BDB-9834-7DCE4CB785BA}</UniqueIdentifier>
+      <UniqueIdentifier>{4A9FCA91-8E7B-356E-9DE2-03BE4ACB04FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stingray_sdk\engine_plugin_api\c_api">
+      <UniqueIdentifier>{5F2585F2-3497-3035-A52A-1809FC9BCEF6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stingray_sdk\engine_plugin_api\c_api\entity_components">
+      <UniqueIdentifier>{69C962ED-5E8D-3D6D-B9FE-2EBF6C551B6C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{C1EC61CB-7A14-3B05-9CEA-180379D5F8B1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stingray_sdk">
+      <UniqueIdentifier>{3AD0052D-D824-365B-949C-625AB148EA65}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
