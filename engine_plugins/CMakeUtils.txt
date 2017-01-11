@@ -70,6 +70,12 @@ if (PLATFORM_WINDOWS)
 
 	# Set warning level 3
 	add_compile_options(/W3)
+
+	# Debug information
+	add_compile_options(/Zi)
+
+	# Debug information linker flags
+	set(CMAKE_SHARED_LINKER_FLAGS "/DEBUG /MAP")
 endif()
 
 # Set each source file proper source group
