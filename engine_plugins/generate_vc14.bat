@@ -29,7 +29,7 @@ if defined STINGRAY_SDK_SOURCE_PATH (
 ) else (
 	echo Using default stingray SDK path
 	REM Fully parent path
-	pushd ..\stingray_sdk
+	pushd %GENERATE_ROOT_FOLDER%..\stingray_sdk
 	set "RESOLVED_STINGRAY_SDK_PATH=!CD!"
 	popd
 	set "RESOLVED_STINGRAY_SDK_SOURCE_PATH_REPLACE=$(SolutionDir)..\..\..\..\..\stingray_sdk"
