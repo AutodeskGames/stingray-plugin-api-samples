@@ -2405,15 +2405,15 @@ struct FlowParameters {
 
 struct FlowString
 {
-	unsigned char is_id64;	// Always set to zero
+	unsigned int is_id64;	// Always set to zero
 	char plain[PLUGIN_FLOW_STRING_VARIABLE_LENGTH];
 };
 
 struct FlowId
 {
-	unsigned char is_id64;	// May be 0 or 1 for input, always 1 for output
-	unsigned char padding[7];
-	uint64_t id;	// Caution, this will need to be aligned when packed!
+	unsigned int is_id64;	// May be 0 or 1 for input, always 1 for output
+	unsigned int padding;
+	uint64_t id;
 };
 
 /* Callback function for performing an action when a flow node is triggerred. */
