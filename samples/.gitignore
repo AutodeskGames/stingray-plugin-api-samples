@@ -1,3 +1,9 @@
+!.gitkeep
+tmp
+.DS_Store
+.idea
+*.zip
+
 **/build/**/CMakeFiles
 **/build/**/cmake_install.cmake
 **/build/**/CMakeCache.txt
