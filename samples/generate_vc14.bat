@@ -5,12 +5,13 @@ if "%~1"=="" (
     goto :end
 )
 
-set GENERATE_ROOT_FOLDER=%~dp0
-set PLUGIN_FOLDER=%1
-
-set ROOT=%GENERATE_ROOT_FOLDER%%PLUGIN_FOLDER%
-
 setlocal enableExtensions enableDelayedExpansion
+
+set GENERATE_ROOT_FOLDER=%~dp0
+set PLUGIN_NAME=%1
+set PLUGIN_FOLDER=%1_plugin
+
+set ROOT=%GENERATE_ROOT_FOLDER%%PLUGIN_NAME%\engine_plugin\%PLUGIN_FOLDER%
 
 REM Remove ending backslash from ROOT
 set "win_root_path=!ROOT!"
@@ -32,11 +33,13 @@ if defined STINGRAY_SDK_SOURCE_PATH (
 	pushd %GENERATE_ROOT_FOLDER%..\stingray_sdk
 	set "RESOLVED_STINGRAY_SDK_PATH=!CD!"
 	popd
-	set "RESOLVED_STINGRAY_SDK_SOURCE_PATH_REPLACE=$(SolutionDir)..\..\..\..\..\stingray_sdk"
+	set "RESOLVED_STINGRAY_SDK_SOURCE_PATH_REPLACE=$(SolutionDir)..\..\..\..\..\..\..\stingray_sdk"
 )
 
 set "STINGRAY_SDK_SOURCE_PATH=!RESOLVED_STINGRAY_SDK_PATH!"
 set "STINGRAY_SDK_SOURCE_PATH_REPLACE=!RESOLVED_STINGRAY_SDK_SOURCE_PATH_REPLACE!"
+
+echo "Stingray SDK path: %STINGRAY_SDK_SOURCE_PATH%" 
 
 REM CMake generators
 set GENERATOR_VC14_WIN32="Visual Studio 14 2015"
