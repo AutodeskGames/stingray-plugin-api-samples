@@ -1,0 +1,33 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ALL_BUILD", "ALL_BUILD.vcxproj", "{9D76BF21-6E3A-3715-81F8-CCCA07BF7746}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1C941444-9958-39DF-BF2B-8FEE7DEB2EBB} = {1C941444-9958-39DF-BF2B-8FEE7DEB2EBB}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flow_nodes_sample_plugin", "flow_nodes_sample_plugin.vcxproj", "{1C941444-9958-39DF-BF2B-8FEE7DEB2EBB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Dev|x64 = Dev|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D76BF21-6E3A-3715-81F8-CCCA07BF7746}.Debug|x64.ActiveCfg = Debug|x64
+		{9D76BF21-6E3A-3715-81F8-CCCA07BF7746}.Dev|x64.ActiveCfg = Dev|x64
+		{9D76BF21-6E3A-3715-81F8-CCCA07BF7746}.Release|x64.ActiveCfg = Release|x64
+		{1C941444-9958-39DF-BF2B-8FEE7DEB2EBB}.Debug|x64.ActiveCfg = Debug|x64
+		{1C941444-9958-39DF-BF2B-8FEE7DEB2EBB}.Debug|x64.Build.0 = Debug|x64
+		{1C941444-9958-39DF-BF2B-8FEE7DEB2EBB}.Dev|x64.ActiveCfg = Dev|x64
+		{1C941444-9958-39DF-BF2B-8FEE7DEB2EBB}.Dev|x64.Build.0 = Dev|x64
+		{1C941444-9958-39DF-BF2B-8FEE7DEB2EBB}.Release|x64.ActiveCfg = Release|x64
+		{1C941444-9958-39DF-BF2B-8FEE7DEB2EBB}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
