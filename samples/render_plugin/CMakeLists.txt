@@ -6,7 +6,7 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 get_filename_component(CURRENT_PROJECT_FOLDER_NAME "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
 project(${CURRENT_PROJECT_FOLDER_NAME})
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../../CMakeUtils.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../CMakeUtils.txt)
 
 # Define automatic namespace for C++
 add_compile_options(-DPLUGIN_NAMESPACE=${PROJECT_NAME})
