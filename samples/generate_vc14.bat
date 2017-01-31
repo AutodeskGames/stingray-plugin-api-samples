@@ -8,10 +8,9 @@ if "%~1"=="" (
 setlocal enableExtensions enableDelayedExpansion
 
 set GENERATE_ROOT_FOLDER=%~dp0
-set PLUGIN_NAME=%1
-set PLUGIN_FOLDER=%1_plugin
+set PLUGIN_FOLDER=%1
 
-set ROOT=%GENERATE_ROOT_FOLDER%%PLUGIN_NAME%\engine_plugin\%PLUGIN_FOLDER%
+set ROOT=%GENERATE_ROOT_FOLDER%%PLUGIN_FOLDER%
 
 REM Remove ending backslash from ROOT
 set "win_root_path=!ROOT!"
