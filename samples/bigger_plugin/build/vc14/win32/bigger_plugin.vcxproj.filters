@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(SolutionDir)..\..\..\plugin.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(SolutionDir)..\..\..\resource.h" />
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_actor.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_application.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_assert.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_camera.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_dynamic_script_data.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_entity.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_game_session.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_gamepad.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_gui.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_input.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_keyboard.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_lan.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_level.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_line_object.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_material.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_mesh.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_mouse.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_mover.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_network.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_physics_world.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_ps4.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_ps4_error_dialog.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_ps4_ime_dialog.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_ps4_msg_dialog.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_ps4_np_commerce_dialog.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_ps4_types.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_ps4pad.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_psn.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_save_system.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_scatter_system.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_types.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_unit.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_unit_synchronizer.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_utilities.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_viewport.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_window.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\c_api_world.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_actor_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_animation_blender_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_animation_state_machine_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_data_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_debug_name_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_mesh_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_render_data_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_scene_graph_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_tag_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\c_api\entity_components\c_api_transform_component.h">
+      <Filter>stingray_sdk\engine_plugin_api\c_api\entity_components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\default_plugin_suffix.h">
+      <Filter>stingray_sdk\engine_plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\plugin_api.h">
+      <Filter>stingray_sdk\engine_plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\plugin_api_types.h">
+      <Filter>stingray_sdk\engine_plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\plugin_c_api.h">
+      <Filter>stingray_sdk\engine_plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\engine_plugin_api\plugin_scene_database_api.h">
+      <Filter>stingray_sdk\engine_plugin_api</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\allocator.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\array.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\assert.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\bucket_iterator.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\buffer.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\collection_tools.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\color.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\com_ptr.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\const_config.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\encoding.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\exception_handling.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\flow.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\functional.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\hash_function.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\hash_function_string.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\hash_map.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\hash_set.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\id_string.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\line_shapes.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\local_transform.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\math.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\matrix4x4.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\memory_utilities.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\option.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\pair.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\path.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\platform.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\quaternion.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\random.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\scene_flags.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\scene_tree.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\scene_tree_api_convert.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\sort_map.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\sort_set.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\stream.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\string.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\string_stream.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\template_tools.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\types.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\vector.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\vector2.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\vector3.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\vector4.h">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\array.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\bucket_iterator.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\collection_tools.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\com_ptr.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\encoding.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\hash_map.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\hash_set.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\id_string.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\line_shapes.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\local_transform.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\math.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\matrix4x4.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\quaternion.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\scene_tree.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\scene_tree_api_convert.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\sort_map.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\sort_set.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\string.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\string_stream.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\vector.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\vector2.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\vector3.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)..\..\..\..\..\stingray_sdk\plugin_foundation\vector4.inl">
+      <Filter>stingray_sdk\plugin_foundation</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(SolutionDir)..\..\..\CMakeLists.txt" />
+    <None Include="$(SolutionDir)..\..\..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="$(SolutionDir)..\..\..\build\vc14\win32\bigger_plugin.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="stingray_sdk\engine_plugin_api\c_api\entity_components">
+      <UniqueIdentifier>{6482207A-E715-3126-9A41-B96A12327D83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stingray_sdk\engine_plugin_api\c_api">
+      <UniqueIdentifier>{57B4BE9C-5B11-3951-8C2C-541E6325C922}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stingray_sdk\engine_plugin_api">
+      <UniqueIdentifier>{B5D8BB5D-AE72-35F2-B027-6B0856130E60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stingray_sdk\plugin_foundation">
+      <UniqueIdentifier>{CC799BF6-09C2-3A22-8A9C-D649DD8E14C8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{240111E3-E3BF-36D5-A39C-09D7E859A813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stingray_sdk">
+      <UniqueIdentifier>{A6A62E51-793A-3855-A6CB-25F29BC23D50}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
