@@ -1,0 +1,136 @@
+cmake_minimum_required(VERSION 3.6)
+
+# Locate singray sdk header files
+file(TO_CMAKE_PATH $ENV{STINGRAY_SDK_SOURCE_PATH} STINGRAY_SDK_SOURCE_PATH)
+
+# Make sure configurations is Debug, Dev and Release
+set(SR_CONFIGS "Debug;Dev;Release")
+if( CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_CONFIGURATION_TYPES MATCHES "${SR_CONFIGS}" )
+	set(CMAKE_CONFIGURATION_TYPES ${SR_CONFIGS} CACHE STRING "List of supported configurations." FORCE)
+	message(FATAL_ERROR "Default configuration was reset, please re-run CMake.")
+endif()
+
+# Initialize the development configuration using release configuration
+set(CMAKE_C_FLAGS_DEV "${CMAKE_C_FLAGS_RELEASE}")
+set(CMAKE_CXX_FLAGS_DEV "${CMAKE_CXX_FLAGS_RELEASE}")
+set(CMAKE_STATIC_LINKER_FLAGS_DEV "${CMAKE_STATIC_LINKER_FLAGS_RELEASE}")
+set(CMAKE_SHARED_LINKER_FLAGS_DEV "${CMAKE_SHARED_LINKER_FLAGS_RELEASE}")
+set(CMAKE_MODULE_LINKER_FLAGS_DEV "${CMAKE_MODULE_LINKER_FLAGS_RELEASE}")
+set(CMAKE_EXE_LINKER_FLAGS_DEV "${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
+
+# Setup up DEVELOPMENT flag for Dev/Debug configurations
+add_compile_options($<$<NOT:$<CONFIG:RELEASE>>:-DDEVELOPMENT>)
+
+if (PLATFORM_WINDOWS)
+	add_compile_options(-DWINDOWSPC)
+
+	# Disable SCL warnings
+	add_compile_options(-D_SCL_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE)
+
+	# Disable exceptions on SCL errors in debug
+	add_compile_options($<$<CONFIG:DEBUG>:-D_SECURE_SCL_THROWS=0> $<$<CONFIG:DEBUG>:-D_SILENCE_DEPRECATION_OF_SECURE_SCL_THROWS>)
+
+	# Disable iterator debugging and secure SCL if Dev and Release targets
+	add_compile_options(-D_HAS_ITERATOR_DEBUGGING=$<CONFIG:DEBUG> -D_SECURE_SCL=$<CONFIG:DEBUG>)
+
+	# Enable full optimization in dev/release
+	add_compile_options($<$<CONFIG:DEBUG>:/Od> $<$<NOT:$<CONFIG:DEBUG>>:/Ox>)
+
+	# Inline function expansion
+	add_compile_options(/Ob2)
+
+	# Enable intrinsic functions in dev/release
+	add_compile_options($<$<NOT:$<CONFIG:DEBUG>>:/Oi>)
+
+	# Favor fast code
+	add_compile_options(/Ot)
+
+	# Enable fiber-safe optimizations in dev/release
+	add_compile_options($<$<NOT:$<CONFIG:DEBUG>>:/GT>)
+
+	# Enable string pooling
+	add_compile_options(/GF)
+
+	# Basic run-time checks in debug
+	add_compile_options($<$<CONFIG:DEBUG>:/RTC1>)
+
+	# Use static runtime library
+	add_compile_options($<$<CONFIG:DEBUG>:/MTd> $<$<NOT:$<CONFIG:DEBUG>>:/MT>)
+
+	# Disable C++ exceptions
+	string(REGEX REPLACE "/EHsc" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+	string(REGEX REPLACE "/EHsc" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
+	# Use security checks only in debug
+	add_compile_options($<$<CONFIG:DEBUG>:/GS> $<$<NOT:$<CONFIG:DEBUG>>:/GS->)
+
+	# Enable function-level linking
+	add_compile_options(/Gy)
+
+	# Use fast floating point model
+	add_compile_options(/fp:fast)
+
+	# Disable run-time type information (RTTI)
+	string(REGEX REPLACE "/GR" "/GR-" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+	string(REGEX REPLACE "/GR" "/GR-" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+	add_definitions(-D_HAS_EXCEPTIONS=0)
+
+	# Set warning level 3
+	add_compile_options(/W3)
+
+	# Debug information
+	add_compile_options(/Zi)
+
+	# Debug information linker flags
+	set(CMAKE_SHARED_LINKER_FLAGS "/DEBUG /MAP")
+endif()
+
+# Set each source file proper source group
+macro(set_source_groups pList)
+	foreach(FilePath ${pList})
+
+		# If any path includes the STINGRAY_SDK_SOURCE_PATH change the path to a cleaner name
+		string(REPLACE "${STINGRAY_SDK_SOURCE_PATH}/" "stingray_sdk/" SourceGroupFilePath ${FilePath})
+
+		get_filename_component(DirName ${SourceGroupFilePath} DIRECTORY)
+		if( NOT "${DirName}" STREQUAL "" )
+			string(REGEX REPLACE "[.][.][/]" "" GroupName "${DirName}")
+			string(REGEX REPLACE "/" "\\\\" GroupName "${GroupName}")
+			source_group("${GroupName}" FILES ${FilePath})
+		else()
+			source_group("" FILES ${FilePath})
+		endif()
+	endforeach()
+endmacro()
+
+# Get all source files recursively and add them to pResult
+macro(find_source_files pResult)
+	set(FileList)
+	set(SearchDir "${ARGN}")
+
+	# Retrive all source files recursively
+	set(FileExtensions)
+	list(APPEND FileExtensions "*.h" "*.c" "*.cpp" "*.inl" "*.txt" "*.flow_node_definitions" "*.md")
+	if( "${SearchDir}" STREQUAL "" )
+		file(GLOB_RECURSE FileList RELATIVE ${PROJECT_SOURCE_DIR} ${FileExtensions})
+	else()
+		set(UpdatedFileExtensions)
+		foreach(FileExtension ${FileExtensions})
+			list(APPEND UpdatedFileExtensions "${SearchDir}/${FileExtension}")
+		endforeach()
+		file(GLOB_RECURSE FileList ${PROJECT_SOURCE_DIR} ${UpdatedFileExtensions})
+	endif()
+	# Remove any files from the generated files directory
+	string(REGEX REPLACE "${GENERATED_FILES_DIR}/[^;]+;?" "" FileList "${FileList}")
+
+	list(APPEND ${pResult} ${FileList})
+
+	set_source_groups("${FileList}")
+endmacro()
+
+# Safely clean out previously built dlls 
+macro(add_dll_pdb_hotload_cleanup target_name)
+	if (PLATFORM_WINDOWS)
+		add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../clean-dlls-and-pdbs.bat ARGS "$(OutDir)" "${target_name}")
+	endif()
+endmacro()

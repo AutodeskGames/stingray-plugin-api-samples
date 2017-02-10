@@ -24,10 +24,12 @@ struct ApplicationCApi
 	ViewportPtr (*create_viewport) (WorldPtr, unsigned viewport_template_name_id32);
 	void		(*destroy_viewport) (WorldPtr, ViewportPtr);
 
-	void	(*quit) ();
-	double	(*time_since_launch) ();
-	void	(*sleep) (unsigned milliseconds);
-	void	(*set_time_step_policy) (const struct TimeStepPolicyWrapper* const policies, unsigned num_policies);
+	void		(*quit) (int exit_code);
+
+	double							(*time_since_launch) ();
+	void							(*sleep) (unsigned milliseconds);
+	void							(*set_time_step_policy) (const struct TimeStepPolicyWrapper* const policies, unsigned num_policies);
+	struct TimeStepPolicyWrapper	(*get_time_step_policy) (enum TimeStepPolicyType type);
 
 	/*	The argv strings will be returned through the MultipleStringsBuffer you provide.
 		The function call returns the total number of bytes required to store all argv in the buffer.	*/

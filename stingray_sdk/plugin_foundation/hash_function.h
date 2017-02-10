@@ -25,7 +25,7 @@ inline uint64_t murmur_hash_64(const void * key, int len, uint64_t seed)
 			p[0] = d[0]; p[1] = d[1]; p[2] = d[2]; p[3] = d[3];
 			p[4] = d[4]; p[5] = d[5]; p[6] = d[6]; p[7] = d[7];
 			data++;
-		#elif defined(WINDOWSPC) || defined(WIN64UWP) || defined(XBOXONE) || defined(__ORBIS__) || defined(MACOSX) || defined(LINUXPC)
+		#elif defined(WINDOWSPC) || defined(WINUWP) || defined(XBOXONE) || defined(__ORBIS__) || defined(MACOSX) || defined(LINUXPC)
 			uint64_t k = *data++;
 		#else
 			#error Unaligned 64bit reads undefined!

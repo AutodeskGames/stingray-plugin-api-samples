@@ -383,7 +383,6 @@ struct SceneImportOptions {
 		combine_meshes(false),
 		combine_meshes_by_material(false),
 		reverse_forward_axis(false),
-		skip_create_textures_folder(false),
 		skip_create_extra_root(false),
 		skip_textures(false),
 		skip_lights(false),
@@ -397,7 +396,6 @@ struct SceneImportOptions {
 	bool combine_meshes;
 	bool combine_meshes_by_material;
 	bool reverse_forward_axis;
-	bool skip_create_textures_folder;
 	bool skip_create_extra_root;
 	bool skip_textures;
 	bool skip_lights;

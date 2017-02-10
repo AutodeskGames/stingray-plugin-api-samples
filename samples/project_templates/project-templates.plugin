@@ -1,0 +1,43 @@
+// About
+//
+name = "Test templates"
+description = "Bundle various templates and examples projects"
+version = "1.0.0"
+author = {
+    url = "https://gamedev.autodesk.com/"
+}
+keywords = ["project-template"]
+
+// Extensions to map new stingray resource folders.
+//
+extensions = {
+    templates = [
+        {
+            type = "project-template"
+            path = "project1/project.stingray_project"
+        }
+
+        {
+            type = "project-template"
+            path = "project2/project.stingray_project"
+        }
+    ]
+
+    menus = [
+        {
+            path = "Developer/Download asset package..."
+            action = {
+                type = "js"
+                module = "libs/spm-tests"
+                function_name = "downloadAssetPackage"
+            }
+        }
+    ]
+}
+
+// Dependencies
+//
+platforms = ["win64"]
+dependencies = {
+    "stingray" = ">=1.7"
+}

@@ -45,6 +45,10 @@ extern "C" {
 	typedef CApiVideoPlayer* VideoPlayerPtr;
 	typedef CApiReplay* ReplayPtr;
 	typedef CApiCallbackData32* CallbackData32Ptr;
+	typedef CApiStreamSource* StreamSourcePtr;
+	typedef CApiTimpaniWorldInterface* TimpaniWorldInterfacePtr;
+	typedef CApiGuiThumbnail* GuiThumbnailPtr;
+	typedef CApiCaptureBuffer* CApiCaptureBufferPtr;
 
 	typedef void* TransformComponentPtr;
 	typedef void* MeshComponentPtr;
@@ -81,7 +85,7 @@ extern "C" {
 	typedef const void* ComponentApiPtr;
 	typedef const CApiMesh* ConstMeshPtr;
 	typedef const CApiNavigationMesh* ConstNavigationMeshPtr;
-
+	typedef CApiMaterialData* MaterialDataPtr;
 
 	typedef CApiUnitRef UnitRef;
 	typedef unsigned ParticleRef;
@@ -126,19 +130,32 @@ extern "C" {
 		UINT_MAX represents a nil AnimationState value.
 		Currently up to 32 states can be returned, use num_states to find out how many are.
 	*/
+
+	enum {MAX_ANIMATION_STATES = 32};
 	struct AnimationStates {
-		unsigned states[32];
+		unsigned states[MAX_ANIMATION_STATES];
 		unsigned num_states;
 	};
 
+	enum { MAX_ANIMATION_LAYER_SEEDS = 32 };
 	struct AnimationLayerSeeds {
-		unsigned seeds[32];
+		unsigned seeds[MAX_ANIMATION_LAYER_SEEDS];
 		unsigned num_seeds;
 	};
 
 	struct AnimationLayerInfo {
 		float length;
 		double t;
+	};
+
+	enum { MAX_ANIMATION_EVENT_PARAMETERS = 1 };
+	enum { ANIMATION_EVENT_PERCENT_SYNC = 0 };
+
+	struct AnimationEventParameters
+	{
+		unsigned n;
+		unsigned keys[MAX_ANIMATION_EVENT_PARAMETERS];
+		float values[MAX_ANIMATION_EVENT_PARAMETERS];
 	};
 
 	/*
@@ -348,12 +365,9 @@ extern "C" {
 
 	enum TimeStepPolicyType
 	{
-		TSP_VARIABLE,
-		TSP_FIXED,
-		TSP_THROTTLE,
-		TSP_NO_THROTTLE,
+		TSP_FRAME_RATE,
+		TSP_THROTTLE_FRAME_RATE,
 		TSP_SMOOTHING,
-		TSP_NO_SMOOTHING,
 		TSP_DEBT_PAYBACK,
 		TSP_EXTERNAL_STEP_RANGE,
 		TSP_EXTERNAL_MULTIPLIER,
@@ -394,6 +408,7 @@ extern "C" {
 		int main_window;
 		int visible;
 		int pass_key_events_to_parent;
+		int layered;
 	};
 
 	struct Vector3ArrayWrapper
@@ -407,6 +422,11 @@ extern "C" {
 		REPLAY_RECORD_MODE_DISABLED,
 		REPLAY_RECORD_MODE_TRANSFORM,
 		REPLAY_RECORD_MODE_SCENE_GRAPH
+	};
+
+	struct MaterialDecalDrawer {
+		unsigned material_id32;
+		unsigned drawer_id32;
 	};
 
 #ifdef __cplusplus

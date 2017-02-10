@@ -1,0 +1,79 @@
+// About
+//
+name = "Generic Asset Examples"
+description = "Generic Asset Example"
+version = "0.42.0.0"
+author = {
+    url = "https://gamedev.autodesk.com/"
+}
+keywords = ["test", "plugin", "asset"]
+
+// Configuration
+//
+config = {
+}
+
+// Extensions to map new stingray resource folders.
+//
+extensions = {
+    menus = [
+    	{
+            path = "Developer/Generic Asset"
+        }
+        {
+            path = "Developer/Generic Asset/Listener"
+            view = {
+                type = "panel"
+                path = "generic-asset-listener"
+            }
+            order = 335
+        }
+        {
+            path = "Developer/Generic Asset/Select generic data Inline Type"
+            action = "select-generic-data-inline-type"
+            order = 336
+        }
+        {
+            path = "Developer/Generic Asset/Select generic data Type File"
+            action = "select-generic-data-type-file"
+            order = 337
+        }
+    ]
+
+    resources = [
+        {
+            path = "all_ui"
+        }
+    ]
+
+    asset_types = [
+        {
+            type = "aui"
+            description = "Generic Resources UI"
+            category = "Types"
+            icon = "img/aui.png"
+        }
+    ]
+
+    actions = [
+            {
+                name = "select-generic-data-inline-type"
+                type = "js"
+                module = "generic_asset/generic-asset-actions"
+                function_name = "selectGenericDataInlineType"
+            }
+            {
+                name = "select-generic-data-type-file"
+                type = "js"
+                module = "generic_asset/generic-asset-actions"
+                function_name = "selectGenericDataTypeFile"
+            }
+        ]
+}
+
+// Dependencies
+//
+platforms = ["win64"]
+dependencies = {
+	"stingray" = ">=1.4"
+}
