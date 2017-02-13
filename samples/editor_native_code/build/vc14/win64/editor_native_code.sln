@@ -26,8 +26,6 @@ Global
 		{1C7C7F47-6FDD-3DB5-B3FC-39E77FB2E21F}.Release|x64.ActiveCfg = Release|x64
 		{1C7C7F47-6FDD-3DB5-B3FC-39E77FB2E21F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
 	GlobalSection(ExtensibilityAddIns) = postSolution

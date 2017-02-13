@@ -3,10 +3,11 @@ cmake_minimum_required(VERSION 3.6)
 # Suppress CMake automatic regeneration, since we don't know if CMake is available
 set(CMAKE_SUPPRESS_REGENERATION true)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../../cmake")
+include(CMakeUtils)
+
 get_filename_component(CURRENT_PROJECT_FOLDER_NAME "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
 project(${CURRENT_PROJECT_FOLDER_NAME})
-
-include(${CMAKE_CURRENT_SOURCE_DIR}/../CMakeUtils.txt)
 
 # Define automatic namespace for C++
 add_compile_options(-DPLUGIN_NAMESPACE=${PROJECT_NAME})

@@ -9,48 +9,40 @@ namespace PLUGIN_NAMESPACE
 	EditorLoggingApi* EditorTestPlugin::_logging_api = nullptr;
 	EditorEvalApi* EditorTestPlugin::_eval_api = nullptr;
 	RandomObject* EditorTestPlugin::_dynamic_random_object = nullptr;
-
-	void *EditorTestPlugin::config_data_reallocator(void *ud, void *ptr, int osize, int nsize, const char *file, int line)
+	
+	ConfigValue EditorTestPlugin::copy_config_data_value(ConfigValue orig_cv, ConfigValue new_cv)
 	{
-		if (nsize == 0) {
-			free(ptr);
-			return nullptr;
-		}
-		auto *nptr = realloc(ptr, nsize);
-		return nptr;
-	}
-
-	cd_loc EditorTestPlugin::copy_config_data_value(ConfigData *orig_cd, cd_loc orig_loc, ConfigData *new_cd)
-	{
-		auto type = _cd_api->type(orig_cd, orig_loc);
+		auto type = _cd_api->type(orig_cv);
 		switch(type) {
-		case CD_TYPE_NULL: return _cd_api->null();
-		case CD_TYPE_UNDEFINED: return _cd_api->undefined();
-		case CD_TYPE_FALSE: return _cd_api->false_value();
-		case CD_TYPE_TRUE: return _cd_api->true_value();
-		case CD_TYPE_NUMBER: return _cd_api->add_number(&new_cd, _cd_api->to_number(orig_cd, orig_loc));
-		case CD_TYPE_STRING: return _cd_api->add_string(&new_cd, _cd_api->to_string(orig_cd, orig_loc));
-		case CD_TYPE_ARRAY: {
-			auto length = _cd_api->array_size(orig_cd, orig_loc);
-			auto new_arr_loc = _cd_api->add_array(&new_cd, length);
-			for (auto i = 0; i < length; ++i) {
-				auto array_item_loc = _cd_api->array_item(orig_cd, orig_loc, i);
-				_cd_api->push(&new_cd, new_arr_loc, copy_config_data_value(orig_cd, array_item_loc, new_cd));
+			case CD_TYPE_NULL: return _cd_api->nil();
+			case CD_TYPE_FALSE: _cd_api->set_bool(new_cv, false); break;
+			case CD_TYPE_TRUE: _cd_api->set_bool(new_cv, true); break;
+			case CD_TYPE_NUMBER: _cd_api->set_number(new_cv, _cd_api->to_number(orig_cv)); break;
+			case CD_TYPE_STRING: _cd_api->set_string(new_cv, _cd_api->to_string(orig_cv)); break;
+			case CD_TYPE_ARRAY:
+			{
+				auto length = _cd_api->array_size(orig_cv);
+				for (auto i = 0; i < length; ++i) {
+					auto origin_item = _cd_api->array_item(orig_cv, i);
+					_cd_api->push(new_cv, origin_item);
+				}
+				break;
 			}
-			return new_arr_loc;
-		}
-		case CD_TYPE_OBJECT: {
-			auto size = _cd_api->object_size(orig_cd, orig_loc);
-			auto new_object_loc = _cd_api->add_object(&new_cd, size);
-			for (auto i = 0; i < size; ++i) {
-				auto object_item_key = _cd_api->object_key(orig_cd, orig_loc, i);
-				auto object_item_value = _cd_api->object_value(orig_cd, orig_loc, i);
-				_cd_api->set(&new_cd, new_object_loc, object_item_key, copy_config_data_value(orig_cd, object_item_value, new_cd));
+			case CD_TYPE_OBJECT:
+			{
+				auto size = _cd_api->object_size(orig_cv);
+				_cd_api->set_object(new_cv);
+				for (auto i = 0; i < size; ++i) {
+					auto object_item_key = _cd_api->object_key(orig_cv, i);
+					auto object_item_value = _cd_api->object_value(orig_cv, i);
+					_cd_api->set(new_cv, object_item_key, object_item_value);
+				}
+				break;
 			}
-			return new_object_loc;
+			default: break;
 		}
-		default: return -1;
-		}
+
+		return new_cv;
 	}
 
 	void EditorTestPlugin::plugin_loaded(GetEditorApiFunction get_editor_api)
@@ -77,7 +69,7 @@ namespace PLUGIN_NAMESPACE
 
 		// Test api v3
 		auto api_v3 = static_cast<EditorApi_V3*>(get_editor_api(EDITOR_API_V3_ID));
-		api_v3->register_native_function("editorNativeTest", "test_api_v3", [=](ConfigData** args, int num) -> ConfigData* {
+		api_v3->register_native_function("editorNativeTest", "test_api_v3", [=](ConfigValueArgs args, int num) -> ConfigValue {
 			auto logging_api = static_cast<EditorLoggingApi*>(get_editor_api(EDITOR_LOGGING_API_ID));
 			logging_api->info("Successfully fetched api with editor api v3");
 			return nullptr;
@@ -131,95 +123,88 @@ namespace PLUGIN_NAMESPACE
 
 	// Every arguments are owned by the editor and will be destroyed when the function returns.
 	// All data returned is now owned by the editor.
-	ConfigData* EditorTestPlugin::test(ConfigData **args, int num)
+	ConfigValue EditorTestPlugin::test(ConfigValueArgs args, int num)
 	{
 		if (num == 0)
 			return nullptr;
 
-		auto cd = _cd_api->make(config_data_reallocator, nullptr, 0, 0);
-		auto arr = _cd_api->add_array(&cd, num);
-		_cd_api->set_root(cd, arr);
-
+		auto cv = _cd_api->make(nullptr);
 		for (auto i = 0; i < num; ++i) {
-			auto argument = args[i];
-			auto copy = copy_config_data_value(argument, _cd_api->root(argument), cd);
-			_cd_api->push(&cd, arr, copy);
+			auto argument = &args[i];
+			auto new_arg = _cd_api->push(cv, nullptr);
+			copy_config_data_value(argument, new_arg);
 		}
 
-		return cd;
+		return cv;
 	}
 
-	ConfigData* EditorTestPlugin::get_static_handle(ConfigData** args, int num)
+	ConfigValue EditorTestPlugin::get_static_handle(ConfigValueArgs args, int num)
 	{
-		auto cd = _cd_api->make(config_data_reallocator, nullptr, 0, 0);
-		auto handle_loc = _cd_api->add_handle(&cd, &random_bits_of_data, nullptr);
-		_cd_api->set_root(cd, handle_loc);
-		return cd;
+		auto cv = _cd_api->make(nullptr);
+		_cd_api->set_handle(cv, (ConfigHandle)&random_bits_of_data, nullptr);
+		return cv;
 	}
 
-	ConfigData* EditorTestPlugin::test_static_handle(ConfigData** args, int num)
+	ConfigValue EditorTestPlugin::test_static_handle(ConfigValueArgs args, int num)
 	{
-		auto cd = _cd_api->make(config_data_reallocator, nullptr, 0, 0);
-		_cd_api->set_root(cd, _cd_api->false_value());
+		auto cv = _cd_api->make(nullptr);
+		_cd_api->set_bool(cv, false);
 
 		if (num != 1)
-			return cd;
+			return cv;
 
-		auto handle_cd = args[0];
-		auto handle_loc = _cd_api->root(handle_cd);
-		auto type = _cd_api->type(handle_cd, handle_loc);
+		auto handle_cv = &args[0];
+		auto type = _cd_api->type(handle_cv);
 		if (type != CD_TYPE_HANDLE)
-			return cd;
+			return cv;
 
-		auto handle = static_cast<RandomObject*>(_cd_api->to_handle(handle_cd, handle_loc));
+		auto handle = reinterpret_cast<RandomObject*>(_cd_api->to_handle(handle_cv));
 		if (handle == nullptr)
-			return cd;
+			return cv;
 
 		if (handle != &random_bits_of_data)
-			return cd;
+			return cv;
 
 		if (handle->val1() != random_bits_of_data.val1() || handle->val2() != random_bits_of_data.val2())
-			return cd;
+			return cv;
 
-		_cd_api->set_root(cd, _cd_api->true_value());
-		return cd;
+		_cd_api->set_bool(cv, true);
+		return cv;
 	}
 
-	ConfigData* EditorTestPlugin::get_dynamic_handle(ConfigData** args, int num)
+	ConfigValue EditorTestPlugin::get_dynamic_handle(ConfigValueArgs args, int num)
 	{
-		auto cd = _cd_api->make(config_data_reallocator, nullptr, 0, 0);
+		auto cv = _cd_api->make(nullptr);
 		_dynamic_random_object = new RandomObject("Dynamic object", 12345);
-		auto handle_loc = _cd_api->add_handle(&cd, _dynamic_random_object, &EditorTestPlugin::delete_dynamic_handle);
-		_cd_api->set_root(cd, handle_loc);
-		return cd;
+		_cd_api->set_handle(cv, (ConfigHandle)_dynamic_random_object, (cd_handle_dealloc)&EditorTestPlugin::delete_dynamic_handle);
+		return cv;
 	}
 
-	ConfigData* EditorTestPlugin::test_dynamic_handle(ConfigData** args, int num)
+	ConfigValue EditorTestPlugin::test_dynamic_handle(ConfigValueArgs args, int num)
 	{
-		auto cd = _cd_api->make(config_data_reallocator, nullptr, 0, 0);
-		_cd_api->set_root(cd, _cd_api->false_value());
+		auto cv = _cd_api->make(nullptr);
+		_cd_api->set_bool(cv, false);
 
 		if (num != 1)
-			return cd;
+			return cv;
 
-		auto handle_cd = args[0];
-		auto handle_loc = _cd_api->root(handle_cd);
-		auto type = _cd_api->type(handle_cd, handle_loc);
+		auto handle_cv = &args[0];
+		auto type = _cd_api->type(handle_cv);
 		if (type != CD_TYPE_HANDLE)
-			return cd;
+			return cv;
 
-		auto handle = static_cast<RandomObject*>(_cd_api->to_handle(handle_cd, handle_loc));
+		auto handle = reinterpret_cast<RandomObject*>(_cd_api->to_handle(handle_cv));
 		if (handle == nullptr)
-			return cd;
+			return cv;
 
 		if (handle != _dynamic_random_object)
-			return cd;
+			return cv;
 
 		if (handle->val1() != _dynamic_random_object->val1() || handle->val2() != _dynamic_random_object->val2())
-			return cd;
+			return cv;
 
-		_cd_api->set_root(cd, _cd_api->true_value());
-		return cd;
+		_cd_api->set_bool(cv, true);
+		return cv;
 	}
 
 	void EditorTestPlugin::delete_dynamic_handle(void* handle)
@@ -231,7 +216,7 @@ namespace PLUGIN_NAMESPACE
 			printf("Handle is not the correct object");
 	}
 
-	ConfigData* EditorTestPlugin::test_logging(ConfigData** args, int num)
+	ConfigValue EditorTestPlugin::test_logging(ConfigValueArgs args, int num)
 	{
 		_logging_api->debug("Should print this in the dev tools only.");
 		_logging_api->info("Should print this info");
@@ -248,13 +233,13 @@ namespace PLUGIN_NAMESPACE
 		return nullptr;
 	}
 
-	ConfigData* EditorTestPlugin::test_eval(ConfigData** args, int num)
+	ConfigValue EditorTestPlugin::test_eval(ConfigValueArgs args, int num)
 	{
-		auto retval = _cd_api->make(config_data_reallocator, nullptr, 0, 0);
-		auto exception = _cd_api->make(config_data_reallocator, nullptr, 0, 0);
+		auto retval = _cd_api->make(nullptr);
+		auto exception = _cd_api->make(nullptr);
 		auto success = _eval_api->eval("console.warn('Should print this warning in the console');", retval, exception);
 		if (!success) {
-			auto message = _cd_api->to_string(exception, _cd_api->object_value(exception, _cd_api->root(exception), 0));
+			auto message = _cd_api->to_string(exception);
 			_logging_api->error(message);
 		}
 
@@ -262,7 +247,8 @@ namespace PLUGIN_NAMESPACE
 		if (success) {
 			_logging_api->error("Should have thrown an error");
 		} else {
-			auto message = _cd_api->to_string(exception, _cd_api->object_value(exception, _cd_api->root(exception), 0));
+			bool is_expcetion_string = _cd_api->type(exception) == CD_TYPE_STRING;
+			auto message = is_expcetion_string ? _cd_api->to_string(exception) : _cd_api->to_string(_cd_api->object_lookup(exception, "message"));
 			_logging_api->warning("Successfully generated an exception");
 			_logging_api->warning(message);
 		}
@@ -272,7 +258,7 @@ namespace PLUGIN_NAMESPACE
 		return nullptr;
 	}
 
-	ConfigData* EditorTestPlugin::test_api_v2(ConfigData** args, int num, GetEditorApiFunction get_editor_api)
+	ConfigValue EditorTestPlugin::test_api_v2(ConfigValueArgs args, int num, GetEditorApiFunction get_editor_api)
 	{
 		auto logging_api = static_cast<EditorLoggingApi*>(get_editor_api(EDITOR_LOGGING_API_ID));
 		logging_api->info("Successfully fetched api with editor api v2");
@@ -280,24 +266,20 @@ namespace PLUGIN_NAMESPACE
 		return nullptr;
 	}
 
-	ConfigData* EditorTestPlugin::test_query_api(ConfigData** args, int num, GetEditorApiFunction get_editor_api)
+	ConfigValue EditorTestPlugin::test_query_api(ConfigValueArgs args, int num, GetEditorApiFunction get_editor_api)
 	{
 		if (num == 0)
 			return nullptr;
 
 		auto cd_api = static_cast<ConfigDataApi*>(get_editor_api(CONFIGDATA_API_ID));
 
-		auto cd = cd_api->make(config_data_reallocator, nullptr, 0, 0);
-		auto arr = cd_api->add_array(&cd, num);
-		cd_api->set_root(cd, arr);
-
+		auto cv = cd_api->make(nullptr);
 		for (auto i = 0; i < num; ++i) {
-			auto argument = args[i];
-			auto copy = copy_config_data_value(argument, cd_api->root(argument), cd);
-			cd_api->push(&cd, arr, copy);
+			auto argument = &args[i];
+			cd_api->push(cv, argument);
 		}
 
-		return cd;
+		return cv;
 	}
 
 }

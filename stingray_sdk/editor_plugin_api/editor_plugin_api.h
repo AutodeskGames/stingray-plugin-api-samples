@@ -66,19 +66,42 @@ enum ProcessId
 	RENDERER
 };
 
-struct ConfigValueObject;
-typedef ConfigValueObject* ConfigValue;
-typedef const struct ConfigValueObject* ConstConfigValue;
-typedef ConfigValue* ConfigValueArgs;
+#define CONFIG_DATA_VALUE_TYPE_BITS 3
+#define CONFIG_DATA_VALUE_TAG_BITS 29
+
+enum {
+	CD_TYPE_NULL = 0,
+	CD_TYPE_BOOL = 1,
+	CD_TYPE_NUMBER = 2,
+	CD_TYPE_STRING = 3,
+	CD_TYPE_HANDLE = 4,
+	CD_TYPE_ARRAY = 5,
+	CD_TYPE_OBJECT = 6,
+	CD_TYPE_TRUE, CD_TYPE_FALSE,
+	CD_TYPE_UNDEFINED = CD_TYPE_NULL
+};
+
+
+struct ConfigValueStruct {
+	struct {
+		unsigned type : CONFIG_DATA_VALUE_TYPE_BITS;
+		unsigned tag : CONFIG_DATA_VALUE_TAG_BITS;
+	};
+
+	union {
+		double _number;
+		bool _bool;
+	};
+
+	void* reserved;
+};
+typedef struct ConfigValueStruct* ConfigValue;
+typedef const ConfigValue ConstConfigValue;
+typedef ConfigValueStruct* ConfigValueArgs;
 typedef ConfigValue* ConfigValueResult;
 
 struct ConfigHandleObject;
 typedef ConfigHandleObject* ConfigHandle;
-
-enum {
-	CD_TYPE_NULL, CD_TYPE_FALSE, CD_TYPE_TRUE, CD_TYPE_NUMBER, CD_TYPE_STRING,
-	CD_TYPE_ARRAY, CD_TYPE_OBJECT, CD_TYPE_UNDEFINED, CD_TYPE_HANDLE
-};
 
 typedef union
 {
@@ -92,6 +115,7 @@ typedef union
 } ConfigPrimitiveValue;
 
 typedef void(*cd_handle_dealloc)(ConfigHandle handle);
+
 
 
 /* This function can be used by the plugin to query for editor API. */

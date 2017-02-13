@@ -34,32 +34,32 @@ namespace PLUGIN_NAMESPACE
 		static void shutdown_async(GetEditorApiFunction get_editor_api);
 
 		// Function to test arguments and result passing.
-		static ConfigData* test(ConfigData **args, int num);
+		static ConfigValue test(ConfigValueArgs args, int num);
 
 		// Functions to test handles without deallocator
-		static ConfigData *get_static_handle(ConfigData **args, int num);
-		static ConfigData *test_static_handle(ConfigData **args, int num);
+		static ConfigValue get_static_handle(ConfigValueArgs args, int num);
+		static ConfigValue test_static_handle(ConfigValueArgs args, int num);
 
 		// Functions to test handles that rely on a deallocator, i.e. will be destroyed when the javascript object is garbage collected
-		static ConfigData *get_dynamic_handle(ConfigData **args, int num);
-		static ConfigData *test_dynamic_handle(ConfigData **args, int num);
+		static ConfigValue get_dynamic_handle(ConfigValueArgs args, int num);
+		static ConfigValue test_dynamic_handle(ConfigValueArgs args, int num);
 		static void delete_dynamic_handle(void *handle);
 
 		// Test logging api
-		static ConfigData* test_logging(ConfigData **args, int num);
+		static ConfigValue test_logging(ConfigValueArgs args, int num);
 
 		// Test eval api
-		static ConfigData* test_eval(ConfigData **args, int num);
+		static ConfigValue test_eval(ConfigValueArgs args, int num);
 
 		// Test editor api v2
-		static ConfigData* test_api_v2(ConfigData **args, int num, GetEditorApiFunction get_editor_api);
+		static ConfigValue test_api_v2(ConfigValueArgs args, int num, GetEditorApiFunction get_editor_api);
 
 		// Test query api
-		static ConfigData* test_query_api(ConfigData **args, int num, GetEditorApiFunction get_editor_api);
+		static ConfigValue test_query_api(ConfigValueArgs args, int num, GetEditorApiFunction get_editor_api);
 
 	private:
 		static void *config_data_reallocator(void *ud, void *ptr, int osize, int nsize, const char *file, int line);
-		static cd_loc copy_config_data_value(ConfigData *orig_cd, cd_loc orig_loc, ConfigData *new_cd);
+		static ConfigValue copy_config_data_value(ConfigValue orig_cd, ConfigValue new_cd);
 
 		static EditorApi *_api;
 		static ConfigDataApi *_cd_api;

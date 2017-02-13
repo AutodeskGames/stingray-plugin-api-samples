@@ -26,8 +26,6 @@ Global
 		{D2E628D4-1F08-3EC3-9CCB-8CC120A81733}.Release|Win32.ActiveCfg = Release|Win32
 		{D2E628D4-1F08-3EC3-9CCB-8CC120A81733}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
 	GlobalSection(ExtensibilityAddIns) = postSolution
