@@ -225,16 +225,16 @@ define([
 
             Promise.all([
                 testArgs(),
-                //testArgs(null),
-                //testArgs(undefined),
-                //testArgs(false),
-                //testArgs(true),
-                //testArgs(3.14159),
-                //testArgs('bob'),
-                //testArgs([0, 2, 'bob']),
-                //testArgs({name: 'bob', value: 42}),
-                //testArgs([[1, 2], 3, {name: 4}]),
-                //testArgs(null, false, true, 3.14159, 'bob', [1, 2, 3], {name: 'bob', value: 42})
+                testArgs(null),
+                testArgs(undefined),
+                testArgs(false),
+                testArgs(true),
+                testArgs(3.14159),
+                testArgs('bob'),
+                testArgs([0, 2, 'bob']),
+                testArgs({name: 'bob', value: 42}),
+                testArgs([[1, 2], 3, {name: 4}]),
+                testArgs(null, false, true, 3.14159, 'bob', [1, 2, 3], {name: 'bob', value: 42})
             ]).then(function (passed) {
                 let failed = passed.some(function (pass) {
                     return !pass;
