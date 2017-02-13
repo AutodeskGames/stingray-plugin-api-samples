@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="G:\stingray-plugin-api-samples\samples\editor_native_code\build\vc14\win32\CMakeFiles\3.7.2\CompilerIdC\CMakeCCompilerId.c">
+      <Filter>build\vc14\win32\CMakeFiles\3.7.2\CompilerIdC</Filter>
+    </ClCompile>
+    <ClCompile Include="G:\stingray-plugin-api-samples\samples\editor_native_code\build\vc14\win32\CMakeFiles\3.7.2\CompilerIdCXX\CMakeCXXCompilerId.cpp">
+      <Filter>build\vc14\win32\CMakeFiles\3.7.2\CompilerIdCXX</Filter>
+    </ClCompile>
+    <ClCompile Include="G:\stingray-plugin-api-samples\samples\editor_native_code\src\editor_native_plugin.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="G:\stingray-plugin-api-samples\samples\editor_native_code\src\editor_native_plugin.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="build\vc14">
+      <UniqueIdentifier>{5DF5AF25-D4F4-3941-8C21-2AA8A563CE58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win32">
+      <UniqueIdentifier>{CACED82B-2C9C-3A2C-BF21-9CFB1E4F13E6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win32\CMakeFiles">
+      <UniqueIdentifier>{0E7FEE56-2327-3576-B1E4-9AD26B05921F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win32\CMakeFiles\3.7.2">
+      <UniqueIdentifier>{66B7E59B-EC87-3BEE-BDE7-5DCA0D5360EF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{E062FB15-CE23-37FF-8896-5A5B538A6C5E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build">
+      <UniqueIdentifier>{B345F867-2E1A-3641-8AF1-9F25D3241081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win32\CMakeFiles\3.7.2\CompilerIdC">
+      <UniqueIdentifier>{941F0208-FF84-3643-9100-13195C20540B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win32\CMakeFiles\3.7.2\CompilerIdCXX">
+      <UniqueIdentifier>{F79A9B96-B72E-35F0-8819-0A36081DB55B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
