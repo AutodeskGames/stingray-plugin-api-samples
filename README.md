@@ -25,6 +25,10 @@ You'll find a pre-generated Visual Studio solution in a subfolder under each plu
 Like the Stingray engine, the plug-in solutions have three different build configurations: Debug, Dev and Release. You'll probably want to use the Dev configuration for most uses, though you can use any plugin config alongside any engine config.
 For more information on the difference between these configs, see [the help on building the engine](http://help.autodesk.com/view/Stingray/ENU/?guid=__source_access_building_build_modes_html).
 
+## Online examples
+
+##### [Stingshot](https://github.com/jschmidt42/stingshot) - Take screenshots inside Stingray Editor removing gizmos in current viewport.
+
 ## More resources
 
 The [Stingray SDK Help](http://help-staging.autodesk.com/view/Stingray/ENU/?contextId=SDK_HOME) is a great companion while you're working on a new plugin.
