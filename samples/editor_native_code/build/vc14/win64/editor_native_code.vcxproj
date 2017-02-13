@@ -1,40 +1,40 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
+    <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Dev|Win32">
+    <ProjectConfiguration Include="Dev|x64">
       <Configuration>Dev</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
+    <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{D2E628D4-1F08-3EC3-9CCB-8CC120A81733}</ProjectGUID>
+    <ProjectGUID>{1C7C7F47-6FDD-3DB5-B3FC-39E77FB2E21F}</ProjectGUID>
     <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
-    <Platform>Win32</Platform>
+    <Platform>x64</Platform>
     <ProjectName>editor_native_code</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dev|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
@@ -49,26 +49,26 @@
   <PropertyGroup Label="UserMacros" />
     <PropertyGroup>
       <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)..\..\..\build\vc14\win32\bin\Debug\</OutDir>
-      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">editor_native_code.dir\Debug\</IntDir>
-      <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">editor_native_code_w32_debug</TargetName>
-      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.dll</TargetExt>
-      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">$(SolutionDir)..\..\..\build\vc14\win32\bin\Dev\</OutDir>
-      <IntDir Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">editor_native_code.dir\Dev\</IntDir>
-      <TargetName Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">editor_native_code_w32_dev</TargetName>
-      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">.dll</TargetExt>
-      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">false</LinkIncremental>
-      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">true</GenerateManifest>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\..\..\build\vc14\win32\bin\Release\</OutDir>
-      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">editor_native_code.dir\Release\</IntDir>
-      <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">editor_native_code_w32_release</TargetName>
-      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.dll</TargetExt>
-      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\..\..\build\vc14\win64\bin\Debug\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">editor_native_code.dir\Debug\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">editor_native_code_w64_debug</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Dev|x64'">$(SolutionDir)..\..\..\build\vc14\win64\bin\Dev\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Dev|x64'">editor_native_code.dir\Dev\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Dev|x64'">editor_native_code_w64_dev</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Dev|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Dev|x64'">false</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Dev|x64'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\..\..\build\vc14\win64\bin\Release\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">editor_native_code.dir\Release\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">editor_native_code_w64_release</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
     </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\..\..\stingray_sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
@@ -102,14 +102,14 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalOptions> /machine:X86 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /machine:x64 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)../../../build/vc14/win32/lib/Debug/editor_native_code_w32_debug.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)../../../build/vc14/win64/lib/Debug/editor_native_code_w64_debug.lib</ImportLibrary>
       <ModuleDefinitionFile>$(SolutionDir)../../../src/exports.def</ModuleDefinitionFile>
-      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc14/win32/bin/Debug/editor_native_code_w32_debug.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc14/win64/bin/Debug/editor_native_code_w64_debug.pdb</ProgramDataBaseFile>
       <SubSystem>Windows</SubSystem>
       <Version></Version>
     </Link>
@@ -117,7 +117,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dev|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\..\..\stingray_sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Dev/</AssemblerListingLocation>
@@ -155,16 +155,16 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalOptions> /machine:X86 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /machine:x64 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)../../../build/vc14/win32/lib/Dev/editor_native_code_w32_dev.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)../../../build/vc14/win64/lib/Dev/editor_native_code_w64_dev.lib</ImportLibrary>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <ModuleDefinitionFile>$(SolutionDir)../../../src/exports.def</ModuleDefinitionFile>
       <OptimizeReferences>true</OptimizeReferences>
-      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc14/win32/bin/Dev/editor_native_code_w32_dev.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc14/win64/bin/Dev/editor_native_code_w64_dev.pdb</ProgramDataBaseFile>
       <SubSystem>Windows</SubSystem>
       <Version></Version>
     </Link>
@@ -172,7 +172,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\..\..\stingray_sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
@@ -210,16 +210,16 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalOptions> /machine:X86 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /machine:x64 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)../../../build/vc14/win32/lib/Release/editor_native_code_w32_release.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)../../../build/vc14/win64/lib/Release/editor_native_code_w64_release.lib</ImportLibrary>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <ModuleDefinitionFile>$(SolutionDir)../../../src/exports.def</ModuleDefinitionFile>
       <OptimizeReferences>true</OptimizeReferences>
-      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc14/win32/bin/Release/editor_native_code_w32_release.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(SolutionDir)../../../build/vc14/win64/bin/Release/editor_native_code_w64_release.pdb</ProgramDataBaseFile>
       <SubSystem>Windows</SubSystem>
       <Version></Version>
     </Link>
@@ -230,11 +230,23 @@
   <ItemGroup>
     <ClInclude Include="$(SolutionDir)..\..\..\src\editor_native_plugin.h" />
     <ClCompile Include="$(SolutionDir)..\..\..\build\vc14\win32\CMakeFiles\3.7.2\CompilerIdC\CMakeCCompilerId.c" >
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Dev|Win32'">CompileAsC</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
+      <ObjectFileName>$(IntDir)/build/vc14/win32/CMakeFiles/3.7.2/CompilerIdC/CMakeCCompilerId.c.obj</ObjectFileName>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Dev|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
     </ClCompile>
-    <ClCompile Include="$(SolutionDir)..\..\..\build\vc14\win32\CMakeFiles\3.7.2\CompilerIdCXX\CMakeCXXCompilerId.cpp"  />
+    <ClCompile Include="$(SolutionDir)..\..\..\build\vc14\win64\CMakeFiles\3.7.2\CompilerIdC\CMakeCCompilerId.c" >
+      <ObjectFileName>$(IntDir)/CMakeFiles/3.7.2/CompilerIdC/CMakeCCompilerId.c.obj</ObjectFileName>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Dev|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)..\..\..\build\vc14\win32\CMakeFiles\3.7.2\CompilerIdCXX\CMakeCXXCompilerId.cpp" >
+      <ObjectFileName>$(IntDir)/build/vc14/win32/CMakeFiles/3.7.2/CompilerIdCXX/CMakeCXXCompilerId.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)..\..\..\build\vc14\win64\CMakeFiles\3.7.2\CompilerIdCXX\CMakeCXXCompilerId.cpp" >
+      <ObjectFileName>$(IntDir)/CMakeFiles/3.7.2/CompilerIdCXX/CMakeCXXCompilerId.cpp.obj</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="$(SolutionDir)..\..\..\src\editor_native_plugin.cpp"  />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(SolutionDir)..\..\..\build\vc14\win32\CMakeFiles\3.7.2\CompilerIdC\CMakeCCompilerId.c">
+      <Filter>build\vc14\win32\CMakeFiles\3.7.2\CompilerIdC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)..\..\..\build\vc14\win64\CMakeFiles\3.7.2\CompilerIdC\CMakeCCompilerId.c">
+      <Filter>build\vc14\win64\CMakeFiles\3.7.2\CompilerIdC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)..\..\..\build\vc14\win32\CMakeFiles\3.7.2\CompilerIdCXX\CMakeCXXCompilerId.cpp">
+      <Filter>build\vc14\win32\CMakeFiles\3.7.2\CompilerIdCXX</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)..\..\..\build\vc14\win64\CMakeFiles\3.7.2\CompilerIdCXX\CMakeCXXCompilerId.cpp">
+      <Filter>build\vc14\win64\CMakeFiles\3.7.2\CompilerIdCXX</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)..\..\..\src\editor_native_plugin.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(SolutionDir)..\..\..\src\editor_native_plugin.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="build\vc14\win32\CMakeFiles\3.7.2\CompilerIdC">
+      <UniqueIdentifier>{AA700CA7-56F3-317F-AD72-747E4F6B2F4E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win32\CMakeFiles\3.7.2\CompilerIdCXX">
+      <UniqueIdentifier>{0910881D-8337-3C41-9EF9-908065A1D8AD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win32">
+      <UniqueIdentifier>{5E4EB2A7-C865-344E-B3C0-554728495A48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win64">
+      <UniqueIdentifier>{1B69749C-D27D-3293-9593-3D25A84876AC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win64\CMakeFiles\3.7.2\CompilerIdC">
+      <UniqueIdentifier>{7AABBA68-93FE-3FC8-B002-52DA9511965B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win64\CMakeFiles\3.7.2\CompilerIdCXX">
+      <UniqueIdentifier>{724988D9-8AFC-3A49-BAF8-B6591337A6E4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{E6A318AF-F5ED-3B76-B7CA-EE1C618E0D3E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build">
+      <UniqueIdentifier>{F28D2535-6CA8-3566-963B-05CD100119EB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14">
+      <UniqueIdentifier>{8FA210B2-4500-3DB4-8383-A0047A485B42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win32\CMakeFiles">
+      <UniqueIdentifier>{8B17283C-8E25-39C7-A5EB-99A4E9440FF9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win64\CMakeFiles">
+      <UniqueIdentifier>{C5C58F39-6D39-30AB-94FC-E93ED9C82DC3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win64\CMakeFiles\3.7.2">
+      <UniqueIdentifier>{A089E1D0-B25D-312A-BF34-120B5148D933}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\vc14\win32\CMakeFiles\3.7.2">
+      <UniqueIdentifier>{BD0D0706-3A69-32FA-B547-613BC1874466}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
