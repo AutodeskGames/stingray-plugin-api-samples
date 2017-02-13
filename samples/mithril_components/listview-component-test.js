@@ -1,4 +1,4 @@
-/*global window, console, define, alert, $*/
+/* globals chance */
 define([
     'lodash',
     '3rdparty/chancejs/chance.min',
@@ -59,7 +59,7 @@ define([
     }
 
     // ListView definition
-    var columns = [{
+    var columns = [{ // jshint ignore:line
         uniqueId: "isReadonly",
         type: m.column.icon,
         image: iconPath("icon_read_only.svg"),
@@ -122,7 +122,7 @@ define([
         sortable: false
     }];
 
-    var badges = [{
+    var badges = [{ // jshint ignore:line
         tooltip: "Compiling",
         faIcon: "fa-dot-circle-o",
         property: "isCompiling",
@@ -140,17 +140,17 @@ define([
         position: m.badgePosition.bottomRight
     }];
 
-    var randomize = function () {
+    var randomize = function () { // jshint ignore:line
         listView.items = generateItems(parseInt(nbItems()) || 0);
     };
 
-    var toggleFirst = function () {
+    var toggleFirst = function () { // jshint ignore:line
         var col = listView.layoutOptions.getColumnByUniqueId("isReadonly");
         col.hidden = !col.hidden;
         listView.layoutOptions.notify();
     };
 
-    var onContextMenu = function (type, obj, currentSelection, event) {
+    var onContextMenu = function (type, obj, currentSelection/*, event*/) { // jshint ignore:line
         switch (type) {
             case m.contextMenuType.item:
                 var item = obj;
@@ -163,24 +163,22 @@ define([
                         item.needsSaving = !item.needsSaving;
                     }],
                     ["Toggle Selected (" + currentSelection.length + ")", {}, function () {
-                        for (var i in currentSelection) {
+                        for (var i in currentSelection) { // jshint ignore:line
                             currentSelection[i].needsSaving = !currentSelection[i].needsSaving;
                         }
                     }]
                 ];
-                break;
 
             case m.contextMenuType.background:
                 return [
                     ["General option ...", {}, function () {
-                        alert("General option...");
+                        console.debug("General option...");
                     }]
                 ];
-                break;
         }
     };
 
-    var dropConfig = {
+    var dropConfig = { // jshint ignore:line
         dropTypes: ['file', ListViewNewComponent.mimeType],
         dragOver: function (event, dropData) {
             if (dropData) {
@@ -199,8 +197,8 @@ define([
             } else {
                 var listViewDragData = dropData[ListViewNewComponent.mimeType].items[0];
                 if (listViewDragData.items) {
-                    var msg = 'Dropped ' + listViewDragData.items.length + ' item(s).\n\n';
-                    for (var i=0; i < listViewDragData.items.length; i++) {
+                    let msg = 'Dropped ' + listViewDragData.items.length + ' item(s).\n\n';
+                    for (let i=0; i < listViewDragData.items.length; i++) {
                         msg += listViewDragData.items[i].name + '; ';
                     }
                     alert(msg);
@@ -209,7 +207,7 @@ define([
         }
     };
 
-    var itemsDropConfig = {
+    var itemsDropConfig = { // jshint ignore:line
         dropTypes: ['file', ListViewNewComponent.mimeType],
         dropData: function (event, context) {
             return context.item;
@@ -241,8 +239,8 @@ define([
             } else {
                 var listViewDragData = dropData[ListViewNewComponent.mimeType].items[0];
                 if (listViewDragData.items) {
-                    var msg = 'Dropped ' + listViewDragData.items.length + ' item(s).\n\n';
-                    for (var i=0; i < listViewDragData.items.length; i++) {
+                    let msg = 'Dropped ' + listViewDragData.items.length + ' item(s).\n\n';
+                    for (let i=0; i < listViewDragData.items.length; i++) {
                         msg += listViewDragData.items[i].name + '; ';
                     }
                     alert(msg);
@@ -251,8 +249,8 @@ define([
         }
     };
 
-    var itemsDragConfig = {
-        dragData: function (event, context) {
+    var itemsDragConfig = { // jshint ignore:line
+        dragData: function (/*event, context*/) {
             return "externalData";
         }
     };
@@ -284,17 +282,17 @@ define([
         filterCaseSensitive: false,
         onContextMenu: onContextMenu,
         onSelectionChange: function (newSelection, oldSelection) {
-            console.log("Selection changed:", newSelection, oldSelection)
+            console.log("Selection changed:", newSelection, oldSelection);
         },
         onDblClick: function (item, event) {
-            console.log("Double click:", item, event)
+            console.log("Double click:", item, event);
         },
         onLayoutChange: function (layout) {
             console.log("Layout changed:", layout);
         },
         onLoad: function () {
             console.log("Listview loaded:");
-            listView.setSelection(items[Math.floor(Math.random() * items.length)]);
+            listView.setSelection(items[Math.floor(Math.random() * items.length)]); // jshint ignore:line
         },
         droppable: true,
         dropConfig: dropConfig,
@@ -332,7 +330,7 @@ define([
         placeholder: 'Search here'
     };
 
-    var nbItems = m.helper.notifyingModel(m.prop(200), function (currentValue, oldValue) {
+    var nbItems = m.helper.notifyingModel(m.prop(200), function (/*currentValue, oldValue*/) {
         randomize();
     });
 

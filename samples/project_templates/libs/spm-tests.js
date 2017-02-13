@@ -16,9 +16,15 @@ define(function (require) {
                 let spmAssetPackage = packages.find(p => p.name === selectedName);
                 if (!spmAssetPackage)
                     return Promise.reject('Invalid package selection');
-                return spmRegistry.downloadPackage(spmAssetPackage.id, spmAssetPackage.downloadUrl, (loaded, total) => {
-                    console.log('Downloading...', (loaded / total) * 100);
-                }).then(downloadedPackageFiles => downloadedPackageFiles.map(f => Plugin.load(f)));
+                return spmRegistry.downloadPackage(spmAssetPackage)
+                    .then(downloadedPackageFiles => downloadedPackageFiles.map(f => Plugin.load(f)))
+                    .catch(err => {
+                        if (err instanceof spmRegistry.httpClient.RequestCanceled) {
+                            console.warn('Download canceled', err);
+                            return Promise.reject('canceled');
+                        }
+                        throw err;
+                    });
             });
         })
         .then(assetPackages => Promise.series(assetPackages, p => spmRegistry.installPackage(p)))
