@@ -73,6 +73,7 @@ SRV/
 *.vtcache
 *.tmp_proj
 *.dmp
+*.zip
 TestResult.xml
 
 # Auto-generated solution files
@@ -150,13 +151,17 @@ make_args.txt
 .cache/
 
 # Visual Studio Code config
+
 .vscode
 .settings
 jsconfig.json
 
 # Webstorm project folder
+
 .idea/
 
 # Core files managed by SPM
+
 core/stingray_renderer/environments/midday/skydome.dds
 core/stingray_renderer/environments/midday/specular_cube.dds
+
