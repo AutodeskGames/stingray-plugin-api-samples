@@ -2,9 +2,10 @@ define([
     'app',
     'stingray',
     'lodash',
+    'common/math-utils',
     'common/file-system-utils',
     'services/plugin-service'
-], function (app, stingray, _, fileUtils, pluginService) {
+], function (app, stingray, _, mathUtils, fileUtils, pluginService) {
     'use strict';
 
     app.service('plugin', function () {
@@ -16,7 +17,7 @@ define([
     app.controller('editorNativeCode', function ($scope, plugin) {
         $scope.pluginLoaded = false;
         $scope.pluginAsyncLoaded = false;
-        let path = fileUtils.join(plugin.info.$dir, '\\src\\x64\\Debug\\editor_native_plugin.dll');
+        let path = fileUtils.join(plugin.info.$dir, '\\build\\vc14\\win64\\Debug\\editor_native_code_w64_debug.dll');
         let pluginId = '';
         let pluginAsyncId = '';
 
@@ -63,12 +64,17 @@ define([
         };
 
         $scope.test = function () {
+            function withEpsilon (lhs, rhs) {
+                if (_.isNumber(lhs) && _.isNumber(rhs))
+                    return mathUtils.nearlyEqual(lhs, rhs, mathUtils.epsilon32);
+            }
+
             function testArgs() {
                 let args = Array.prototype.slice.call(arguments, 0);
                 let result = window.editorNativeTest.test.apply(window.editorNativeTest, args);
 
                 if (args.length === 0) {
-                    if (result !== undefined) {
+                    if (!_.isNil(result)) {
                         console.error('Expected undefined but got ' + JSON.stringify(result) + ' instead.');
                         return false;
                     }
@@ -82,7 +88,7 @@ define([
 
                 let success = true;
                 for (let i = 0; i < args.length; ++i) {
-                    if (!_.isEqual(result[i], args[i])) {
+                    if (!_.isEqualWith(result[i], args[i], withEpsilon)) {
                         console.error('Argument ' + i + ': expected ' + JSON.stringify(args[i]) + ' but received ' + JSON.stringify(result[i]));
                         success = false;
                     }
@@ -97,7 +103,6 @@ define([
 
             let success = true;
             success = success && testArgs();
-            success = success && testArgs(undefined);
             success = success && testArgs(false);
             success = success && testArgs(true);
             success = success && testArgs(1);
@@ -113,7 +118,7 @@ define([
             if (success) {
                 console.warn('All tests passed');
             } else {
-                console.warn('Tests failed.');
+                console.error('Tests failed.');
             }
         };
 
@@ -143,7 +148,7 @@ define([
             if (success)
                 console.warn('Handle test passed!');
             else
-                console.warn('Handle test failed!');
+                console.error('Handle test failed!');
         };
 
         $scope.testLogging = function () {
@@ -182,8 +187,7 @@ define([
             function testArgs(firstArg) {
                 let args = Array.prototype.slice.call(arguments, 0);
                 let completeArgs = ['test_query'].concat(Array.prototype.slice.call(arguments, 0));
-                return stingray.hostExecute.apply(stingray, completeArgs).then(function (result) {
-                    let parsedResult = JSON.parse(result);
+                return stingray.hostExecute.apply(stingray, completeArgs).then(function (parsedResult) {
                     parsedResult = parsedResult[0];
                     if (args.length === 0) {
                         if (!_.isEqual(parsedResult, {type: 'test_query'})) {
@@ -236,7 +240,7 @@ define([
                     return !pass;
                 });
                 if (failed) {
-                    console.warn('Async Tests Failed!');
+                    console.error('Async Tests Failed!');
                 } else {
                     console.warn('Async Tests passed!');
                 }

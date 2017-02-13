@@ -9,6 +9,4 @@ In order to run these batch files, you'll need to have CMake installed.
 
 *	**generate_vc14.bat** Re-generates the Visual Studio 2015 32-bit and 64-bit solutions for a single plugin, which you specify by adding the name of folder that contains the plugin as a command line argument.
 
-*	**CMakeUtils.txt** Helper file for CMake, used to generate solutions for all plugin samples.
-
 Note that you don't need CMake installed in order to build the plugins. You only need it if you want to re-generate the solutions.

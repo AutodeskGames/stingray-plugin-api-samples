@@ -4,8 +4,6 @@
 extern "C" {
 #endif
 
-#include "config_data.h"
-
 /*
 	This file defines the Plugin API for the editor.
 
@@ -51,14 +49,15 @@ enum EditorPluginApiID
 /* Editor API_IDs for the different services the editor offers. */
 enum EditorApiID {
 	EDITOR_API_ID = 0,
-	EDITOR_API_V2_ID,
-	CONFIGDATA_API_ID,
-	EDITOR_LOGGING_API_ID,
-	EDITOR_EVAL_API_ID,
-	EDITOR_ASYNC_API_ID
+	EDITOR_API_V2_ID = 1,
+	CONFIGDATA_API_ID = 2,
+	EDITOR_LOGGING_API_ID = 3,
+	EDITOR_EVAL_API_ID = 4,
+	EDITOR_ASYNC_API_ID = 5
 #if defined(_FUNCTIONAL_)
-	, EDITOR_API_V3_ID
+	, EDITOR_API_V3_ID = 6
 #endif
+	, EDITOR_ALLOCATOR_ID = 7
 };
 
 enum ProcessId
@@ -66,6 +65,58 @@ enum ProcessId
 	BROWSER = 0,
 	RENDERER
 };
+
+#define CONFIG_DATA_VALUE_TYPE_BITS 3
+#define CONFIG_DATA_VALUE_TAG_BITS 29
+
+enum {
+	CD_TYPE_NULL = 0,
+	CD_TYPE_BOOL = 1,
+	CD_TYPE_NUMBER = 2,
+	CD_TYPE_STRING = 3,
+	CD_TYPE_HANDLE = 4,
+	CD_TYPE_ARRAY = 5,
+	CD_TYPE_OBJECT = 6,
+	CD_TYPE_TRUE, CD_TYPE_FALSE,
+	CD_TYPE_UNDEFINED = CD_TYPE_NULL
+};
+
+
+struct ConfigValueStruct {
+	struct {
+		unsigned type : CONFIG_DATA_VALUE_TYPE_BITS;
+		unsigned tag : CONFIG_DATA_VALUE_TAG_BITS;
+	};
+
+	union {
+		double _number;
+		bool _bool;
+	};
+
+	void* reserved;
+};
+typedef struct ConfigValueStruct* ConfigValue;
+typedef const ConfigValue ConstConfigValue;
+typedef ConfigValueStruct* ConfigValueArgs;
+typedef ConfigValue* ConfigValueResult;
+
+struct ConfigHandleObject;
+typedef ConfigHandleObject* ConfigHandle;
+
+typedef union
+{
+	int boolean;
+	int int32;
+	double number;
+	const char* str;
+	ConfigHandle handle;
+	ConfigValue obj;
+	ConfigValue arr;
+} ConfigPrimitiveValue;
+
+typedef void(*cd_handle_dealloc)(ConfigHandle handle);
+
+
 
 /* This function can be used by the plugin to query for editor API. */
 typedef void *(*GetEditorApiFunction)(unsigned api);
@@ -109,7 +160,7 @@ struct EditorPluginAsyncApi
 
 struct EditorApi
 {
-	typedef ConfigData* (*NativeFunctionHandler)(ConfigData **args, int num);
+	typedef ConfigValue (*NativeFunctionHandler)(ConfigValueArgs args, int num);
 
 	/* Used to register a synchronous function that is executed on the render thread. Can be called using namespace.YOURFUNCTIONNAME(); */
 	bool (*register_native_function)(const char *ns, const char *name, NativeFunctionHandler handler);
@@ -120,7 +171,7 @@ struct EditorApi
 
 struct EditorApi_V2
 {
-	typedef ConfigData* (*NativeFunctionHandler)(ConfigData **args, int num, GetEditorApiFunction get_editor_api);
+	typedef ConfigValue (*NativeFunctionHandler)(ConfigValueArgs args, int num, GetEditorApiFunction get_editor_api);
 
 	/* Used to register a synchronous function that is executed on the render thread. Can be called using namespace.YOURFUNCTIONNAME(); */
 	bool (*register_native_function)(const char *ns, const char *name, NativeFunctionHandler handler);
@@ -131,7 +182,7 @@ struct EditorApi_V2
 
 struct EditorAsyncApi
 {
-	typedef ConfigData* (*AsyncFunctionHandler)(ConfigData **args, int num, GetEditorApiFunction get_editor_api);
+	typedef ConfigValue (*AsyncFunctionHandler)(ConfigValueArgs args, int num, GetEditorApiFunction get_editor_api);
 
 	/* Used to register an asynchronous function that is executed on the browser thread. Can be called using stingray.hostExecute('your-function-name', ...); */
 	bool (*register_async_function)(const char *name, AsyncFunctionHandler handler);
@@ -146,43 +197,55 @@ struct EditorAsyncApi
 	bool (*unregister_async_gui_function)(const char *name);
 };
 
+struct EditorAllocatorObject;
+typedef EditorAllocatorObject* EditorAllocator;
+typedef void * (*EditorAllocateHandler) (size_t size, size_t align, void *param);
+typedef size_t (*EditorDeallocateHandler) (void* ptr, void *param);
+
+struct EditorAllocatorApi
+{
+	EditorAllocator (*system_default)();
+	EditorAllocator (*create)(const char* name, EditorAllocateHandler alloc_handler, EditorDeallocateHandler dealloc_handler, void* user_data);
+	void (*destroy)(EditorAllocator);
+};
+
 struct ConfigDataApi
 {
-	struct ConfigData *(*make)(cd_realloc realloc, void *ud, int config_size, int stringtable_size);
-	void (*free)(struct ConfigData *cd);
+	ConfigValue (*make)(EditorAllocator allocator);
+	ConfigValue(*from_type)(int type, ConfigPrimitiveValue data, EditorAllocator allocator);
+	void (*free)(ConfigValue value);
+	ConfigValue(*nil)();
 
-	cd_loc (*root)(struct ConfigData *cd);
-	int (*type)(struct ConfigData *cd, cd_loc loc);
-	double (*to_number)(struct ConfigData *cd, cd_loc loc);
-	const char *(*to_string)(struct ConfigData *cd, cd_loc loc);
-	void *(*to_handle)(struct ConfigData *cd, cd_loc);
-	cd_handle_dealloc (*to_handle_deallocator)(struct ConfigData *cd, cd_loc loc);
+	int (*type)(ConfigValue value);
+	int (*to_bool)(ConfigValue value);
+	double (*to_number)(ConfigValue value);
+	const char *(*to_string)(ConfigValue value);
+	ConfigHandle (*to_handle)(ConfigValue value);
+	cd_handle_dealloc (*to_handle_deallocator)(ConfigValue value);
 
-	int (*array_size)(struct ConfigData *cd, cd_loc arr);
-	cd_loc (*array_item)(struct ConfigData *cd, cd_loc arr, int i);
+	void(*set_bool)(ConfigValue value, int b);
+	void(*set_number)(ConfigValue value, double n);
+	void(*set_string)(ConfigValue value, const char *s);
+	void(*set_handle)(ConfigValue value, ConfigHandle handle, cd_handle_dealloc deallocator);
+	ConfigValueArgs(*set_array)(ConfigValue value, int size);
+	void(*set_object)(ConfigValue value);
 
-	int (*object_size)(struct ConfigData *cd, cd_loc object);
-	cd_loc (*object_keyloc)(struct ConfigData *cd, cd_loc object, int i);
-	const char *(*object_key)(struct ConfigData *cd, cd_loc object, int i);
-	cd_loc (*object_value)(struct ConfigData *cd, cd_loc object, int i);
-	cd_loc (*object_lookup)(struct ConfigData *cd, cd_loc object, const char *key);
+	int (*array_size)(ConfigValue arr);
+	ConfigValue (*array_item)(ConfigValue arr, int i);
+	ConfigValue (*push)(ConfigValue array, ConfigValue item);
 
-	cd_loc (*null)();
-	cd_loc (*undefined)();
-	cd_loc (*false_value)();
-	cd_loc (*true_value)();
-	cd_loc (*add_number)(struct ConfigData **cd, double n);
-	cd_loc (*add_string)(struct ConfigData **cd, const char *s);
-	cd_loc (*add_handle)(struct ConfigData **cd, void *handle, cd_handle_dealloc deallocator);
-	cd_loc (*add_array)(struct ConfigData **cd, int size);
-	cd_loc (*add_object)(struct ConfigData **cd, int size);
-	void (*set_root)(struct ConfigData *cd, cd_loc root);
-
-	void (*push)(struct ConfigData **cd, cd_loc array, cd_loc item);
-	void (*set)(struct ConfigData **cd, cd_loc object, const char *key, cd_loc value);
-	void (*set_loc)(struct ConfigData **cd, cd_loc object, cd_loc key, cd_loc value);
-
-	cd_realloc (*allocator)(struct ConfigData *cd, void **user_data);
+	int (*object_size)(ConfigValue object);
+	const char *(*object_key)(ConfigValue object, int i);
+	ConfigValue(*object_value)(ConfigValue object, int i);
+	ConfigValue(*object_lookup)(ConfigValue object, const char *key);
+	ConfigValue(*add_nil)(ConfigValue object, const char *key);
+	ConfigValue(*add_bool)(ConfigValue object, const char *key, int b);
+	ConfigValue(*add_number)(ConfigValue object, const char *key, double n);
+	ConfigValue(*add_string)(ConfigValue object, const char *key, const char* s);
+	ConfigValue(*add_object)(ConfigValue object, const char *key, ConfigValue o);
+	ConfigValue(*add_array)(ConfigValue object, const char *key, ConfigValue a);
+	ConfigValue(*get)(ConfigValue object, const char *key);
+	ConfigValue(*set)(ConfigValue object, const char *key, ConfigValue value);
 };
 
 struct EditorLoggingApi
@@ -206,7 +269,7 @@ struct EditorEvalApi
 	 * If an exception is thrown and `exception` is not null, it will be populated with an object
 	 * {'message': exception_message}.
 	 */
-	bool (*eval)(const char *js_code, ConfigData *return_value, ConfigData *exception);
+	bool (*eval)(const char *js_code, ConfigValue return_value, ConfigValue exception);
 };
 
 #ifdef __cplusplus
@@ -217,7 +280,7 @@ struct EditorEvalApi
 #if defined(__cplusplus) && defined(_FUNCTIONAL_)
 struct EditorApi_V3
 {
-	typedef std::function<ConfigData*(ConfigData **, int)> NativeFunctionHandler;
+	typedef std::function<ConfigValue(ConfigValueArgs, int)> NativeFunctionHandler;
 
 	/* Used to register a synchronous function that is executed on the render thread. Can be called using namespace.YOURFUNCTIONNAME(); */
 	bool (*register_native_function)(const char *ns, const char *name, NativeFunctionHandler handler);

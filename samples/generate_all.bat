@@ -12,7 +12,7 @@ pushd %GENERATE_ROOT_FOLDER%
 FOR /D %%G IN ("*") DO (
 	if exist %%G\CMakeLists.txt (
 		set project_name=%%G
-		call :generate_engine_plugin
+		call :generate_plugin_solution
 	)
 )
 
@@ -20,10 +20,10 @@ popd
 
 goto :end
 
-:generate_engine_plugin
+:generate_plugin_solution
 	setlocal enableExtensions enableDelayedExpansion
 
-	echo Generating project for engine plugin "%project_name%"
+	echo Generating project for plugin "%project_name%"
 	call %GENERATE_ROOT_FOLDER%generate_vc14.bat %project_name%
 	echo,
 
