@@ -1,0 +1,38 @@
+// About
+//
+name = "Node Editor Plugin Test"
+description = "Test Node Editor Component."
+version = "1.0.0"
+author = {
+	name = "Stingray"
+	company = "Autodesk inc."
+	url = "https://git.autodesk.com/gameware/stingray.git"
+}
+
+// Configuration
+//
+platforms = ["win64"]
+config = {
+}
+
+// Extensions
+//
+extensions = {
+	menus = [{
+			path = "Developer/Node Editor Test"
+			view = {
+				type = "panel"
+				path = "node-editor-test"
+				title = "Node Editor Test"
+				width = 800
+				height = 600
+			}
+			order = 302
+		}]
+}
+
+// Dependencies
+//
+dependencies = {
+	"stingray" = ">=1.8"
+}

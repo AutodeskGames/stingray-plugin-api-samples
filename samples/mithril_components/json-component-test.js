@@ -1,4 +1,3 @@
-/*global window, console, define, alert, $*/
 define([
     'lodash',
     'components/mithril-ext',
