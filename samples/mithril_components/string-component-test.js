@@ -80,7 +80,7 @@ define([
 
 
     function buttonDiv(title, onClick) {
-        return m('div', {class: "button", style:'margin: 5px'}, [
+        return m('div', {className: "button", style:'margin: 5px'}, [
             "Model Value:",
             textModel(),
             ButtonComponent.component({text: title, onclick: onClick})
@@ -88,14 +88,14 @@ define([
     }
 
     function stringDiv(title, model) {
-        return m('div', {class: "", style:'margin: 5px'}, [
+        return m('div', {className: "", style:'margin: 5px'}, [
             title,
             TextboxComponent.component(model)
         ]);
     }
 
     function numberTextBoxDiv() {
-        return m('div', {class: "", style:'margin: 5px'}, [
+        return m('div', {className: "", style:'margin: 5px'}, [
             "Number textbox",
             m('div', {style:"margin: 5px;"}, [
                 TextboxComponent.component(number1Args),
@@ -121,7 +121,7 @@ define([
 
     var MithrilApp = {
         view: function () {
-            return m('div', {class:"stingray-panel fullscreen", style:"margin: 5px;"}, [
+            return m('div', {className: "stingray-panel fullscreen", style:"margin: 5px;"}, [
                 buttonDiv("Randomize Model!",randomizeModel),
                 stringDiv("On Change String", onChangeStringArgs),
                 stringDiv("Live String", liveStringArgs),

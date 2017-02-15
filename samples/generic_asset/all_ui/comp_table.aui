@@ -1,0 +1,11 @@
+"$version" = "0.1.0"
+Table = {
+	0 = {
+		String = "Ping"
+		Vector = [0 1 2]
+	}
+	100 = {
+		String = "Pong"
+		Vector = [3 4 5]
+	}
+}

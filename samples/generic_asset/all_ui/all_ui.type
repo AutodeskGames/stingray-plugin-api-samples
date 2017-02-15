@@ -125,6 +125,14 @@ types = {
                     step = 1
                 }
             }
+            Table = {
+                key = ":string"
+                type = ":dict"
+                value = "#table_row"
+                editor = {
+                    control = "Table"
+                }
+            }
             Switch = {
                 type = ":switch"
                 on = ":value"
@@ -211,4 +219,17 @@ types = {
             }
         }
     }
+    table_row = {
+        type = ":struct"
+		fields = {
+			String = {
+				type = ":string"
+				default = "New Row"
+			}
+			Vector = {
+				type = "core/types/vector3"
+			}
+		}
+    }
 }
+

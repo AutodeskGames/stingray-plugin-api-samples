@@ -1,9 +1,9 @@
-/*global window, console, define, alert, $*/
+/* global define*/
 define([
     'components/mithril-ext',
     'components/spinner',
     'common/math-utils',
-], function ( m, Spinner, mathUtils) {
+], function ( m, Spinner) {
     'use strict';
 
     document.title = "Mithril Spinner";
@@ -58,7 +58,7 @@ define([
             return m('div', {class:"spinner-component-test stingray-panel fullscreen"}, [
                 spinnerDiv("Mithril Spinner",spinnerArgs),
                 spinnerDiv("Mithril Spinner DISABLED", disabledSpinnerArgs),
-                spinnerDiv("Mithril Spinner ANGLE",AngleSpinnerArgs)
+                spinnerDiv("Mithril Spinner ANGLE", AngleSpinnerArgs)
             ]);
         }
     };

@@ -11,7 +11,7 @@ define([
 
     domTools.loadCss("core/css/widgets/json-component.css");
 
-    var dataTemplate = {
+    let dataTemplate = {
         capacity: 10,
         casts_shadows: false,
         float_channels: [
@@ -31,24 +31,26 @@ define([
     };
 
     function genBigData (nbTimes) {
-        var bigData = {};
+        let bigData = {};
 
-        var cloneData = function (value, key) {
-            var newKey = key + '_' + i;
+        let cloneData = function (value, key, i) {
+            let newKey = key + '_' + i;
             bigData[newKey] = _.clone(value, true);
         };
 
-        for (var i = 0; i < nbTimes; ++i) {
-            _.each(dataTemplate, cloneData);
+        for (let i = 0; i < nbTimes; ++i) {
+            _.each(dataTemplate, (value, key) => {
+                cloneData(value, key, i);
+            });
         }
         return bigData;
     }
 
-    var nbTemplate = 100;
-    var data = genBigData(nbTemplate);
+    let nbTemplate = 100;
+    let data = genBigData(nbTemplate);
 
     function countProperty(obj) {
-        var count = 0;
+        let count = 0;
         if (_.isArray(obj) || _.isPlainObject(obj)) {
             _.each(obj, function (value) {
                 count += countProperty(value);
@@ -60,16 +62,16 @@ define([
         return count;
     }
 
-    var templatePropCount = countProperty(dataTemplate);
+    let templatePropCount = countProperty(dataTemplate);
 
-     var propTotal = m.prop(nbTemplate * templatePropCount);
+    let propTotal = m.prop(nbTemplate * templatePropCount);
 
-    var argsNormal = {
-        jsonObj: _.extend({jsonCompType: normal}, data),
+    let normal = m.prop(true);
+    let argsNormal = {
+        jsonObj: data,
         defaultCollapsed: false
     };
 
-    var normal = m.prop(true);
 
     function jsonDiv() {
         return m('div', { class:"panel-fill panel-flex-horizontal fullscreen"}, [
@@ -79,7 +81,7 @@ define([
         ]);
     }
 
-    var MithrilApp = {
+    let MithrilApp = {
         view: function () {
             return m('div', {class: "json-component-test stingray-panel fullscreen"}, [
                 m('div', {class: "NbProperties"}, [

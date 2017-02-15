@@ -15,6 +15,7 @@ author = {
 }
 
 // Configuration
+// Configuration
 //
 platforms = ["win64"]
 config = {
@@ -64,20 +65,6 @@ extensions = {
                 }
             }
             {
-                path = "Developer/Mithril/memoization test"
-                view = {
-                    type = "panel"
-                    path = "mithril/memoization-test"
-                }
-            }
-            {
-                path = "Developer/Mithril/property editor"
-                view = {
-                    type = "panel"
-                    path = "property-editor-test"
-                }
-            }
-            {
                 path = "Developer/Mithril/property editor from type"
                 view = {
                     type = "panel"
@@ -89,20 +76,6 @@ extensions = {
                 view = {
                     type = "panel"
                     path = "resizer-layout-test"
-                }
-            }
-            {
-                path = "Developer/Mithril/table"
-                view = {
-                    type = "panel"
-                    path = "property-table"
-                }
-            }
-            {
-                path = "Developer/Mithril/carousel"
-                view = {
-                    type = "panel"
-                    path = "property-carousel-test"
                 }
             }
             {
