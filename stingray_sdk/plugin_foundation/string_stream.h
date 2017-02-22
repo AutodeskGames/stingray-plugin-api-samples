@@ -15,6 +15,7 @@ public:
 	StringStream &operator<<(const char *s);
 	StringStream &operator<<(wchar_t *s);
 	StringStream &operator<<(const wchar_t *s);
+	StringStream &operator<<(double d);
 	StringStream &operator<<(float f);
 	StringStream &operator<<(int i);
 	StringStream &operator<<(unsigned u);

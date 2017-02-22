@@ -1,0 +1,222 @@
+// About
+//
+name = "Test Action Extensions"
+description = "Test actions extensions."
+version = "0.2.0"
+
+// Extensions
+//
+extensions = {
+    actions = [
+        {
+            name = "test-compile-data"
+            type = "js"
+            script = """
+                require(['services/engine-service'], function (engineService) {
+                    engineService.enqueueDataCompile().then(console.warn.bind(console, 'Compilation requested.'));
+                }.bind(this));
+            """
+        }
+    ]
+
+    contextual_actions = [
+        {
+            type = "asset"
+            label = "Open In Sublime"
+
+            when = {
+                extension = "*"
+            }
+
+            do = [
+                {
+                    type = "process"
+                    path = "\"C:\\Program Files\\Sublime Text 3\\sublime_text.exe\" \"$project\\$1\""
+                }
+            ]
+        }
+
+        {
+            label = "Checkout"
+            type = "asset"
+
+            when = {
+                extension = "*"
+                predicate = {
+                    type = "js"
+                    module = "module-actions"
+                    function_name = "isReadOnly"
+                }
+            }
+
+            do = [
+                {
+                    type = "js"
+                    module = "module-actions"
+                    function_name = "checkout"
+                }
+            ]
+        }
+
+        {
+            name = "open-in-paint"
+            label = "Open in Paint"
+            type = "asset"
+
+            when = {
+                extension = [
+                    "png"
+                    "jpg"
+                ]
+            }
+
+            do = [
+                {
+                    type = "process"
+                    path = "\"C:\\Program Files\\paint.net\\PaintDotNet.exe\" \"$project\\$1\""
+                }
+            ]
+        }
+
+        {
+            type = "level_object"
+            label = "Duplicate"
+
+            when = {
+                category = "*"
+            }
+
+            when_multi_select = {
+                type = "js"
+                script = "true"
+            }
+
+            do = [
+                {
+                    type = "js"
+                    module = "module-actions"
+                    function_name = "duplicateLevelObjects"
+                }
+            ]
+        }
+    ]
+
+    menus = [
+        {
+            path = "Developer/Test Actions"
+        }
+        {
+            path = "Developer/Test Actions/Compile"
+            action = "test-compile-data"
+        }
+
+        {
+            path = "Developer/Test Actions/Print Message"
+            action = {
+                type = "js"
+                script = "console.log('[NOTICE] Hello version 8');"
+            }
+        }
+
+        {
+            path = "Developer/Test Actions/Spawn terrain"
+            action = {
+                type = "lua"
+                script = """
+                    print("Spawning terrain")
+                    local level_editor_viewport_window = ({next(Editor:all_level_editing_viewports())})[2]
+                    print("Level viewport", level_editor_viewport_window)
+                    if level_editor_viewport_window then
+                        local terrain_make_result = Terrain.make(stingray.Vector3(0,0,0), stingray.Quaternion.identity(),
+                            1, {x = 1024, y = 1024, z = 64}, level_editor_viewport_window)
+                        print("Terrain spawned", terrain_make_result)
+                    end
+                """
+            }
+        }
+
+        { path = "Developer/Test Actions/Invalid Actions" }
+
+        {
+            path = "Developer/Invalid Actions/no function_name defined"
+            action = {
+                type = "js"
+                module = "module-actions"
+            }
+        }
+
+        {
+            path = "Developer/Test Actions/Invalid Actions/module not resolvable"
+            action = {
+                type = "js"
+                module = "invalid_ref"
+            }
+        }
+
+        {
+            path = "Developer/Test Actions/Copy file in directory with spaces"
+            action = {
+                type = "copy"
+                source = "README.md"
+                destination = "$project/dir with spaces/"
+            }
+        }
+
+        {
+            path = "Developer/Test Actions/Copy as new file"
+            action = {
+                type = "copy"
+                source = "README.md"
+                destination = "$project/dir_without_spaces/copied_$source_file_name"
+            }
+        }
+
+        {
+            path = "Developer/Test Actions/Copy directory at root"
+            action = {
+                type = "copy"
+                source = "./"
+                destination = "$project"
+            }
+        }
+
+        {
+            path = "Developer/Test Actions/Copy directory with folder"
+            action = {
+                type = "copy"
+                source = "./"
+                destination = "$project/$source_file_name"
+            }
+        }
+    ]
+
+    templates = [{
+         type = "asset"
+         name = "Print template creation args"
+         default_name = "test"
+         create = [{
+             type = "js"
+             script = """
+                console.warn('Template creation script arguments \r\n' + [
+                    'editor', '$editor', '\r\n',
+                    'project', '$project', '\r\n',
+                    'name', '$name', '\r\n',
+                    'output_dir', '$output_dir', '\r\n',
+                    'type', '$type', '\r\n',
+                    'first arg', '$1', '\r\n',
+                    'second arg', '$2']
+                    .concat(Array.prototype.slice(arguments, 0))
+                    .join(' '));
+             """
+         }]
+    }, {
+        type = "asset"
+        name = "Create a test ini asset"
+        default_name = "test"
+        create = [{
+            type = "js"
+            module = "module-actions" // name of the javascript file without .js
+            function_name = "createIniAsset"
+        }]
+    }]
+}

@@ -1,0 +1,17 @@
+!.gitkeep
+tmp
+.DS_Store
+.idea
+*.zip
+
+**/build/**/CMakeFiles
+**/build/**/cmake_install.cmake
+**/build/**/CMakeCache.txt
+**/build/**/*.suo
+**/build/**/*.vcxproj.user
+**/build/**/*.opensdf
+**/build/**/*.sdf
+**/build/**/*.dir
+**/build/**/Debug
+**/build/**/Dev
+**/build/**/Release

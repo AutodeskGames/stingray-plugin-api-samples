@@ -1,0 +1,14 @@
+
+"*" = ["*"]
+ADD_PACKAGES = ["core/animation/boot.package"]
+config = ["core/performance_hud/performance_hud"]
+font = ["core/performance_hud/debug"]
+lua = ["core/appkit/lua/*"]
+material = ["core/performance_hud/gui"]
+physics_properties = ["global"]
+shading_environment = []
+unit = [
+	"core/editor_slave/units/skydome/skydome"
+	"core/units/camera"
+	"core/appkit/units/*"
+]

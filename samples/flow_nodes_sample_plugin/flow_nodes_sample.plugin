@@ -1,0 +1,32 @@
+// About
+name = "Flow Nodes Sample"
+description = "A sample plugin extending flow nodes with runtime extension."
+version = "1.7.0"
+keywords = ["plugin", "flow"]
+author = {
+	name = "Stingray"
+	company = "Autodesk inc."
+	url = "https://gamedev.autodesk.com/"
+}
+license = {
+	type = "Autodesk"
+	url = "http://www.autodesk.com/company/legal-notices-trademarks/software-license-agreements"
+}
+repository = {
+	type = "git"
+	url = "https://git.autodesk.com/gameware/stingray.git"
+}
+
+// Extensions
+extensions = {
+	resources = [
+		{
+			path = "flow_nodes_sample"
+		}
+	]
+}
+// Dependencies
+platforms = ["win64"]
+dependencies = {
+	"stingray" = ">=1.7"
+}

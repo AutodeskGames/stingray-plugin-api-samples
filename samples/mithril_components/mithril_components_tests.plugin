@@ -1,0 +1,147 @@
+// About
+//
+name = "Test Mithril Components"
+description = "Stingray Mithril Components Performance and Usability Tests."
+version = "1.0.1"
+changelog = {
+    "1.0.1": """
+        - Listview component updated to latest version.
+    """
+}
+author = {
+	name = "Stingray"
+	company = "Autodesk inc."
+	url = "https://git.autodesk.com/gameware/stingray.git"
+}
+
+// Configuration
+//
+platforms = ["win64"]
+config = {
+}
+
+// Modules
+//
+modules = []
+
+// Extensions
+//
+extensions = {
+    menus = [
+            {
+                path = "Developer/Mithril/accordion"
+                view = {
+                    type = "panel"
+                    path = "accordion-component-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/checkbox"
+                view = {
+                    type = "panel"
+                    path = "checkbox-component-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/choice"
+                view = {
+                    type = "panel"
+                    path = "choice-component-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/json component"
+                view = {
+                    type = "panel"
+                    path = "json-component-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/listview"
+                view = {
+                    type = "panel"
+                    path = "listview-component-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/memoization test"
+                view = {
+                    type = "panel"
+                    path = "mithril/memoization-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/property editor"
+                view = {
+                    type = "panel"
+                    path = "property-editor-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/property editor from type"
+                view = {
+                    type = "panel"
+                    path = "property-editor-from-type"
+                }
+            }
+            {
+                path = "Developer/Mithril/resizer"
+                view = {
+                    type = "panel"
+                    path = "resizer-layout-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/table"
+                view = {
+                    type = "panel"
+                    path = "property-table"
+                }
+            }
+            {
+                path = "Developer/Mithril/carousel"
+                view = {
+                    type = "panel"
+                    path = "property-carousel-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/slider"
+                view = {
+                    type = "panel"
+                    path = "slider-component-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/spinner"
+                view = {
+                    type = "panel"
+                    path = "spinner-component-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/string"
+                view = {
+                    type = "panel"
+                    path = "string-component-test"
+                }
+            }
+            {
+                path = "Developer/Mithril/tree view"
+                view = {
+                    type = "panel"
+                    path = "tree-view-test"
+                }
+            }
+            {
+                path = "Developer/Mithril"
+                order = 10000
+            }
+   ]
+}
+
+// Dependencies
+//
+dependencies = {
+	"stingray" = ">=1.5"
+}
