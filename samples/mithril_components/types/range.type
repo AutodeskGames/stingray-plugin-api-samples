@@ -1,0 +1,14 @@
+export = "#range"
+types = {
+    range = {
+        type = ":struct"
+        editor = {
+            label = "Range"
+        }
+        fields = {
+            Range = {
+                type = "core/types/range"
+            }
+        }
+    }
+}

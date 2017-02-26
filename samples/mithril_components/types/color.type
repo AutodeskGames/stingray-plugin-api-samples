@@ -1,0 +1,14 @@
+export = "#color"
+types = {
+    color = {
+        type = ":struct"
+        editor = {
+            label = "Color"
+        }
+        fields = {
+            Color = {
+                type = "core/types/color"
+            }
+        }
+    }
+}

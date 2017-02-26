@@ -1,0 +1,14 @@
+export = "#number"
+types = {
+    number = {
+        type = ":struct"
+        editor = {
+            label = "Number"
+        }
+        fields = {
+            Number = {
+                type = ":number"
+            }
+        }
+    }
+}
