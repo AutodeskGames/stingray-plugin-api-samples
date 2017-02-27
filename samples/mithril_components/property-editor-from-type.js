@@ -23,22 +23,26 @@ define(function (require) {
     let typeFileData = m.prop('');
     let pdoc = null;
     let typeDefinition = null;
+    let propertyEditorKey = 0;
 
     let helperArgs = null;
     function jsonData () {
         return JSON.stringify(pdoc.dataModel, null, 4);
     }
 
-    function load (pathToLoad) {
-        let getFilePathPromise = pathToLoad ? Promise.resolve(pathToLoad) : hostService.openNativeDialog(hostService.DialogType.OpenFile, '', 'Select type file', '.type', true);
-        return getFilePathPromise.then(function (path) {
+    function selectFile (pathToLoad) {
+        return hostService.openNativeDialog(hostService.DialogType.OpenFile, '', 'Select type file', '.type', true).then(path => {
             if (!path) {
                 return;
             }
 
-            typeFile = path;
-            return reloadTypeFile(typeFileData);
+            return load(path);
         });
+    }
+
+    function load (path) {
+        typeFile = path;
+        return reloadTypeFile(typeFileData);
     }
 
      function saveAndReloadTypeFile () {
@@ -77,18 +81,18 @@ define(function (require) {
                     pdoc.addCategory(label, {}, value, typeDesc);
                 });
 
-                pdoc.on('propertyChanged', function (path, value, property, category, doc) {
-                    console.log('onPropertyChanged', path, value, property, category, doc);
+                pdoc.on('valueChanged', function (path, value) {
+                    console.log('onPropertyChanged', path, value);
                     m.utils.redraw();
                 });
 
-                pdoc.on('categoryEnabled', function (path, value, category, doc) {
-                    console.log('onCategoryEnabled', path, value, category, doc);
+                pdoc.on('categoryEnabled', function (path, value) {
+                    console.log('onCategoryEnabled', path, value);
                 });
 
                 helperArgs = {
                     document: pdoc,
-                    key: stingray.guid()
+                    key: propertyEditorKey++
                 };
                 return fileSystemService.readFile(typeFile).then(function (content) {
                     typeFileData(content);
@@ -144,7 +148,7 @@ define(function (require) {
         view: function () {
             return m('div', { className: 'property-editor-from-type-component-test stingray-panel fullscreen', style: 'display: flex; flex-direction: column; height: 100%' }, [
                 m('div', { className: 'toolbar' }, [
-                    ButtonComponent.component({text: 'Load Type', onclick: load}),
+                    ButtonComponent.component({text: 'Load Type', onclick: selectFile}),
                     'Type File:  ',
                     m('a', {href: typeFile, onclick: gotoLink}, typeFile)
             ]),
@@ -153,7 +157,7 @@ define(function (require) {
         }
     };
 
-    projectService.relativePathToAbsolute('core/types/all_properties.type').then(filePath => {
+    projectService.relativePathToAbsolute('property_types/all_properties.type').then(filePath => {
         return load(filePath).then(() => {
             // Initialize the application
             m.mount($('#mithril-root')[0], m.component(MithrilApp, {}));
