@@ -1,0 +1,42 @@
+// About
+//
+name = "Dream Stats"
+description = "Gather scene statistics."
+version = "1.8.0"
+changelog = {
+    "1.8.0": "Initial version"
+}
+author = {
+    name = "Jonathan Schmidt & Sebastien Phaneuf"
+    email = "jonathan.schmidt@autodesk.com"
+    url = "https://www.stingrayengine.com"
+}
+keywords = ["editor", "plugin", "utility"]
+thumbnail = "thumbnail.png"
+
+// Extensions
+//
+ extensions = {
+
+    actions = [
+        { name = "dream-stats-scan-assets" type = "js" module = "dream-stats-actions" function_name = "runAndShowStats"}
+    ]
+
+    views = [
+        { type = "panel" name = "dream-stats" path = "dream-stats" title = "Dream Stats" }
+    ]
+
+    menus = [
+        { path = "Developer/Dream Stats" }
+        { path = "Developer/Dream Stats/Run" order = 2 shortcut = "Alt+F11" action = "dream-stats-scan-assets"}
+        { path = "Window/Dream Stats" order = 336 view = "dream-stats" }
+    ]
+
+    resources = [
+        { path = "./" }
+    ]
+}
+
+dependencies = {
+    "stingray": ">=1.8.0"
+}

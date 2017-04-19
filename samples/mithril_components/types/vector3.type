@@ -1,0 +1,14 @@
+export = "#vector3"
+types = {
+    vector3 = {
+        type = ":struct"
+        editor = {
+            label = "Vector3"
+        }
+        fields = {
+            Vector3 = {
+                type = "core/types/vector3"
+            }
+        }
+    }
+}

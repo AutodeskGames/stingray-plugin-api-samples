@@ -1,4 +1,3 @@
-/*global window, console, define, alert, $*/
 define([
     'app',
     'lodash',
@@ -60,7 +59,6 @@ define([
                 console.log(dockingUtils.getSize(document.getParentTab().iframe, true, true));
                 showMessage('Tab size and position printed to console.');
             }
-        }
-
+        };
     });
 });

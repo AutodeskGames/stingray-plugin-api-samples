@@ -33,6 +33,7 @@
 *.filters text eol=crlf
 *.sln text eol=crlf
 *.vcxproj text eol=crlf
+*.vcxproj.filters merge=union
 
 # Binary files
 

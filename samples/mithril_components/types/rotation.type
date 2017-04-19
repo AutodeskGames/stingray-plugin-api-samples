@@ -1,0 +1,14 @@
+export = "#rotation"
+types = {
+    rotation = {
+        type = ":struct"
+        editor = {
+            label = "Rotation"
+        }
+        fields = {
+            Vector3 = {
+                type = "core/types/rotation"
+            }
+        }
+    }
+}

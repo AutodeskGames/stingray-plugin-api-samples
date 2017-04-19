@@ -1,66 +1,64 @@
-define([
-    'properties/mithril-property-ext',
-    'properties/property-editor-utils',
-    'properties/property-document',
-    'properties/property-editor-component',
-    'components/dom-tools',
-    'components/button',
-    'services/data-type-service',
-    'services/host-service',
-    'services/file-system-service'
-], function (m, props, PropertyDocument, PropertyEditor, domTools, ButtonComponent) {
+define(function (require) {
     'use strict';
 
+    const stingray = require('stingray');
+    const m = require('properties/mithril-property-ext');
+    const PropertyDocument = require('properties/property-document');
+    const PropertyEditor = require('properties/property-editor-component');
+    const domTools = require('components/dom-tools');
+    const ButtonComponent = require('components/button');
+    const projectService = require('services/project-service');
     const dataTypeService = require('services/data-type-service');
     const hostService = require('services/host-service');
     const fileSystemService = require('services/file-system-service');
 
-    document.title = "Mithril Property Editor from type";
+    document.title = 'Mithril Property Editor from type';
 
-    domTools.loadCss("core/css/widgets/json-component.css");
-    domTools.loadCss("core/css/widgets/property-editor.css");
+    domTools.loadCss('core/css/widgets/json-component.css');
+    domTools.loadCss('core/css/widgets/property-editor.css');
 
-    const propertyTextAreaId = "PropertyTextArea";
+    const propertyTextAreaId = 'PropertyTextArea';
 
-    var editorContext = props.makeEditorContext();
+    let typeFile = 'No type file loaded';
+    let typeFileData = m.prop('');
+    let pdoc = null;
+    let typeDefinition = null;
+    let propertyEditorKey = 0;
 
-    var typeFile = "No type file loaded";
-    var typeFileData = m.prop("");
-    var pdoc = null;
-    var typeDefinition = null;
-
-    var helperArgs = null;
-    var jsonData = function () {
+    let helperArgs = null;
+    function jsonData () {
         return JSON.stringify(pdoc.dataModel, null, 4);
-    };
+    }
 
-    var load = function () {
-        return hostService.openNativeDialog(hostService.DialogType.OpenFile, "", "Select type file", '.type', true).then(function (path) {
+    function selectFile (pathToLoad) {
+        return hostService.openNativeDialog(hostService.DialogType.OpenFile, '', 'Select type file', '.type', true).then(path => {
             if (!path) {
                 return;
             }
 
-            typeFile = path;
-            reloadTypeFile(typeFileData);
+            return load(path);
         });
-    };
+    }
 
-     var saveAndReloadTypeFile = function () {
+    function load (path) {
+        typeFile = path;
+        return reloadTypeFile(typeFileData);
+    }
+
+     function saveAndReloadTypeFile () {
         if (!typeFile)
             return;
 
-        fileSystemService.writeFile(typeFile, typeFileData()).then(function () {
-            reloadTypeFile();
+        return fileSystemService.writeFile(typeFile, typeFileData()).then(function () {
+            return reloadTypeFile();
         });
-    };
+    }
 
-    var reloadTypeFile = function () {
+    function reloadTypeFile () {
         if (!typeFile)
             return;
 
-        var toLoadFile = typeFile;
-
-        dataTypeService.clear();
+        let toLoadFile = typeFile;
         return dataTypeService.resolveTypeFile(toLoadFile).then(function (typeDefinitionArgs) {
             if (!typeDefinitionArgs) {
                 typeDefinition = null;
@@ -71,11 +69,11 @@ define([
                 typeFile = toLoadFile;
                 typeDefinition = typeDefinitionArgs;
 
-                pdoc = new PropertyDocument(dataTypeService);
+                pdoc = new PropertyDocument();
 
                 _.each(typeDefinitionArgs.types, function (typeDesc, typeKey) {
-                    var value = dataTypeService.createDefaultValue(typeDesc);
-                    var label = typeKey;
+                    let value = dataTypeService.createDefaultValue(typeDesc);
+                    let label = typeKey;
                     if (typeDesc.editor && typeDesc.editor.label) {
                         label = typeDesc.editor.label;
                     }
@@ -83,34 +81,36 @@ define([
                     pdoc.addCategory(label, {}, value, typeDesc);
                 });
 
-                pdoc.on('propertyChanged', function (path, value, property, category, doc) {
-                    console.log('onPropertyChanged', path, value, property, category, doc);
+                pdoc.on('valueChanged', function (path, value) {
+                    console.log('onPropertyChanged', path, value);
                     m.utils.redraw();
                 });
 
-                pdoc.on('categoryEnabled', function (path, value, category, doc) {
-                    console.log('onCategoryEnabled', path, value, category, doc);
+                pdoc.on('categoryEnabled', function (path, value) {
+                    console.log('onCategoryEnabled', path, value);
                 });
 
-                helperArgs = props.editor(editorContext, pdoc.getCategories());
-                helperArgs.key = stingray.guid();
-                fileSystemService.readFile(typeFile).then(function (content) {
+                helperArgs = {
+                    document: pdoc,
+                    key: propertyEditorKey++
+                };
+                return fileSystemService.readFile(typeFile).then(function (content) {
                     typeFileData(content);
                     m.utils.redraw();
                 });
             }
         });
-    };
+    }
 
-    var saveJsonOutput = function () {
-        return hostService.openNativeDialog(hostService.DialogType.SaveFile, "", "Select value file to save", "", true).then(function (path) {
+    function saveJsonOutput () {
+        return hostService.openNativeDialog(hostService.DialogType.SaveFile, '', 'Select value file to save', '', true).then(function (path) {
             if (!path || !pdoc) {
                 return;
             }
 
             fileSystemService.writeJSON(path, pdoc.dataModel);
         });
-    };
+    }
 
     function gotoLink(event) {
         event.stopPropagation();
@@ -119,46 +119,50 @@ define([
     }
 
     function panelDiv() {
-        return m('div', {class: "panel-fill panel-flex-horizontal fullscreen", style: 'overflow: auto;'}, [
-            m('div', {class: "panel-fill"}, [
-                m('div', { class: "toolbar"}, [
-                    "Type File Content",
-                    ButtonComponent.component({text: "Save and Reload", onclick: saveAndReloadTypeFile}),
-                    ButtonComponent.component({text: "Reload", onclick: reloadTypeFile})
+        return m('div', {className: 'panel-fill panel-flex-horizontal fullscreen', style: 'overflow: auto;'}, [
+            m('div', {className: 'panel-fill'}, [
+                m('div', { className: 'toolbar'}, [
+                    'Type File Content',
+                    ButtonComponent.component({text: 'Save and Reload', onclick: saveAndReloadTypeFile}),
+                    ButtonComponent.component({text: 'Reload', onclick: reloadTypeFile})
                 ]),
-                m('textarea', {class: "panel-fill", style: "width: 100%; height: 100%;", value: typeFileData(), onchange: m.withAttr('value', typeFileData)})
+                m('textarea', {className: 'panel-fill', style: 'width: 100%; height: 100%;', value: typeFileData(), onchange: m.withAttr('value', typeFileData)})
             ]),
-            m('div', {class: "panel-fill", key: helperArgs.key}, [
-                m('div', { class: "toolbar"}, [
-                    "Property Editor"
+            m('div', {className: 'panel-fill', key: helperArgs.key}, [
+                m('div', { className: 'toolbar'}, [
+                    'Property Editor'
                 ]),
                 PropertyEditor.component(helperArgs)
             ]),
-            m('div', {class: "panel-fill"}, [
-                m('div', { class: "toolbar"}, [
-                    "Property Editor",
-                    ButtonComponent.component({text: "Save...", onclick: saveJsonOutput})
+            m('div', {className: 'panel-fill'}, [
+                m('div', { className: 'toolbar'}, [
+                    'Property Editor',
+                    ButtonComponent.component({text: 'Save...', onclick: saveJsonOutput})
                 ]),
-                m('textarea', {class: "panel-fill", style: "width: 100%; height: 100%;", id: propertyTextAreaId, value: jsonData()})
+                m('textarea', {className: 'panel-fill', style: 'width: 100%; height: 100%;', id: propertyTextAreaId, value: jsonData()})
             ])
         ]);
     }
 
-    var MithrilApp = {
+    let MithrilApp = {
         view: function () {
-            return m('div', { class: "property-editor-from-type-component-test stingray-panel fullscreen", style: "display: flex; flex-direction: column; height: 100%" }, [
-                m('div', { class: "toolbar" }, [
-                    ButtonComponent.component({text: "Load Type", onclick: load}),
-                    "Type File:  ",
-                    m("a", {href: typeFile, onclick: gotoLink}, typeFile)
+            return m('div', { className: 'property-editor-from-type-component-test stingray-panel fullscreen', style: 'display: flex; flex-direction: column; height: 100%' }, [
+                m('div', { className: 'toolbar' }, [
+                    ButtonComponent.component({text: 'Load Type', onclick: selectFile}),
+                    'Type File:  ',
+                    m('a', {href: typeFile, onclick: gotoLink}, typeFile)
             ]),
                 m.utils.if(typeDefinition !== null, function(){return panelDiv();})
             ]);
         }
     };
 
-    // Initialize the application
-    m.mount($('#mithril-root')[0], m.component(MithrilApp, {}));
+    projectService.relativePathToAbsolute('property_types/all_properties.type').then(filePath => {
+        return load(filePath).then(() => {
+            // Initialize the application
+            m.mount($('#mithril-root')[0], m.component(MithrilApp, {}));
+        });
+    });
 
     return {
         noAngular: true

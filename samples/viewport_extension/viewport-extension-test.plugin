@@ -20,7 +20,7 @@ config = {
 extensions = {
 	viewports = [
 		{
-			name = "viewport-extension-test"
+			type = "viewport-extension-test"
 			engine = "viewport_behaviors/viewport-extension-behavior.lua"
 			module = "./viewport-extension-controller.js"
 		}

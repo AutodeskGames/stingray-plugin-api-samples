@@ -1172,8 +1172,11 @@ struct RenderInterfaceApi
 	/* Returns the window corresponding to the specified handle. */
 	struct RI_PlatformWindow (*window)(unsigned handle);
 
+	/* Sets render setting values that are applied to the render configuration  */
+	void (*set_render_setting)(const char* name, ConstConfigRootPtr value);
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[31];
 };
 
 /* ----------------------------------------------------------------------
@@ -1640,6 +1643,15 @@ struct FileSystemApi
 
 	/* Destroys a file syste created by create(). */
 	void (*destroy)(struct FileSystem *filesystem);
+
+	/* Returns true if the specfied path is a directory, false if it isn't or if there
+	  was an error. If there was an error, the error message is returned in the error
+	  parameter. */
+	int (*is_directory)(struct FileSystem *filesystem, const char *file, const char **error);
+
+	/* Creates a directory at the specified path. Returns NULL if successful and an
+	   error message otherwise. */
+	const char * (*make_directory)(struct FileSystem *filesystem, const char *file);
 
 	/* Reserved for expansion of the API. */
 	void *reserved[32];
