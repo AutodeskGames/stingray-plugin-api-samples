@@ -9,6 +9,32 @@ define([
     var engineService = require('services/engine-service');
     var engineViewportService = require('services/engine-viewport-service');
     var DefaultViewportController = require('common/default-viewport-controller');
+    var DefaultMouseBehavior = require('common/default-viewport-mouse-behavior');
+
+    class MouseBehavior extends DefaultMouseBehavior {
+        constructor(engineService, engineViewportId, engineViewportInterops) {
+            super(engineService, engineViewportId, engineViewportInterops);
+        }
+
+        mouseDown(e, viewportId, x, y) {
+            let buttonNumber = e.button;
+
+            // this.engineViewportInterops.invoke(viewportId, 'pow', 'viewport_behaviors/bim');
+
+            switch (buttonNumber) {
+                case 0:
+                    this.engineViewportInterops.raise(viewportId, 'pow', x, y);
+                    // this.engineViewportInterops.mouseLeftDown(viewportId, x, y);
+                    break;
+                case 1:
+                    this.engineViewportInterops.mouseMiddleDown(viewportId, x, y);
+                    break;
+                case 2:
+                    this.engineViewportInterops.mouseRightDown(viewportId, x, y);
+                    break;
+            }
+        }
+    }
 
     /**
      * Viewport extension test controller. Implements a viewport extension controller module.
@@ -26,6 +52,8 @@ define([
          */
         setup (engineViewportId, engineViewportInterops) {
             super.setup(engineViewportId, engineViewportInterops);
+
+            this.setMouseBehavior(new MouseBehavior(engineService, engineViewportId, engineViewportInterops));
 
             var off = null;
             return new Promise(function (resolve) {

@@ -1,22 +1,21 @@
 /* globals chance */
 define([
     'lodash',
-    '3rdparty/chancejs/chance.min',
+    './chance.min',
     'common/math-utils',
     'common/keycodes',
     'components/mithril-ext',
     'components/list-view',
     'components/button',
     'components/textbox',
-    'components/choice',
-    'attributes/clearable'
+    'components/choice'
 ], function ( _, Chance, mathUtils, keycodes, m, ListViewNewComponent, ButtonComponent, TextBoxComponent, ChoiceComponent) {
     'use strict';
 
     document.title = "Mithril List View New";
 
     function editorPath(name) {
-        return require.toUrl('stingray-editor') + '/img/' + name;
+        return require.toUrl('core') + '/../plugins/stingray_editor/img/' + name;
     }
 
     function controlPath(name) {
@@ -29,9 +28,9 @@ define([
 
     function generateItem(id) {
         var size = chance.integer({min: 1, max: 20000});
-        var type = chance.pickone(["anim_clip", "animation", "fbx", "folder", "flow_editor", "ini", "level", "lua",
-            "materials", "package", "particles", "physics", "png", "script", "skeleton", "sound", "sound_bank",
-            "texture", "tga", "unit"]);
+        var type = chance.pickone(["fbx", "folder", "flow_editor", "ini", "level", "lua",
+            "package", "physics", "png", "script", "sound", "sound_bank",
+            "tga", "unit"]);
 
         return {
             id: id,
@@ -119,7 +118,10 @@ define([
         header: "Url",
         property: "url",
         defaultWidth: "100",
-        sortable: false
+        sortable: false,
+        onClick: (item, col) => {
+            alert(`${col.header}\n${item.url}`);
+        }
     }];
 
     var badges = [{ // jshint ignore:line
@@ -142,6 +144,8 @@ define([
 
     var randomize = function () { // jshint ignore:line
         listView.items = generateItems(parseInt(nbItems()) || 0);
+        let randomItem = listView.items[Math.floor(Math.random() * listView.items.length)];
+        listView.setSelection(randomItem, randomItem, true); // jshint ignore:line
     };
 
     var toggleFirst = function () { // jshint ignore:line
@@ -259,7 +263,7 @@ define([
         items: [],
         columns: columns,
         layoutOptions: ListViewNewComponent.toLayoutOptions({
-            size: "3",
+            size: 3,
             filter: ""
         }),
         badges: badges,
@@ -269,17 +273,12 @@ define([
         thumbnailProperty: "thumbnail",
         thumbnailTooltipProperty: "type",
         contextClassProperties: ["type", "needsSaving", "isCompiling"],
-        defaultSort: {uniqueId: "name", property: "name", reverse: false },
-        showHeader: true,
-        showLines: false,
+        defaultSort: { uniqueId: "name", property: "name", reverse: false },
         showItemFocus: true,
-        allowSort: true,
         allowMultiSelection: true,
-        allowColumnResize: true,
-        allowArrowNavigation: true,
-        allowTypedNavigation: true,
-        allowClearSelection: false,
-        filterCaseSensitive: false,
+        allowMouseWheelResize: true,
+        allowClearSelection: true,
+        allowHideColumnsMenu: true,
         onContextMenu: onContextMenu,
         onSelectionChange: function (newSelection, oldSelection) {
             console.log("Selection changed:", newSelection, oldSelection);
@@ -289,10 +288,6 @@ define([
         },
         onLayoutChange: function (layout) {
             console.log("Layout changed:", layout);
-        },
-        onLoad: function () {
-            console.log("Listview loaded:");
-            listView.setSelection(items[Math.floor(Math.random() * items.length)]); // jshint ignore:line
         },
         droppable: true,
         dropConfig: dropConfig,
@@ -313,21 +308,6 @@ define([
             '6': 6,
             '7': 7
         };
-    };
-
-    listView.layoutOptions.size = m.helper.modelWithTransformer(m.prop(3), null, function (sizeValue) {
-        return parseInt(sizeValue);
-    });
-
-    listView.layoutOptions.filter = m.prop('');
-
-    var searchStringModel = {
-        model: listView.layoutOptions.filter,
-        liveUpdate: true,
-        focusMe: true,
-        selectOnClick: true,
-        clearable: true,
-        placeholder: 'Search here'
     };
 
     var nbItems = m.helper.notifyingModel(m.prop(200), function (/*currentValue, oldValue*/) {
@@ -359,11 +339,18 @@ define([
                                 ])
                             ]),
                             m('div', {class: "right-section"}, [
-                                "Filter",
-                                TextBoxComponent.component(searchStringModel),
+                                "Filter : ",
+                                m('div', { style: 'width: 100px;' }, TextBoxComponent.component({
+                                    model: listView.layoutOptions.filter,
+                                    liveUpdate: true,
+                                    focusMe: true,
+                                    selectOnClick: true,
+                                    clearable: true,
+                                    placeholder: 'Search here'
+                                })),
                                 m('div', {class:"space1"}),
                                 " Size :",
-                                m('div', {class:"adsk-select fixed", title:"SelectSize"}, [
+                                m('div', { class:"adsk-select fixed", title:"SelectSize" }, [
                                     ChoiceComponent.component({
                                         model:  listView.layoutOptions.size,
                                         id: 'choice1',

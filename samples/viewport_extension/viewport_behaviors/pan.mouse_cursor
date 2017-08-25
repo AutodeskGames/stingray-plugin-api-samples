@@ -1,0 +1,2 @@
+texture = "viewport_behaviors/pan"
+hot_spot = [12 12]

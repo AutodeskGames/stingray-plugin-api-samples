@@ -1,0 +1,2 @@
+texture = "viewport_behaviors/tap_and_go"
+hot_spot = [12 24]

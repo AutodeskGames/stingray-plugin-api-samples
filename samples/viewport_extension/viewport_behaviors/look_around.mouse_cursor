@@ -1,0 +1,2 @@
+texture = "viewport_behaviors/look_around"
+hot_spot = [12 12]
