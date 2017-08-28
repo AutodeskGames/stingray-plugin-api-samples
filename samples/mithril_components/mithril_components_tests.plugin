@@ -32,6 +32,7 @@ extensions = {
             {
                 path = "Developer/Mithril/accordion"
                 view = {
+                    title = "Accordion"
                     type = "panel"
                     path = "accordion-component-test"
                 }
@@ -39,6 +40,7 @@ extensions = {
             {
                 path = "Developer/Mithril/checkbox"
                 view = {
+                    title = "Checkbox"
                     type = "panel"
                     path = "checkbox-component-test"
                 }
@@ -46,6 +48,7 @@ extensions = {
             {
                 path = "Developer/Mithril/choice"
                 view = {
+                    title = "Choice"
                     type = "panel"
                     path = "choice-component-test"
                 }
@@ -53,13 +56,23 @@ extensions = {
             {
                 path = "Developer/Mithril/json component"
                 view = {
+                    title = "JSON"
                     type = "panel"
                     path = "json-component-test"
                 }
             }
             {
+                path = "Developer/Mithril/layouts"
+                view = {
+                    title = "Layouts"
+                    type = "panel"
+                    path = "layouts-test"
+                }
+            }
+            {
                 path = "Developer/Mithril/listview"
                 view = {
+                    title = "List-view"
                     type = "panel"
                     path = "listview-component-test"
                 }
@@ -67,6 +80,7 @@ extensions = {
             {
                 path = "Developer/Mithril/property editor from type"
                 view = {
+                    title = "Property Editor From Type"
                     type = "panel"
                     path = "property-editor-from-type"
                 }
@@ -74,6 +88,7 @@ extensions = {
             {
                 path = "Developer/Mithril/resizer"
                 view = {
+                    title = "Resizer"
                     type = "panel"
                     path = "resizer-layout-test"
                 }
@@ -81,6 +96,7 @@ extensions = {
             {
                 path = "Developer/Mithril/slider"
                 view = {
+                    title = "Slider"
                     type = "panel"
                     path = "slider-component-test"
                 }
@@ -88,6 +104,7 @@ extensions = {
             {
                 path = "Developer/Mithril/spinner"
                 view = {
+                    title = "Spinner"
                     type = "panel"
                     path = "spinner-component-test"
                 }
@@ -95,6 +112,7 @@ extensions = {
             {
                 path = "Developer/Mithril/string"
                 view = {
+                    title = "String"
                     type = "panel"
                     path = "string-component-test"
                 }
@@ -102,6 +120,7 @@ extensions = {
             {
                 path = "Developer/Mithril/tree view"
                 view = {
+                    title = "Tree-view"
                     type = "panel"
                     path = "tree-view-test"
                 }

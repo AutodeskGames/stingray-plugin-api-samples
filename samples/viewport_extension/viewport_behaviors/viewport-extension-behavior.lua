@@ -80,8 +80,18 @@ end
 function ViewportExtensionTestBehavior:key_up(key)
 end
 
+function ViewportExtensionTestBehavior:set_cursor(cursor_resource)
+    Window.set_cursor(cursor_resource)
+end
+
+function ViewportExtensionTestBehavior:pow()
+    print("pow!!!")
+end
+
 function ViewportExtensionTestBehavior:mouse_move(x, y, dx, dy, viewport) end
-function ViewportExtensionTestBehavior:mouse_left_down(x, y, viewport) end
+function ViewportExtensionTestBehavior:mouse_left_down(x, y, viewport)
+    print('mouse down!!!')
+end
 function ViewportExtensionTestBehavior:mouse_left_up(x, y, viewport) end
 function ViewportExtensionTestBehavior:mouse_middle_down(x, y, viewport) end
 function ViewportExtensionTestBehavior:mouse_middle_up(x, y, viewport) end

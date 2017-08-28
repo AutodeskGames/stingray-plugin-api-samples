@@ -4,32 +4,47 @@ define([
     'common/tree-view-utils'
 ], function (m, TreeViewComponent, treeViewUtils) {
     'use strict';
+
     document.title = "Mithril Tree View";
 
     class TreeModel extends treeViewUtils.TreeModel {
         constructor () {
             super("my_tree_root");
         }
+
         onSelectNode (node) {
-            console.warn("node selected: ", node);
+            console.warn(`${node.Name} selected...`);
         }
+
         getNodeActions (node) {
             var menu = [];
-            menu.push(["Do something", {}, function () {
-                console.warn('do something with ', node);
+            menu.push(['Do something', {}, function () {
+                console.warn(`Do something with ${node.Name}`);
             }]);
 
             menu.push(["Do foo", {}, function () {
-                console.warn('do foo with ', node);
+                console.warn(`Do foo with ${node.Name}`);
             }]);
 
             menu.push(null);
 
-            menu.push(["Do else", {}, function () {
-                console.warn('do else with ', node);
+            menu.push(["Do something else", {}, function () {
+                console.warn(`Do something else with ${node.Name}`);
+            }]);
+
+            menu.push(["Rename", {}, function () {
+                node.isEditing = true;
             }]);
 
             return menu;
+        }
+
+        renameNode(node, value) {
+            node.Name = value;
+        }
+
+        stopEditing(node) {
+            node.isEditing = false;
         }
     }
 
@@ -61,14 +76,12 @@ define([
         disableSelectedNodes: true,
         disableAutoExpandSelected: true,
         disableRightClickSelect: true,
-        performanceRedraw: true,
-        containerIdentifier: '.tree-view-container'
+        containerIdentifier: '#tree-view-container'
     };
-
 
     var MithrilApp = {
         view: function () {
-            return m('div', {className: "fullscreen tree-view-container"},
+            return m('div', { id: 'tree-view-container', className: "fullscreen" },
                 TreeViewComponent.component(treeViewConfig)
             );
         }
