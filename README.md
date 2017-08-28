@@ -32,4 +32,4 @@ For more information on the difference between these configs, see [the help on b
 ## More resources
 
 The [Stingray SDK Help](http://help-staging.autodesk.com/view/Stingray/ENU/?contextId=SDK_HOME) is a great companion while you're working on a new plugin.
-It offers some background and conceptual information about creating plugins, and details about the ways your plugin can extend the Stingray environment.
+It offers some background and conceptual information about creating plugins, and details about the ways your plugin can extend the Stingray environment both editor and runtime.
