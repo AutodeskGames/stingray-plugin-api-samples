@@ -74,23 +74,34 @@ end
 
 function ViewportExtensionTestBehavior:activated() end
 
+function set_cursor(resource) 
+    print('Setting cursor from lua: ' .. resource);
+
+    Window.set_cursor(resource)
+    Application.console_send({
+        type = "sync_engine_cursor",
+        cursor = resource
+    })
+
+end
+
 function ViewportExtensionTestBehavior:key_down(key)
+    if (key == 49 ) then
+        set_cursor("viewport_behaviors/pan")
+    elseif (key == 50) then
+        set_cursor("viewport_behaviors/look_around")
+    elseif (key == 51) then
+        set_cursor("viewport_behaviors/orbit")
+    elseif (key == 52) then
+        set_cursor("viewport_behaviors/wall")
+    end
 end
 
 function ViewportExtensionTestBehavior:key_up(key)
 end
 
-function ViewportExtensionTestBehavior:set_cursor(cursor_resource)
-    Window.set_cursor(cursor_resource)
-end
-
-function ViewportExtensionTestBehavior:pow()
-    print("pow!!!")
-end
-
 function ViewportExtensionTestBehavior:mouse_move(x, y, dx, dy, viewport) end
 function ViewportExtensionTestBehavior:mouse_left_down(x, y, viewport)
-    print('mouse down!!!')
 end
 function ViewportExtensionTestBehavior:mouse_left_up(x, y, viewport) end
 function ViewportExtensionTestBehavior:mouse_middle_down(x, y, viewport) end

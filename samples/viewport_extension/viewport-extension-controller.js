@@ -11,6 +11,16 @@ define([
     var DefaultViewportController = require('common/default-viewport-controller');
     var DefaultMouseBehavior = require('common/default-viewport-mouse-behavior');
 
+    function setImageCursor(body, cursorImage) {
+        let imgPath = require.toUrl(`@viewport-extension-test/${cursorImage}.png`);
+        let cursorUrl = `url(${imgPath}), auto`;
+        setCursor(body, cursorUrl);
+    }
+
+    function setCursor(body, cursor) {
+        $(body).css('cursor', cursor);
+    }
+
     class MouseBehavior extends DefaultMouseBehavior {
         constructor(engineService, engineViewportId, engineViewportInterops) {
             super(engineService, engineViewportId, engineViewportInterops);
@@ -18,13 +28,11 @@ define([
 
         mouseDown(e, viewportId, x, y) {
             let buttonNumber = e.button;
-
-            // this.engineViewportInterops.invoke(viewportId, 'pow', 'viewport_behaviors/bim');
+            this.setCameraControlStyle('MayaStyleTurntableRotation');
 
             switch (buttonNumber) {
                 case 0:
-                    this.engineViewportInterops.raise(viewportId, 'pow', x, y);
-                    // this.engineViewportInterops.mouseLeftDown(viewportId, x, y);
+                    this.engineViewportInterops.mouseLeftDown(viewportId, x, y);
                     break;
                 case 1:
                     this.engineViewportInterops.mouseMiddleDown(viewportId, x, y);
@@ -33,6 +41,36 @@ define([
                     this.engineViewportInterops.mouseRightDown(viewportId, x, y);
                     break;
             }
+        }
+
+        keyDown(e, viewportId) {
+            /*
+
+            // When setting the cursor directly from front end:
+
+            if (e.keyCode === 49) {
+                setImageCursor(e.target, 'viewport_behaviors/pan');
+            } else if (e.keyCode === 50) {
+                setImageCursor(e.target, 'viewport_behaviors/look_around');
+            } else if (e.keyCode === 51) {
+                setImageCursor(e.target, 'viewport_behaviors/orbit');
+            } else if (e.keyCode === 52) {
+                setImageCursor(e.target, 'viewport_behaviors/wall');
+            } else if (e.keyCode === 53) {
+                setCursor(e.target, 'default');
+            }
+            */
+
+            super.keyDown(e, viewportId);
+        }
+
+        mouseUp(e, viewportId, x, y) {
+            super.mouseUp(e, viewportId, x, y);
+        }
+
+        mouseMove(e, viewportId, x, y, deltaX, deltaY) {
+            e.preventDefault();
+            this.engineViewportInterops.mouseMove(viewportId, x, y, deltaX, deltaY);
         }
     }
 
@@ -43,6 +81,13 @@ define([
     class ViewportExtensionTestController extends DefaultViewportController {
         constructor() {
             super(engineService);
+
+            // Reacting to cursor change coming from the engine:
+            engineService.addEditorEngineMessageHandler('sync_engine_cursor', (engine, message) => {
+                if (this.htmlElement && this.htmlElement.contentDocument) {
+                    setImageCursor(this.htmlElement.contentDocument.body, message.cursor);
+                }
+            });
         }
         /**
          * Setup the viewport extension controller.
