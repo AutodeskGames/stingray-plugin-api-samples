@@ -224,42 +224,42 @@ define(function (require) {
                                 m('col.pt-col-resizer'),
                                 m('col.column3'),
                                 m('tr.pt-category', [
-                                    m('td', { colspan: 3 }, 'This is a category...')
+                                    m('td', { colspan: 3 }, 'Global Lighting')
                                 ]),
                                 m('tbody', [
                                     m('tr', [
-                                        m('td.l', 'Label'),
+                                        m('td.l', 'Skydome Map'),
                                         m('td.pt-td-resizer'),
                                         m('td.c', m('input', { type: 'text', style: 'width:100%;' }))
                                     ]),
                                     m('tr', [
-                                        m('td.l', 'Label 2'),
+                                        m('td.l', 'Skydome Intensity'),
                                         m('td.pt-td-resizer'),
                                         m('td.c', m('input', { type: 'text', style: 'width:100%;' }))
                                     ]),
                                     m('tr', [
-                                        m('td.l', 'Label 3'),
+                                        m('td.l', 'Global Diffuse Map'),
                                         m('td.pt-td-resizer'),
                                         m('td.c', m('input', { type: 'text', style: 'width:100%;' }))
                                     ]),
                                 ]),
 
                                 m('tr.pt-category', [
-                                    m('td', { colspan: 3 }, 'This is a category...')
+                                    m('td', { colspan: 3 }, 'Screen-Space Ambient Occlusion')
                                 ]),
                                 m('tbody', [
                                     m('tr', [
-                                        m('td.l', 'Label'),
+                                        m('td.l', 'World Space Radius'),
                                         m('td.pt-td-resizer'),
                                         m('td.c', m('input', { type: 'text', style: 'width:100%;' }))
                                     ]),
                                     m('tr.red', [
-                                        m('td.l', 'Label 2'),
+                                        m('td.l', 'Fall Off'),
                                         m('td.pt-td-resizer'),
                                         m('td.c', m('input', { type: 'text', style: 'width:100%;' }))
                                     ]),
                                     m('tr', [
-                                        m('td.l', 'Label 3'),
+                                        m('td.l', 'Surface Offset'),
                                         m('td.pt-td-resizer'),
                                         m('td.c', m('input', { type: 'text', style: 'width:100%;' }))
                                     ]),
