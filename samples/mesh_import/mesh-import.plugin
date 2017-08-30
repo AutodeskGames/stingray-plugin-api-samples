@@ -48,3 +48,10 @@ extensions = {
         }
     ]
 }
+
+// Dependencies
+//
+platforms = ["win64"]
+dependencies = {
+    "stingray" = ">=1.7"
+}
