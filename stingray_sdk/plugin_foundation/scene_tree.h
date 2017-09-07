@@ -6,6 +6,7 @@
 #include "hash_function_string.h"
 #include "vector.h"
 #include "hash_map.h"
+#include "id_string.h"
 
 namespace stingray_plugin_foundation {
 
@@ -98,6 +99,15 @@ struct Node {
 	// every time we want to know whether the transform is mirrored or not.
 	// NOTE: we neither serialize this information but compute it from local once read.
 	bool has_local_mirroring;
+
+	void swap(Node &o) {
+		parent.swap(o.parent);
+		children.swap(o.children);
+		std::swap(local, o.local);
+		geometries.swap(o.geometries);
+		std::swap(viewport_visible, o.viewport_visible);
+		std::swap(has_local_mirroring, o.has_local_mirroring);
+	}
 };
 
 // Structure that represents mesh topology
@@ -166,7 +176,9 @@ struct GeometryInstance {
 // Structure describing a mesh
 struct Geometry {
 	ALLOCATOR_AWARE;
-	Geometry(Allocator &a) : streams(a), indices(a), materials(a), skin(a), primitive_smoothing(a), blend_shape_targets(a), shadow_caster(true) { }
+	Geometry(Allocator &a) : name(a), streams(a), indices(a), materials(a), skin(a), primitive_smoothing(a), blend_shape_targets(a), shadow_caster(true), vertex_position_remapping(a), vertex_normal_remapping(a) { }
+
+	DynamicString name;
 
 	// List of vertex data streams
 	Streams streams;
@@ -212,6 +224,9 @@ struct Geometry {
 
 	// Initial shadow preference (overridden by renderables section of .unit)
 	bool shadow_caster;
+
+	Array<unsigned> vertex_position_remapping;
+	Array<unsigned> vertex_normal_remapping;
 };
 
 // Structure describing a light
@@ -311,20 +326,21 @@ struct SurfaceMaterial {
 	struct Property {
 		ALLOCATOR_AWARE;
 
-		Property(Allocator& a) : n_integers(0), n_floats(0), value_string(a), textures(a) { }
+		Property(Allocator& a) : n_integers(0), n_floats(0), name(a), value_string(a), textures(a) { }
 
 		unsigned n_integers;
 		int integer;
 		unsigned n_floats;
 		float floats[4];
 
+		DynamicString name;
 		DynamicString value_string;
 
 		// reference to textures attached to this property
 		Vector<DynamicString> textures;
 	};
 
-	typedef HashMap<DynamicString, Property, string_hash> Properties;
+	typedef Vector<Property> Properties;
 	Properties properties;
 
 	// number of bones influences [0..4]
@@ -406,7 +422,7 @@ struct SceneImportOptions {
 
 // Structure describing a scene
 struct SceneDatabase {
-	SceneDatabase(Allocator &a) : nodes(a), roots(a), geometry_instances(a), geometries(a), lights(a), cameras(a), skins(a), materials(a), textures(a), lods(a), anim_takes(a), source_path(a), properties(a) {  }
+	SceneDatabase(Allocator &a) : nodes(a), roots(a), geometry_instances(a), geometries(a), lights(a), cameras(a), skins(a), materials(a), textures(a), lods(a), anim_takes(a), source_path(a), properties(a), geometry_entries(a) {  }
 	Allocator &allocator() const {return nodes.allocator();}
 
 	typedef HashMap<DynamicString, Node, string_hash> Nodes;
@@ -416,7 +432,7 @@ struct SceneDatabase {
 	typedef HashMap<DynamicString, GeometryInstance, string_hash> GeometryInstances;
 	GeometryInstances geometry_instances;
 
-	typedef HashMap<DynamicString, Geometry, string_hash> Geometries;
+	typedef Vector<Geometry> Geometries;
 	Geometries geometries;
 
 	typedef HashMap<DynamicString, Light, string_hash> Lights;
@@ -446,6 +462,25 @@ struct SceneDatabase {
 
 	typedef HashMap<DynamicString, DynamicString, string_hash> Properties;
 	Properties properties;
+
+	//////////////////////////////////////////////////////////////////////////
+	typedef HashMap<IdString32, unsigned, idstring_hash> GeometryEntries;
+	GeometryEntries geometry_entries;
+
+	Geometry *find_geometry(const char *name) {
+		const IdString32 id(name);
+		auto it = geometry_entries.find(id);
+		return it != geometry_entries.end() ? &geometries[it->second] : nullptr;
+	}
+
+	Geometry &add_geometry(const char *name) {
+		const IdString32 id(name);
+		geometry_entries.insert(id, geometries.size());
+
+		Geometry &geom = geometries.extend();
+		geom.name = name;
+		return geom;
+	}
 };
 
 

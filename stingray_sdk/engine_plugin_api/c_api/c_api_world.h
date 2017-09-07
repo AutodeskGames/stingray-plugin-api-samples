@@ -8,13 +8,6 @@ extern "C" {
 
 /* Defines what should happen if a linked effect becomes orphaned. Should it
 	be destroyed, stop spawning or be unlinked and continue to spawn. */
-enum WorldCApi_OrphanedParticlePolicy
-{
-	WA_OPP_DESTROY_ORPHAN,
-	WA_OPP_STOP_SPAWNING_ORPHAN,
-	WA_OPP_UNLINK_ORPHAN
-};
-
 struct WorldCApi
 {
 	UnitRef	 (*spawn_unit) (WorldPtr world_pointer, uint64_t unit_name_id64, const char *optional_debug_unit_name, ConstMatrix4x4Ptr transform);
@@ -60,16 +53,17 @@ struct WorldCApi
 
 	ShadingEnvironmentPtr (*create_shading_environment) (WorldPtr world_pointer, uint64_t name_id64, const char *optional_debug_name);
 	ShadingEnvironmentPtr (*create_default_shading_environment) (WorldPtr world_pointer);
-	void	(*destroy_shading_environment) (WorldPtr world_pointer, ShadingEnvironmentPtr shading_environment_pointer);
+	void (*destroy_shading_environment) (WorldPtr world_pointer, ShadingEnvironmentPtr shading_environment_pointer);
 	void (*set_shading_environment) (WorldPtr world_pointer, ShadingEnvironmentPtr shading_environment, uint64_t name_id64, const char *optional_debug_name);
 
 	LineObjectPtr		(*create_line_object) (WorldPtr world_pointer, int disable_depth_test);
 	void				(*destroy_line_object) (WorldPtr world_pointer, LineObjectPtr line_object_pointer);
 	void				(*clear_permanent_lines) (WorldPtr world_pointer);
 
-	GuiPtr	(*create_screen_gui) (WorldPtr world_pointer, ConstVector2Ptr optional_position, ConstVector2Ptr optional_scale, int shadow_caster, int immediate, int dock_right, int dock_top);
+	GuiPtr	(*create_screen_gui) (WorldPtr world_pointer, ConstVector2Ptr optional_position, ConstVector2Ptr optional_scale, int immediate, int dock_right, int dock_top);
 	GuiPtr	(*create_world_gui) (WorldPtr world_pointer, ConstMatrix4x4Ptr transform, float width, float height, int shadow_caster, int immediate);
 	void	(*destroy_gui) (WorldPtr world_pointer, GuiPtr gui_pointer);
+	GuiPtr	(*get_gui_by_id) (WorldPtr world_pointer, unsigned gui_id);
 
 	PhysicsWorldPtr	(*physics_world) (WorldPtr world_pointer);
 

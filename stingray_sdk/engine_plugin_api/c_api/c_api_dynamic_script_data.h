@@ -6,29 +6,6 @@
 extern "C" {
 #endif
 
-enum DynamicScriptDataType
-{
-	D_DATA_NIL_TYPE,
-	D_DATA_BOOLEAN_TYPE,
-	D_DATA_NUMBER_TYPE,
-	D_DATA_STRING_TYPE,
-	D_DATA_CUSTOM_TVECTOR2 = 100,
-	D_DATA_CUSTOM_TVECTOR3,
-	D_DATA_CUSTOM_TVECTOR4,
-	D_DATA_CUSTOM_TMATRIX4X4,
-	D_DATA_CUSTOM_TUNITREFERENCE,
-	D_DATA_CUSTOM_TPOINTER,
-	D_DATA_CUSTOM_TLUAREF, /* Custom Lua reference is currently not supported via the C Api's DynamicScriptData. */
-	D_DATA_CUSTOM_ID64
-};
-
-typedef struct DynamicScriptDataItem {
-	const void *pointer;
-	enum DynamicScriptDataType type;
-	unsigned size;
-} DynamicScriptDataItem;
-
-
 struct DynamicScriptDataUnitApi
 {
 	int						(*has_data) (UnitRef, unsigned num_identifiers, ...);

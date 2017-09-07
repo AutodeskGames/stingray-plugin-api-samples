@@ -19,13 +19,13 @@ inline uint64_t murmur_hash_64(const void * key, int len, uint64_t seed)
 
 	while(data != end)
 	{
-		#if defined(ANDROID) || defined(IOS) || defined(WEBGL) // Unaligned 64bit reads not supported!
+		#if defined(ANDROID) || defined(IOS) || defined(WEB) // Unaligned 64bit reads not supported!
 			uint64_t k;
 			char *p = (char *)&k, *d = (char *)data;
 			p[0] = d[0]; p[1] = d[1]; p[2] = d[2]; p[3] = d[3];
 			p[4] = d[4]; p[5] = d[5]; p[6] = d[6]; p[7] = d[7];
 			data++;
-		#elif defined(WINDOWSPC) || defined(WINUWP) || defined(XBOXONE) || defined(__ORBIS__) || defined(MACOSX) || defined(LINUXPC)
+		#elif defined(WINDOWSPC) || defined(UWP) || defined(XBOXONE) || defined(__ORBIS__) || defined(MACOSX) || defined(LINUXPC)
 			uint64_t k = *data++;
 		#else
 			#error Unaligned 64bit reads undefined!
@@ -95,17 +95,70 @@ inline unsigned int four_byte_hash(const void * key)
 	return k;
 }
 
-// Default hashing for builtin-types.
-struct default_hash
+inline uint64_t eight_byte_hash_64(const void * key)
 {
-	unsigned operator()(unsigned t) const {return four_byte_hash(&t);}
-	unsigned operator()(int t) const {return four_byte_hash(&t);}
-	unsigned operator()(void *t) const {return four_byte_hash(&t);}
-	unsigned operator()(const void *t) const {return four_byte_hash(&t);}
-	unsigned operator()(uint64_t t) const {return hash32(&t, sizeof(t));}
-	unsigned operator()(int64_t t) const {return hash32(&t, sizeof(t));}
+	const uint64_t m = 0xc6a4a7935bd1e995ULL;
+	const int r = 47;
+	uint64_t k = *(const uint64_t *)key;
+
+	k *= m;
+	k ^= k >> r;
+	k *= m;
+	return k;
+}
+
+// Default hashing for builtin-types.
+template <class T> struct default_hash
+{
+	static constexpr bool value = false;
+	unsigned operator()(T t) const { static_assert(value, "default_hash not implemented for this type!"); return 0; }
 };
 
+template <class T> struct default_hash<T *>
+{
+	unsigned operator()(T *t) const
+	{
+		#ifdef PLATFORM_64BIT
+			return (unsigned)eight_byte_hash_64(&t);
+		#else
+			return four_byte_hash(&t);
+		#endif
+	}
+};
+
+template <class T> struct default_hash<const T *>
+{
+	unsigned operator()(const T *t) const
+	{
+		#ifdef PLATFORM_64BIT
+			return (unsigned)eight_byte_hash_64(&t);
+		#else
+			return four_byte_hash(&t);
+		#endif
+	}
+};
+
+template <> struct default_hash<unsigned>
+{
+	unsigned operator()(unsigned t) const { return four_byte_hash(&t); }
+};
+
+template <> struct default_hash<int>
+{
+	unsigned operator()(int t) const { return four_byte_hash(&t); }
+};
+
+template <> struct default_hash<uint64_t>
+{
+	unsigned operator()(uint64_t t) const { return hash32(&t, sizeof(t)); }
+};
+
+template <> struct default_hash<int64_t>
+{
+	unsigned operator()(int64_t t) const { return hash32(&t, sizeof(t)); }
+};
+
+// Utility functions
 inline uint64_t mix(uint64_t h, uint64_t k)
 {
 	const uint64_t m = 0xc6a4a7935bd1e995ULL;

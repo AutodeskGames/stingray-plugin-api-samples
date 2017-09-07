@@ -6,14 +6,6 @@
 extern "C" {
 #endif
 
-enum UnitCApi_VisibilityContext
-{
-	UVC_DEFAULT = 1,
-	UVC_SHADOW_CASTER = 2,
-	UVC_OCCLUDER = 4,
-	UVC_ALL = 255
-};
-
 struct UnitCApi
 {
 	ConstVector3Ptr			(*local_position) (UnitRef, unsigned index);
@@ -95,6 +87,7 @@ struct UnitCApi
 	void		(*enable_animation_state_machine) (UnitRef);
 	void		(*set_animation_state_machine) (UnitRef, uint64_t machine_name_id64, const char *optional_debug_machine_name);
 	int			(*has_animation_state_machine) (UnitRef);
+	int         (*has_animation_blender) (UnitRef);
 	int			(*has_animation_event) (UnitRef, unsigned event_name_id32);
 
 	void		(*animation_trigger_event) (UnitRef unit_ref, unsigned event_name_id32, const char *optional_debug_event_name);
@@ -145,6 +138,10 @@ struct UnitCApi
 	unsigned		(*num_lod_objects) (UnitRef);
 	unsigned		(*find_lod_object) (UnitRef, unsigned lod_name_id32);
 	LodObjectPtr	(*lod_object) (UnitRef, unsigned index, const char *optional_debug_lod_name);
+	unsigned		(*num_steps_lod) (LodObjectPtr lod_obj_ptr);
+	void			(*lod_step_range) (LodObjectPtr lod_obj_ptr, unsigned step_index, float out_range[2]);
+	unsigned		(*num_mesh_lod_step) (LodObjectPtr lod_obj_ptr, unsigned step_index);
+	const unsigned*	(*lod_step_meshes) (LodObjectPtr lod_obj_ptr, unsigned step_index);
 
 	unsigned	(*num_lights) (UnitRef);
 	unsigned	(*find_light) (UnitRef, unsigned light_name_id32);
@@ -197,10 +194,6 @@ struct UnitCApi
 	int					(*is_a)(UnitRef unit_ref, uint64_t resource_id64);
 	void				(*set_id_in_level)(UnitRef unit_ref, uint64_t id);
 	void				(*draw_tree)(UnitRef unit_ref);
-
-	unsigned	(*project_decal)(UnitRef unit_ref, ConstMatrix4x4Ptr tm, ConstVector3Ptr size, unsigned context_or_drawer_id32, unsigned decal_drawer_count, struct MaterialDecalDrawer* decal_drawers);
-	void		(*set_decal_custom_params)(UnitRef unit_ref, unsigned id, ConstVector3Ptr params);
-	void		(*remove_decal)(UnitRef unit_ref, unsigned id);
 
 	unsigned	(*mesh_raycast)(UnitRef unit_ref, ConstVector3Ptr from, ConstVector3Ptr dir, float threshold, int include_hidden_meshes,
 					float *out_distance, CApiVector3 *out_normal_world);

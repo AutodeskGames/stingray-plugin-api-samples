@@ -30,7 +30,7 @@ extern "C" {
 	typedef void* LanLobbyPtr;
 	typedef void* LanLobbyBrowserPtr;
 	typedef void* GameSessionPtr;
-	typedef void* UnitSynchronizerPtr;
+	typedef CApiUnitSynchronizer* UnitSynchronizerPtr;
 	typedef CApiMesh* MeshPtr;
 	typedef void* JointPtr;
 	typedef void* LodObjectPtr;
@@ -49,18 +49,21 @@ extern "C" {
 	typedef CApiTimpaniWorldInterface* TimpaniWorldInterfacePtr;
 	typedef CApiGuiThumbnail* GuiThumbnailPtr;
 	typedef CApiCaptureBuffer* CApiCaptureBufferPtr;
+	typedef CApiInputController* CApiInputControllerPtr;
 
-	typedef void* TransformComponentPtr;
-	typedef void* MeshComponentPtr;
-	typedef void* ActorComponentPtr;
-	typedef void* SceneGraphComponentPtr;
-	typedef void* AnimationBlenderComponentPtr;
-	typedef void* AnimationStateMachineComponentPtr;
-	typedef void* DebugNameComponentPtr;
-	typedef void* DataComponentPtr;
-	typedef void* RenderDataComponentPtr;
-	typedef void* TagComponentPtr;
-	typedef void* ComponentPtr;
+	typedef CApiTransformComponent* TransformComponentPtr;
+	typedef CApiMeshComponent* MeshComponentPtr;
+	typedef CApiActorComponent* ActorComponentPtr;
+	typedef CApiSceneGraphComponent* SceneGraphComponentPtr;
+	typedef CApiAnimationBlenderComponent* AnimationBlenderComponentPtr;
+	typedef CApiAnimationStateMachineComponent* AnimationStateMachineComponentPtr;
+	typedef CApiDebugNameComponent* DebugNameComponentPtr;
+	typedef CApiDataComponentPtr* DataComponentPtr;
+	typedef CApiRenderDataComponent* RenderDataComponentPtr;
+	typedef CApiTagComponent* TagComponentPtr;
+	typedef CApiComponent* ComponentPtr;
+	typedef CApiFlowComponent* FlowComponentPtr;
+	typedef CApiUnitComponent* UnitComponentPtr;
 	typedef CApiPhysicsWorld* PhysicsWorldPtr;
 
 	typedef const CApiWorldConfig* ConstWorldConfigPtr;
@@ -82,7 +85,6 @@ extern "C" {
 	typedef const void* ConstLanLobbyBrowserPtr;
 	typedef const CApiQuaternion* ConstQuaternionPtr;
 	typedef const CApiLevel* ConstLevelPtr;
-	typedef const void* ComponentApiPtr;
 	typedef const CApiMesh* ConstMeshPtr;
 	typedef const CApiNavigationMesh* ConstNavigationMeshPtr;
 	typedef CApiMaterialData* MaterialDataPtr;
@@ -92,7 +94,9 @@ extern "C" {
 	typedef unsigned GameObjectId;
 	typedef uint64_t PeerId;
 	typedef unsigned EntityRef;
+	typedef CApiInstance Instance;
 	typedef CApiInstanceId InstanceId;
+	typedef CApiInstanceWithId InstanceWithId;
 	typedef unsigned RaycastId;
 	typedef unsigned SaveToken;
 	typedef unsigned ScatterBrushId;
@@ -229,6 +233,109 @@ extern "C" {
 		unsigned char controller; /* RawInputEventController */
 	};
 
+	enum RemoteEventType {
+		REMOTE_EVENT_TYPE_KEY_DOWN = 0,
+		REMOTE_EVENT_TYPE_KEY_UP = 1,
+		REMOTE_EVENT_TYPE_KEY_PRESS = 2,
+		REMOTE_EVENT_TYPE_MOUSE_DOWN = 3,
+		REMOTE_EVENT_TYPE_MOUSE_UP = 4,
+		REMOTE_EVENT_TYPE_MOUSE_MOVE = 5,
+		REMOTE_EVENT_TYPE_MOUSE_WHEEL = 6
+	};
+
+	struct RemoteEventWrapper {
+		unsigned input_type;
+		int button_id;
+		int x;
+		int y;
+		float dx;
+		float dy;
+		float dz;
+		int key_code;
+	};
+
+	enum InputCategory
+	{
+		INPUT_CATEGORY_GAMEPAD = 0,
+		INPUT_CATEGORY_TOUCH_PANEL = 1,
+		INPUT_CATEGORY_MOUSE = 2,
+		INPUT_CATEGORY_KEYBOARD = 3,
+		INPUT_CATEGORY_POINTER = 4
+	};
+
+	enum Keystroke
+	{
+		KS_CHAR_ARROW_LEFT = 1,
+		KS_CHAR_ARROW_RIGHT = 2,
+		KS_CHAR_ARROW_UP = 3,
+		KS_CHAR_ARROW_DOWN = 4,
+		KS_CHAR_INSERT = 5,
+		KS_CHAR_HOME = 6,
+		KS_CHAR_END = 7,
+		KS_CHAR_BACKSPACE = 8,
+		KS_CHAR_TAB = 9,
+		KS_CHAR_PG_UP = 11,
+		KS_CHAR_PG_DOWN = 12,
+		KS_CHAR_ENTER = 13,
+		KS_CHAR_F1 = 14,
+		KS_CHAR_F2 = 15,
+		KS_CHAR_F3 = 16,
+		KS_CHAR_F4 = 17,
+		KS_CHAR_F5 = 18,
+		KS_CHAR_F6 = 19,
+		KS_CHAR_F7 = 20,
+		KS_CHAR_F8 = 21,
+		KS_CHAR_F9 = 22,
+		KS_CHAR_F10 = 23, // magical, does not work
+		KS_CHAR_F11 = 24,
+		KS_CHAR_F12 = 25,
+		KS_CHAR_DELETE = 26,
+		KS_CHAR_ESCAPE = 27
+	};
+
+	struct TouchPinchGesture
+	{
+		unsigned began_last_frame;
+		unsigned ended_last_frame;
+		struct CApiVector2 location;
+		float scale;
+		float scale_per_second;
+	};
+
+	struct TouchRotationGesture
+	{
+		unsigned began_last_frame;
+		unsigned ended_last_frame;
+		struct CApiVector2 location;
+		float accumulated_rotation_rad;
+		float rotation_per_second_rad;
+	};
+
+	enum SwipeDirection { SWIPE_DIRECTION_NONE = -1, SWIPE_DIRECTION_RIGHT = 1, SWIPE_DIRECTION_LEFT = 2, SWIPE_DIRECTION_UP = 4, SWIPE_DIRECTION_DOWN = 8};
+
+	enum TouchEdge { TOUCH_EDGE_NONE = 0, TOUCH_EDGE_TOP = 0x01, TOUCH_EDGE_BOTTOM = 0x02, TOUCH_EDGE_LEFT = 0x04, TOUCH_EDGE_RIGHT = 0x08 };
+
+	enum { MAX_TOUCH_CONTACTS = 64 };
+
+	enum DeadZoneMode { DEADZONE_MODE_CIRCULAR, DEADZONE_MODE_INDEPENDENT, DEADZONE_MODE_RAW };
+
+	struct DeadZoneSetting {
+		enum DeadZoneMode mode;
+		float size;
+	};
+
+	struct RumbleParameters
+	{
+		float frequency;		// Default 0.0f	(frequency = 1.0f / period)
+		float offset;			// Default 0.0f
+		float attack_level;		// Default 1.0f
+		float sustain_level;	// Default 1.0f
+		float attack;			// Default 0.0f
+		float release;			// Default 0.0f
+		float sustain;			// Default 0.0f
+		float decay;			// Default 0.0f
+	};
+
 	struct SocketAddressWrapper {
 		char address_and_port[22];
 	};
@@ -241,6 +348,8 @@ extern "C" {
 		RPC_PARAM_VECTOR3_TYPE,
 		RPC_PARAM_QUATERNION_TYPE,
 		RPC_PARAM_STRING_TYPE,
+		RPC_PARAM_IDSTRING32_TYPE,
+		RPC_PARAM_IDSTRING64_TYPE,
 		RPC_PARAM_RESOURCE_ID_TYPE,
 		RPC_PARAM_UINT_64_TYPE,
 		RPC_PARAM_ARRAY_BEGINS,
@@ -275,32 +384,41 @@ extern "C" {
 		void (*custom_callback)			(uint64_t sending_peer, unsigned message_id32, struct RPCMessageParameter* parameter_array, unsigned num_parameters);
 	};
 
-	enum EntityCApi_EntityPropertyType
+	struct EntityInstanceId
 	{
-		ENTITY_P_TYPE_NIL,
-		ENTITY_P_TYPE_BOOL,
-		ENTITY_P_TYPE_FLOAT,
-		ENTITY_P_TYPE_STRING,
-		ENTITY_P_TYPE_FLOAT_ARRAY
+		EntityRef entity;
+		InstanceId instance_id;
 	};
 
-	typedef struct EntityPropertyParameter
+	/* Entity property type. */
+	enum EntityPropertyType
 	{
-		enum EntityCApi_EntityPropertyType type;
-		void* data;
+		ENTITY_PROPERTY_TYPE_NIL,
+		ENTITY_PROPERTY_TYPE_BOOL,
+		ENTITY_PROPERTY_TYPE_FLOAT,
+		ENTITY_PROPERTY_TYPE_STRING,
+		ENTITY_PROPERTY_TYPE_FLOAT_ARRAY
+	};
 
-		/* num_elements will only be evaluated when passing array types. */
-		unsigned num_elements;
-	} EntityPropertyParameter;
+	/* The combined hash of the individual hashes of the separate key strings. */
+	typedef unsigned EntityPropertyKey;
 
-	typedef struct EntityPropertyValue
+	struct EntityPropertyValueFloatArray
 	{
-		/* num_elements will only be set when returning either an array type or to display string length. */
-		unsigned num_elements;
+		float *a;
+		unsigned n;
+	};
 
-		enum EntityCApi_EntityPropertyType type;
-		char buffer[32];
-	} EntityPropertyValue;
+	struct EntityPropertyValue
+	{
+		enum EntityPropertyType type;
+		union {
+			unsigned b;
+			float f;
+			const char *s;
+			struct EntityPropertyValueFloatArray a;
+		};
+	};
 
 	enum RaycastType	{ RAY_TYPE_ANY, RAY_TYPE_CLOSEST, RAY_TYPE_ALL };
 	enum ActorTemplate	{ ACTOR_T_STATIC = 1, ACTOR_T_DYNAMIC, ACTOR_T_BOTH };
@@ -409,6 +527,7 @@ extern "C" {
 		int visible;
 		int pass_key_events_to_parent;
 		int layered;
+		int frameless;
 	};
 
 	struct Vector3ArrayWrapper
@@ -427,6 +546,80 @@ extern "C" {
 	struct MaterialDecalDrawer {
 		unsigned material_id32;
 		unsigned drawer_id32;
+	};
+
+	struct TextExtentsResult
+	{
+		struct CApiVector2 min;
+		struct CApiVector2 max;
+		struct CApiVector2 caret;
+	};
+
+	enum WorldCApi_OrphanedParticlePolicy
+	{
+		WA_OPP_DESTROY_ORPHAN,
+		WA_OPP_STOP_SPAWNING_ORPHAN,
+		WA_OPP_UNLINK_ORPHAN
+	};
+
+	enum UnitCApi_VisibilityContext
+	{
+		UVC_DEFAULT = 1,
+		UVC_SHADOW_CASTER = 2,
+		UVC_OCCLUDER = 4,
+		UVC_ALL = 255
+	};
+
+	enum DynamicScriptDataType
+	{
+		D_DATA_NIL_TYPE,
+		D_DATA_BOOLEAN_TYPE,
+		D_DATA_NUMBER_TYPE,
+		D_DATA_STRING_TYPE,
+		D_DATA_CUSTOM_TVECTOR2 = 100,
+		D_DATA_CUSTOM_TVECTOR3,
+		D_DATA_CUSTOM_TVECTOR4,
+		D_DATA_CUSTOM_TMATRIX4X4,
+		D_DATA_CUSTOM_TUNITREFERENCE,
+		D_DATA_CUSTOM_TPOINTER,
+		D_DATA_CUSTOM_TLUAREF, /* Custom Lua reference is currently not supported via the C Api's DynamicScriptData. */
+		D_DATA_CUSTOM_ID64
+	};
+
+	typedef struct DynamicScriptDataItem {
+		const void *pointer;
+		enum DynamicScriptDataType type;
+		unsigned size;
+	} DynamicScriptDataItem;
+
+	enum CameraProjectionType {
+		CAMERA_PROJ_ORTHOGRAPHIC,
+		CAMERA_PROJ_PERSPECTIVE
+	};
+
+	enum CameraMode {
+		CAMERA_MODE_MONO,
+		CAMERA_MODE_STEREO
+	};
+
+	enum FlowType {
+		FLOW_NIL_TYPE = 0,
+		FLOW_UNIT_TYPE = 1,
+		FLOW_ACTOR_TYPE = 2,
+		FLOW_MOVER_TYPE = 3,
+		FLOW_VECTOR3_TYPE = 4,
+		FLOW_FLOAT_TYPE = 5,
+		FLOW_BOOL_TYPE = 6,
+		FLOW_STRING_TYPE = 7,
+		FLOW_ID64_TYPE = 8,
+		FLOW_QUATERNION_TYPE = 9,
+		FLOW_UNSIGNED_TYPE = 10,
+		FLOW_CAMERA_TYPE = 11,
+		FLOW_LIGHT_TYPE = 12,
+		FLOW_MESH_TYPE = 13,
+		FLOW_MATERIAL_TYPE = 14,
+		FLOW_ID32_TYPE = 15,
+		FLOW_ENTITY_TYPE = 16
 	};
 
 #ifdef __cplusplus

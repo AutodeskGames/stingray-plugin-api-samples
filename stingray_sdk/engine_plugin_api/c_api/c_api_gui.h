@@ -6,13 +6,6 @@
 extern "C" {
 #endif
 
-struct TextExtentsResult
-{
-	struct CApiVector2 min;
-	struct CApiVector2 max;
-	struct CApiVector2 caret;
-};
-
 struct GuiCApi
 {
 	unsigned (*triangle) (GuiPtr, ConstVector3Ptr p0, ConstVector3Ptr p1, ConstVector3Ptr p2, unsigned layer, ConstVector4Ptr optional_color,
@@ -20,11 +13,11 @@ struct GuiCApi
 	void	 (*update_triangle) (GuiPtr, unsigned id, ConstVector3Ptr p0, ConstVector3Ptr p1, ConstVector3Ptr p2, unsigned layer, ConstVector4Ptr optional_color);
 	void	 (*destroy_triangle) (GuiPtr, unsigned id);
 
-	unsigned (*rect) (GuiPtr, ConstVector2Ptr position, unsigned layer, ConstVector2Ptr size, ConstVector4Ptr optional_color);
+	unsigned (*rect) (GuiPtr, ConstVector2Ptr position, unsigned layer, ConstVector2Ptr size, ConstVector4Ptr optional_color, MaterialPtr optional_material);
 	void	 (*update_rect) (GuiPtr, unsigned id, ConstVector2Ptr position, unsigned layer, ConstVector2Ptr size, ConstVector4Ptr optional_color);
 	void	 (*destroy_rect) (GuiPtr, unsigned id);
 
-	unsigned (*rect_3d) (GuiPtr, ConstMatrix4x4Ptr transform, ConstVector3Ptr position, unsigned layer, ConstVector2Ptr size, ConstVector4Ptr optional_color);
+	unsigned (*rect_3d) (GuiPtr, ConstMatrix4x4Ptr transform, ConstVector3Ptr position, unsigned layer, ConstVector2Ptr size, ConstVector4Ptr optional_color, MaterialPtr optional_material);
 	void	 (*update_rect_3d) (GuiPtr, unsigned id, ConstMatrix4x4Ptr transform, ConstVector3Ptr position, unsigned layer, ConstVector2Ptr size, ConstVector4Ptr optional_color);
 	void	 (*destroy_rect_3d) (GuiPtr, unsigned id);
 
@@ -72,20 +65,23 @@ struct GuiCApi
 	void	(*set_visible) (GuiPtr, int visible);
 	int		(*is_visible) (GuiPtr);
 
-	MaterialPtr (*material) (GuiPtr, uint64_t material_id64, const char *optional_debug_material_name);
+	MaterialPtr (*material)(GuiPtr gui_pointer, uint64_t material_id64, const char *optional_debug_material_name);
+	MaterialPtr (*create_material)(GuiPtr gui_pointer, uint64_t material_id64, const char *optional_debug_material_name);
 
 	int		(*has_all_glyphs) (GuiPtr, const char* text, uint64_t font);
 	void	(*move) (GuiPtr, float x, float y);
 	void	(*move_3d) (GuiPtr, ConstMatrix4x4Ptr transform);
 	void	(*reset) (GuiPtr);
 
-	CApiVector2		(*resolution) (ViewportPtr optional_viewport, ConstWindowPtr optional_window);
+	void			(*resolution) (ViewportPtr optional_viewport, ConstWindowPtr optional_window, unsigned int *out_width, unsigned int *out_height);
 	CApiMatrix4x4	(*rotation_2d) (ConstVector2Ptr position_pointer, float angle, ConstVector2Ptr optional_pivot);
 
 	/*	Equivalent to vector4(255, r, g, b).	*/
 	CApiVector4	(*color_rgb) (float r, float g, float b);
 	/*	Equivalent to vector4(a, r, g, b).		*/
 	CApiVector4	(*color_argb) (float a, float r, float g, float b);
+
+	unsigned(*get_id) (GuiPtr);
 
 	void (*set_video_playback_speed)(VideoPlayerPtr video_player, float speed);
 	void (*set_video_loop)(VideoPlayerPtr video_player, unsigned loop);
@@ -97,7 +93,7 @@ struct GuiCApi
 	unsigned (*video_times_looped)(VideoPlayerPtr video_player);
 
 	/*	Not available in Release builds.	*/
-	CApiVector2 (*texture_size) (uint64_t resource_id64);
+	unsigned (*texture_size) (uint64_t resource_id64, unsigned int *out_width, unsigned int *out_height);
 	GuiThumbnailPtr (*thumbnail_load_texture)(unsigned num_textures, uint64_t* names_id64);
 	GuiThumbnailPtr (*thumbnail_load_dds)(const char *path, uint64_t name_id64);
 	void (*thumbnail_unload)(GuiThumbnailPtr thumbnail);

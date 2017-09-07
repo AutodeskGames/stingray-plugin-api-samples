@@ -4,6 +4,9 @@
 extern "C" {
 #endif
 
+/* Opaque struct representing a memory allocator. */
+struct AllocatorObject;
+
 typedef struct CApiUnit CApiUnit;
 typedef struct CApiWindow CApiWindow;
 typedef struct CApiWorld CApiWorld;
@@ -30,9 +33,32 @@ typedef struct CApiStreamSource CApiStreamSource;
 typedef struct CApiTimpaniWorldInterface CApiTimpaniWorldInterface;
 typedef struct CApiGuiThumbnail CApiGuiThumbnail;
 typedef struct CApiCaptureBuffer CApiCaptureBuffer;
+typedef struct CApiInputController CApiInputController;
+typedef struct CApiUnitSynchronizer CApiUnitSynchronizer;
+
+typedef struct CApiTransformComponent CApiTransformComponent;
+typedef struct CApiMeshComponent CApiMeshComponent;
+typedef struct CApiActorComponent CApiActorComponent;
+typedef struct CApiSceneGraphComponent CApiSceneGraphComponent;
+typedef struct CApiAnimationBlenderComponent CApiAnimationBlenderComponent;
+typedef struct CApiAnimationStateMachineComponent CApiAnimationStateMachineComponent;
+typedef struct CApiDebugNameComponent CApiDebugNameComponent;
+typedef struct CApiDataComponentPtr CApiDataComponentPtr;
+typedef struct CApiRenderDataComponent CApiRenderDataComponent;
+typedef struct CApiTagComponent CApiTagComponent;
+typedef struct CApiComponent CApiComponent;
+typedef struct CApiFlowComponent CApiFlowComponent;
+typedef struct CApiUnitComponent CApiUnitComponent;
 
 typedef unsigned CApiUnitRef;
+typedef unsigned CApiInstance;
 typedef unsigned CApiInstanceId;
+
+typedef struct CApiInstanceWithId
+{
+	CApiInstance instance;
+	CApiInstanceId id;
+} CApiInstanceWithId;
 
 typedef struct CApiVector2
 {

@@ -37,7 +37,7 @@ namespace stingray_plugin_foundation {
 // \tparam D the data type
 // \tparam HASH  hash functor, defaults to default_hash>
 // \tparam EQUAL equality functor, defaults to std::equal_to<K>
-template <class K, class D, class HASH = default_hash, class EQUAL = equal_to >
+template <class K, class D, class HASH = default_hash<K>, class EQUAL = equal_to >
 class HashMap
 {
 public:
@@ -53,17 +53,6 @@ public:
 	// Special values for marker
 	enum {END_OF_LIST = 0x7fffffff, UNUSED = 0xfffffffe, END_OF_FREELIST = 0xffffffff};
 
-	struct node_type {
-		ALLOCATOR_AWARE;
-		node_type(Allocator &a) : value(a) {}
-		value_type	value;
-
-		// The marker value is used to indicate whether a slot is free, point to the next
-		// item in the hash chain or to indicate that this is the last item in the chain.
-		unsigned	marker;
-	};
-	typedef Vector< node_type > storage_type;
-
 	typedef BucketIterator<this_type, value_type> iterator;
 	typedef ConstBucketIterator<this_type, value_type> const_iterator;
 
@@ -72,6 +61,7 @@ public:
 	// spill-over buckets. It is recommended that spill = 0.37 * buckets.
 	HashMap(unsigned buckets, unsigned spill, Allocator &a);
 	HashMap(const HashMap<K,D,HASH,EQUAL> &o);
+	~HashMap();
 
 	void operator=(const HashMap<K,D,HASH,EQUAL> &o);
 	void swap(HashMap<K,D,HASH,EQUAL> &o);
@@ -93,6 +83,7 @@ public:
 	// Returns true if the key is in the hash
 	template <class KEY_EQ> bool has(const KEY_EQ &k) const;
 	template <class KEY_EQ> data_type &operator[](const KEY_EQ &k);
+	template <class KEY_EQ> value_type &get_pair(const KEY_EQ &k);
 	template <class KEY_EQ> const data_type &operator[](const KEY_EQ &k) const;
 	// Returns the value for `k` if it exists and `def` otherwise.
 	template <class KEY_EQ> data_type &get(const KEY_EQ &k, data_type &def);
@@ -128,14 +119,25 @@ private:
 	unsigned allocate_spill();
 	void free_spill(unsigned i);
 	void clear_freelist();
+	void allocate_data(unsigned count);
+	void construct(value_type &p) { new (&p) value_type(_allocator); }
+	void destruct(value_type &p) { p.~value_type(); }
+
+	struct Data {
+		Data() : size(), marker(), value() {}
+		unsigned size;
+		unsigned *marker;
+		value_type *value;
+	};
 
 	key_hash		_hash;
 	key_equal		_equal;
-	storage_type	_data;
+	Data			_data;
 	unsigned		_used;
 	unsigned		_buckets;
 	unsigned		_spill_unused;
 	unsigned		_spill_freelist;
+	Allocator		&_allocator;
 };
 
 } // namespace stingray_plugin_foundation

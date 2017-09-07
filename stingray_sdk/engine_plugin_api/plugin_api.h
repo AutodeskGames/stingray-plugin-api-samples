@@ -85,6 +85,8 @@ enum PluginApiID {
 	STREAM_CAPTURE_API_ID =				36,
 	FLOW_NODES_API_ID =					37,
 	CAMERA_API_ID =						38,
+	ENTITY_COMPILE_DATA_API_ID =		39,
+	PHYSICS_RUNTIME_COOKING_API_ID =	40,
 	END_OF_ENGINE_RESERVED_RANGE =		65535,
 
 	/* API IDs in the range 0--65535 are reserved by the engine. If you want to
@@ -97,9 +99,6 @@ enum PluginApiID {
 ---------------------------------------------------------------------- */
 
 /* These types are used in multiple plugins. */
-
-/* Opaque struct representing a memory allocator. */
-struct AllocatorObject;
 
 /* Opaque struct representing an input file archive that data can be read from. */
 struct InputArchive;
@@ -200,10 +199,10 @@ struct PluginApi
 	/* Called when the engine shuts down the game. */
 	void (*shutdown_game)();
 
-	/* Called when a new world is added to the engine */
+	/* Called after the world has been created and is about to be added to the engines list of worlds */
 	void (*register_world)(CApiWorld * world);
 
-	/* Called when a world is removed from the engine. */
+	/* Called before a world is about to be destroyed and removed from the engines list of worlds. */
 	void (*unregister_world)(CApiWorld * world);
 
 	/* Called when units are spawned by the engine. */
@@ -571,8 +570,20 @@ struct LuaApi
 	/* Pops the top value from the Lua stack. */
 	void (*pop) (lua_State *L);
 
+	/* Gets an Entity at the specified index. */
+	EntityRef (*getentity)(lua_State *L, int i);
+
+	/* Pushes an Entity to the stack. */
+	void (*pushentity)(lua_State *L, EntityRef e_ref);
+
+	/* Returns true if the stack entry is a nil. */
+	int(*isnil) (lua_State *L, int i);
+
+	/* Returns true if the stack entry is a boolean. */
+	int(*isbool) (lua_State *L, int i);
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[28];
 };
 
 /* ----------------------------------------------------------------------
@@ -587,6 +598,13 @@ struct Buffer
 
 	/* Size of data. */
 	unsigned len;
+};
+
+struct ConfigErrorState
+{
+	const char *file;
+	struct Buffer source;
+	const char *error;
 };
 
 /* Represents the result of a data compile operation. */
@@ -605,6 +623,12 @@ struct DataCompileResult
 /* Opaque struct representing parameters for a data compile operation. */
 struct DataCompileParameters;
 
+/* Opaque struct representing parameters for a entity compile operation. */
+struct EntityComponentCompileData;
+
+/* Opaque struct representing parameters for a entity compile operation. */
+struct EntityComponentPackageIncludeData;
+
 /* Function type for compiling data. Based on the compile parameters that include
 	among other things the source data, the compile function should produce a
 	binary blob that can be accessed as a resource by the runtime. */
@@ -619,6 +643,9 @@ typedef struct DataCompileResult (*RawCompileFunction)(const char *input, unsign
 	for an existing resource type, such as .level, without changing how that type is compiled.
 	The function should return NULL if successful and an error string otherwise. */
 typedef const char * (*PackageIncludeCompileFunction)(struct DataCompileParameters *data_compile_params);
+
+/* Function type for compiling entity component data. */
+typedef struct DataCompileResult (*EntityComponentCompileFunction)(struct EntityComponentCompileData *compile_data, struct EntityComponentPackageIncludeData *package_include_data);
 
 /* Enumerates the texture types that can be returned by custom texture readers. */
 enum SourceTextureReadResult_ResultType {
@@ -696,6 +723,9 @@ struct DataCompilerApi
 	   on a single thread. */
 	void (*set_uses_fbx)(const char *type);
 
+	/* Adds an entity component compiler for the specified component typename. */
+	void(*add_entity_component_compiler)(const char *name, EntityComponentCompileFunction compile, int spawn_order);
+
 	/* Reserved for expansion of the API. */
 	void *reserved[32];
 };
@@ -761,6 +791,29 @@ struct DataCompileParametersApi
 
 	/* Reserved for expansion of the API. */
 	void *reserved[32];
+};
+
+/* ----------------------------------------------------------------------
+	EntityCompileDataApi
+---------------------------------------------------------------------- */
+
+/* API for working with entity compile data. */
+struct EntityCompileDataApi
+{
+	/* Returns the allocator to use for compiled data. */
+	struct AllocatorObject *(*allocator)(struct EntityComponentCompileData *compile_data);
+
+	/* Returns the component type definition. */
+	struct Buffer (*type_definition)(struct EntityComponentCompileData *compile_data, struct AllocatorObject *allocator);
+
+	/* Returns the component meta data. */
+	struct Buffer (*type_metadata)(struct EntityComponentCompileData *compile_data, struct AllocatorObject *allocator);
+
+	/* Returns the property for the specified property key. */
+	struct Buffer (*get_property)(struct EntityComponentCompileData *compile_data, const char *property_key, struct AllocatorObject *allocator, struct ConfigErrorState *es);
+
+	/* Returns the merged property for the specified property key. */
+	struct Buffer (*get_merged_property)(struct EntityComponentCompileData *compile_data, const char *property_key, struct AllocatorObject *allocator, struct ConfigErrorState *es);
 };
 
 /* ----------------------------------------------------------------------
@@ -921,8 +974,14 @@ struct ResourceManagerApi
 	/* Destroys a stream opened by new_open_stream(). */
 	void (*delete_stream)(struct FutureInputArchive * fia, struct AllocatorObject * allocator);
 
+	/* Returns true if the specified resource is online. */
+	int(*is_online)(const char *type, const char *name);
+
+	/* As is_online() but uses a hashed type and name instead. */
+	int(*is_online_by_id)(uint64_t type_id, uint64_t name_id);
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[30];
 };
 
 /* ----------------------------------------------------------------------
@@ -1069,17 +1128,15 @@ struct RI_Device;
 enum RI_ResourceType {
 	RI_RESOURCE_TEXTURE,
 	RI_RESOURCE_RENDER_TARGET,
-	RI_RESOURCE_NOT_INITIALIZED = -1
+	RI_RESOURCE_NOT_INITIALIZED = 0x00FFFFFF
 };
 
 /* Used to identify a render resource. */
 struct RenderResource {
-	/* RT_ResourceType */
-	unsigned type;
 	unsigned handle;
 };
 
-#if defined(WINDOWSPC) || defined(XBOXONE)
+#if defined(WINDOWSPC) || defined(XBOXONE) || defined(UWP)
 	/* D3D rendering interface. */
 	struct ID3D11RenderTargetView;
 	struct ID3D11ShaderResourceView;
@@ -1121,7 +1178,7 @@ struct RenderResource {
 		};
 	#endif
 
-	#if defined(MACOSX) || defined(IOS) || defined(ANDROID) || defined(WEBGL) || defined(LINUXPC)
+	#if defined(MACOSX) || defined(IOS) || defined(ANDROID) || defined(WEB) || defined(LINUXPC)
 		struct RI_PlatformTexture2d    {
 			unsigned int handle; /* binding handle */
 			unsigned int format; /* internal pixel format, e.g., GL_DEPTH24_STENCIL8, GL_R16F */
@@ -1257,6 +1314,15 @@ struct U_HeightFieldPos
 	float pos[3];
 };
 
+/* Represents animation clip playback information */
+struct U_AnimationPlayingInfo
+{
+	uint64_t clip_resource_id;
+	double time;
+	double length;
+	uint8_t loop;
+};
+
 /* Opaque struct representing a hierarchy of objects in a Unit. */
 struct SceneGraph;
 
@@ -1352,8 +1418,12 @@ struct UnitApi
 	/* The world that the unit lives in. */
 	CApiWorld* (*world)(CApiUnit *unit);
 
+	/* Query number of playing animation clips and fill in playback details. */
+	uint32_t (*get_playing_animation_infos)(CApiUnit *unit, uint32_t layer_id, struct U_AnimationPlayingInfo *playing_infos, uint32_t maximum);
+
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[31];
 };
 
 /*
@@ -1433,7 +1503,7 @@ struct SceneGraphApi
 	Application
 ---------------------------------------------------------------------- */
 
-/* Opaque struct that reprents the command-line options that were passed to the application at
+/* Opaque struct that represents the command-line options that were passed to the application at
 	launch. */
 struct ApplicationOptions;
 
@@ -1509,10 +1579,10 @@ struct ApplicationApi
 
 	/* Returns a representation of the settings.ini file used with the application. The settings
 	   are returned as a pointer to a ConstConfigRoot item and can be parsed using the ConstConfig
-	   API in the plugi foundation. */
+	   API in the plugin foundation. */
 	const void * (*settings)();
 
-	/* Returns the activity interface for native lifecycle handeling. */
+	/* Returns the activity interface for native lifecycle handling. */
 	struct AP_PlatformActivity * (*platform_activity)();
 
 	/* Register platform activity callbacks to be called on platform activity events. */
@@ -1543,6 +1613,11 @@ struct ApplicationApi
 	   the command. */
 	int (*current_client_id)();
 
+	/* Returns the holographic space created early in the app lifecycle when on the Hololens platform.
+	   Null otherwise. TODO: Adding a plugin hook early enough in the app lifecycle (pre-window activation)
+	   would alleviate the need for this API member. */
+	void * (*holographic_space)();
+
 	/* Sends data over a console connection. The data sent can be a combination of textual data
 	   (JSON) and a binary payload. If sync is true, the send is synchronized. If client_id is
 	   not -1, then the message is only sent to that particular console client instead of
@@ -1566,11 +1641,14 @@ struct ApplicationOptionsApi
 	/* Returns the bundle directory if the engine was launched in bundle mode. */
 	const char * (*bundle_directory)(const struct ApplicationOptions * application_options);
 
-	/* Returns the data directory if the engine was launched in data dirextory mode. */
+	/* Returns the data directory if the engine was launched in data directory mode. */
 	const char * (*data_directory)(const struct ApplicationOptions * application_options);
 
+	/* Returns true if rendering is enabled. */
+	int (*is_rendering_enabled)(const struct ApplicationOptions * application_options);
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[31];
 };
 
 /* ----------------------------------------------------------------------
@@ -1644,7 +1722,7 @@ struct FileSystemApi
 	/* Destroys a file syste created by create(). */
 	void (*destroy)(struct FileSystem *filesystem);
 
-	/* Returns true if the specfied path is a directory, false if it isn't or if there
+	/* Returns true if the specified path is a directory, false if it isn't or if there
 	  was an error. If there was an error, the error message is returned in the error
 	  parameter. */
 	int (*is_directory)(struct FileSystem *filesystem, const char *file, const char **error);
@@ -1653,8 +1731,11 @@ struct FileSystemApi
 	   error message otherwise. */
 	const char * (*make_directory)(struct FileSystem *filesystem, const char *file);
 
+	/* Reads file, parses it into ConstConfig */
+	ConstConfigRootPtr (*parse_sjson)(struct FileSystem *filesystem, const char *file, struct AllocatorObject *allocator, const char **error);
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[31];
 };
 
 /* ----------------------------------------------------------------------
@@ -1669,7 +1750,7 @@ struct PluginManagerApi
 	/* On-demand loads the plugin at the specified path.  */
 	void (*load_relative_plugin)(const char *plugin_relative_path);
 
-	/* Used to enumerate services exposed by plugins. Call it with an API ID and NULL to retrive
+	/* Used to enumerate services exposed by plugins. Call it with an API ID and NULL to retrieve
 	   a pointer to the first interface that implements a certain API. Repeat the call with the
 	   previously returned pointer to continue enumerating implementations. The function will
 	   return NULL when all interfaces have been enumerated.
@@ -1697,7 +1778,7 @@ typedef void (*PostAnimationCallback)(CApiWorld * world_object, float dt);
 */
 struct WorldApi
 {
-	/* Returns a LineObjectDrawer that can be used to draw debug lines into th eworld. */
+	/* Returns a LineObjectDrawer that can be used to draw debug lines into the world. */
 	struct LineObjectDrawer * (*line_object_drawer)(CApiWorld * world);
 
 	/* Registers a callback that will run after animations (forward kinematics) have been run.
@@ -1770,8 +1851,19 @@ struct ProfilerApi
 	/* Ends a profile scope started by profile_start(). */
 	void (*profile_stop)();
 
+	/* Function for creating a profiler for a specific thread.
+		Must be called on the thread that the profiler should be created for. */
+	void (*make_thread_profiler)(struct AllocatorObject *allocator);
+
+	/* Function for deleting a profiler for a specific thread.
+		Must be called on the thread that the profiler should be deleted for. */
+	void (*delete_thread_profiler)(struct AllocatorObject *allocator);
+
+	/* Checks if the current thread already has a thread profiler. */
+	int (*has_thread_profiler)();
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[29];
 };
 
 /* ----------------------------------------------------------------------
@@ -1783,7 +1875,7 @@ struct ProfilerApi
 */
 struct ErrorApi
 {
-	/* printf() function for generating error messags. The messages will be generated into a ring
+	/* printf() function for generating error messages. The messages will be generated into a ring
 	   buffer that eventually gets recycled. */
 	const char *(*eprintf)(const char *msg, ...);
 
@@ -1923,7 +2015,7 @@ typedef enum
 	RB_TEXTURE_BUFFER_VIEW			/* View of RB_TextureBufferView */
 } RB_View;
 
-/* RenderBuffer Api----------------------------------------------*/
+/* RenderBuffer API----------------------------------------------*/
 
 /* Represents updatability of a buffer. */
 typedef enum
@@ -1961,7 +2053,7 @@ struct RenderBufferApi
 	/* Returns the component type for the format */
 	RB_ComponentType (*component_type)(uint32_t format);
 
-	/* Creats a descriptor object of the specified type and returns a handle to it.
+	/* Creates a descriptor object of the specified type and returns a handle to it.
 	   desc should be an appropriate RB_*Description object. */
 	uint32_t (*create_description)(RB_Description view, const void *desc);
 
@@ -1985,8 +2077,28 @@ struct RenderBufferApi
 	   remove_resource() as well as the Lua interface Material.set_resource(). */
 	struct RenderResource* (*lookup_resource)(uint32_t handle);
 
+	/* Overrides a resource with another resource. */
+	void (*resource_override)(struct RenderResource *resource_to_override, struct RenderResource *resource);
+
+	/* Releases the override done to the resource.*/
+	void (*release_resource_override)(struct RenderResource *overriden_resource);
+
+	/* Partial update of a buffer, offset and size in bytes. Partial updates are not allowed to grow a buffer, use update_buffer if you need to resize the buffer. */
+	void(*partial_update_buffer)(uint32_t handle, uint32_t offset, uint32_t size, const void *data);
+
+	/* Partial update of a texture buffer, offset[] and size[] are in pixels. Partial updates are not allowed to grow a buffer, use update_buffer if you need to resize the buffer. */
+	/* array_index, slice_index and mip_index describes which surface of the image to update. for now array_index must always be 0. */
+	/* Valid ranges for slice_index and mip_index depends on RB_TextureBufferView used when creating the texture. */
+	void(*partial_update_texture)(uint32_t handle, uint32_t array_index, uint32_t slice_index, uint32_t mip_index, uint32_t offset[3], uint32_t size[3], const void *data);
+
+	/* Updates the specified descriptor object. */
+	void(*update_description_from_resource)(struct RenderResource *resource, const void *desc);
+
+	/* Updates the buffer with the specified content. */
+	void(*update_buffer_from_resource)(struct RenderResource *resource, uint32_t size, const void *data);
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[26];
 };
 
 /* ----------------------------------------------------------------------
@@ -1999,7 +2111,7 @@ typedef enum { MO_TRIANGLE_LIST, MO_LINE_LIST } MO_PrimitiveType;
 /* Describes a render batch in a mesh. */
 struct MO_BatchInfo
 {
-	MO_PrimitiveType primitive_type;		/* Primitiv type.e */
+	MO_PrimitiveType primitive_type;		/* Primitive type.e */
 	uint32_t material_index;				/* Index into material array set by MeshObjectApi::set_materials() function. */
 	uint32_t vertex_offset;					/* Offset to first vertex to read from vertex buffer. (If set when indexed this value is added to the index fetched from the index buffer before fetching the vertex.) */
 	uint32_t primitives;					/* Number of primitives to draw. */
@@ -2018,7 +2130,15 @@ struct MO_Geometry
 
 	void *indices;							/* Pointer to index list. */
 	uint32_t index_stride;					/* Stride of index list (2 or 4). */
-	uint32_t num_indices;					/* Total number of indicies. */
+	uint32_t num_indices;					/* Total number of indices. */
+};
+
+/* Describes a piece of mesh geometry for rendering. */
+struct MO_MeshGeometry
+{
+	struct RenderResource *vertex_stream;
+	struct RenderResource *vertex_description;
+	struct RenderResource *index_stream;
 };
 
 /* Culling flags for meshes. */
@@ -2039,7 +2159,7 @@ typedef enum
 
 struct MeshObjectApi
 {
-	/* Tries to retrieve the geometry of an existing mesh and if successfull returns it in
+	/* Tries to retrieve the geometry of an existing mesh and if successful returns it in
 	   MO_Geometry (this will only give valid results when a representation of the geometry exist
 	   on the CPU side). */
 	uint8_t (*read_geometry)(CApiUnit *unit, uint32_t mesh_name, struct MO_Geometry *geometry);
@@ -2063,7 +2183,7 @@ struct MeshObjectApi
 	/* Returns the number of materials assigned to the mesh */
 	uint32_t (*num_materials)(uint32_t handle);
 
-	/* Resturns a pointer to the material instance at the specified index. */
+	/* Returns a pointer to the material instance at the specified index. */
 	void * (*material)(uint32_t handle, uint32_t material_index);
 
 	/* Sets batch/drawcall information of the mesh */
@@ -2085,7 +2205,7 @@ struct MeshObjectApi
 	/* Sets visibility of the mesh for a specific MO_VisibilityContext */
 	void (*set_visibility)(uint32_t handle, uint32_t visibility_context, uint8_t visibility_bool);
 
-	/* Returns the visibiility of the mesh in the specified context. */
+	/* Returns the visibility of the mesh in the specified context. */
 	uint8_t (*visibility)(uint32_t handle, uint32_t visibility_context);
 
 	/* Sets the culling MO_Flags for object (will overrride the flags passed in create()). */
@@ -2094,8 +2214,20 @@ struct MeshObjectApi
 	/* Returns the culling flags of the object. */
 	uint32_t (*flags)(uint32_t handle);
 
+	/* Creates a new empty mesh object. A scene graph must be associated to it and it must be dispatched
+	   to the render thread through a render interface before use with the mesh api. (this is currently
+	   used for the mesh component api) */
+	uint32_t (*create_mesh)(WorldPtr world, uint32_t mesh_name, uint32_t flags);
+
+	/* Lookup an existing mesh object by its handle */
+	MeshPtr(*lookup_mesh)(uint32_t handle);
+
+	/* Tries to retrieve the mesh geometry of an existing mesh and if successful returns it in
+	   MO_MeshGeometry. */
+	uint8_t (*read_mesh_geometry)(void *unit_resource, uint32_t mesh_name, struct MO_MeshGeometry *geometry);
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[29];
 };
 
 /* ----------------------------------------------------------------------
@@ -2107,7 +2239,7 @@ struct MeshObjectApi
 /* Represents the format for sound data. */
 struct WaveFormat
 {
-	unsigned short      format_tag;					/* Tag specifing the format (e.g. WAVE_FORMAT_PCM). */
+	unsigned short      format_tag;					/* Tag specifying the format (e.g. WAVE_FORMAT_PCM). */
 	unsigned short      num_channels;				/* Number of sound channels (e.g. 2). */
 	unsigned			samples_per_second;			/* Samples per second (e.g. 44100). */
 	unsigned			average_bytes_per_second;	/* Not used. */
@@ -2153,7 +2285,7 @@ struct SoundStreamSource;
 */
 struct SoundStreamSourceApi
 {
-	/* Get the next chunk of streaming data from the stream soure. */
+	/* Get the next chunk of streaming data from the stream source. */
 	struct GetNextChunkResult (*get_next_chunk)(struct SoundStreamSource * ss);
 
 	/* Gets the sound resource for the stream source. */
@@ -2228,7 +2360,7 @@ struct RenderSceneGraphApi
 /* ID for identifying a particular thread. */
 typedef void* ThreadID;
 
-/* Thread entrypoint callback function. */
+/* Thread entry point callback function. */
 typedef void (*ThreadEntry)(void* user_data);
 
 /* Opaque struct representing an event. */
@@ -2254,7 +2386,7 @@ struct ThreadApi
 	/* Waits until the thread has finished. */
 	void (*wait_for_thread)(ThreadID thread_id);
 
-	/* Creates an event for thread signalling. If manual_reset is false, the event will be
+	/* Creates an event for thread signaling. If manual_reset is false, the event will be
 	   auto-reset after being triggered. initial_state specifies the initial state of the
 	   event (set or not). */
 	struct ThreadEvent* (*create_event)(struct AllocatorObject *allocator, int manual_reset, int initial_state, const char *debug_name);
@@ -2285,7 +2417,7 @@ struct ThreadApi
 		struct AllocatorObject *allocator);
 
 	/* Enters the critical section. This will block if any other thread is already in the
-	   critcal section. */
+	   critical section. */
 	void (*enter_critical_section)(struct ThreadCriticalSection* cs);
 
 	/* Leaves the critical section. */
@@ -2295,8 +2427,14 @@ struct ThreadApi
 	   false if another thread is already in the critical section, and true otherwise. */
 	int (*try_to_enter_critical_section)(struct ThreadCriticalSection* cs);
 
+	/* Returns the current assigned thread index. */
+	unsigned (*worker_thread_index)();
+
+	/* Assign to the current thread a worker thread index */
+	void (*assign_worker_thread_index)();
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[30];
 };
 
 /* ----------------------------------------------------------------------
@@ -2304,11 +2442,11 @@ struct ThreadApi
 ---------------------------------------------------------------------- */
 
 /*
-	API for accesing the game timer.
+	API for accessing the game timer.
 */
 struct TimerApi
 {
-	/* Returns the number of ticks elapsed. The lenth of a tick is platform dependent, you need
+	/* Returns the number of ticks elapsed. The length of a tick is platform dependent, you need
 	   to use ticks_to_seconds() to convert it to a real world number. */
 	uint64_t (*ticks)();
 
@@ -2367,8 +2505,11 @@ struct StreamCaptureApi
 	/* Returns the length of currently available stream capture modifiers */
 	unsigned (*num_available_capture_targets)();
 
+	/* Returns the amount of used capture buffers to buffer capture data */
+	unsigned (*num_used_buffers)();
+
 	/* Reserved for expansion of the API. */
-	void *reserved[32];
+	void *reserved[31];
 };
 
 /* ----------------------------------------------------------------------
@@ -2407,7 +2548,7 @@ struct FlowData
 /* Maximum number of parameters to a flow node. */
 #define PLUGIN_FLOW_NODES_MAX_PARAMS 63
 
-/* Maximum lenth of flow string variables. */
+/* Maximum length of flow string variables. */
 #define PLUGIN_FLOW_STRING_VARIABLE_LENGTH 128
 
 /* Represents the parameters of a flow node. */
@@ -2428,7 +2569,7 @@ struct FlowId
 	uint64_t id;
 };
 
-/* Callback function for performing an action when a flow node is triggerred. */
+/* Callback function for performing an action when a flow node is triggered. */
 typedef void (*FlowFunction)(struct FlowTriggerContext* tc, const struct FlowData *fd, const struct FlowParameters *fp);
 
 /* Callback function for setting variables on the flow node. */
@@ -2463,16 +2604,16 @@ typedef void (*EventCallbackFunction)(struct FlowTriggerContext* tc, const struc
 struct FlowNodesApi
 {
 	/* Registers a flow trigger function for a flow node with the specified name. */
-	void (*setup_trigger_function)(const char* name, FlowFunction trigger_function);
+	void (*setup_trigger_function)(unsigned name_id32, FlowFunction trigger_function);
 
 	/* Registers an event callback for a flow node with the specified name. */
-	void (*setup_event_callback)(const char* name, EventCallbackFunction event_callback_function);
+	void (*setup_event_callback)(unsigned name_id32, EventCallbackFunction event_callback_function);
 
 	/* Registers a set_variable callback for a flow node with the specified name. */
-	void (*setup_set_variable_callback)(const char* name, SetVariableFunction variable_callback_function);
+	void (*setup_set_variable_callback)(unsigned name_id32, SetVariableFunction variable_callback_function);
 
 	/* Unregisters the flow node with the specified name. */
-	void (*unregister_flow_node)(const char* name);
+	void (*unregister_flow_node)(unsigned name_id32);
 
 	/* Used in the flow trigger implementation to trigger one of the flow node's out events. */
 	void (*trigger_out_event)(struct FlowTriggerContext *tc, const struct FlowData* fd, int event_index);
@@ -2540,8 +2681,9 @@ struct CameraApi
 	/* Sets the dimensions of the specified camera frustum. */
 	void (*set_frustum)(CApiCamera *camera, float left, float right, float bottom, float top,
 		unsigned i);
+	void (*set_frustum_shear)(CApiCamera *camera, float shear_x, float shear_y, unsigned i);
 
-	/* Sets the half angles of the specifie camera frustum. */
+	/* Sets the half angles of the specifies camera frustum. */
 	void (*set_frustum_half_angles)(CApiCamera *camera, float left_tan, float right_tan,
 		float bottom_tan, float top_tan, unsigned i);
 
@@ -2553,6 +2695,46 @@ struct CameraApi
 
 	/* Sets the local position of the camera. */
 	void (*set_local)(CApiCamera *camera, ConstMatrix4x4Ptr offset, unsigned i);
+
+	/* Reserved for expansion of the API. */
+	void *reserved[32];
+};
+
+/* ----------------------------------------------------------------------
+	PhysicsRuntimeCookingApi
+---------------------------------------------------------------------- */
+
+/*
+	API for doing runtime physics compilation of meshes into physics actors. Currently only supported on UWP.
+*/
+
+/* Description of the triangle mesh to cook */
+typedef struct MeshDescription
+{
+	unsigned num_vertices;
+	unsigned vertice_stride;
+	void *vertices;
+	unsigned num_triangles;
+	unsigned triangle_stride;
+	void *triangles;
+} MeshDescription;
+
+struct PhysicsRuntimeCookingApi
+{
+	/* Setup and initialize the physics cooking */
+	void (*setup)();
+
+	/* Shutdown the physics cooking */
+	void (*shutdown)();
+
+	/* Cooks a mesh and returns a pointer to the cooked mesh data allocated in the supplied allocator*/
+	void *(*cook_mesh)(const MeshDescription *mesh_description, struct AllocatorObject *allocator);
+
+	/* Creates a physics mesh from cooked data */
+	void *(*create_physics_mesh)(const void *cooked_mesh);
+
+	/* Releases physics mesh */
+	void (*release_physics_mesh)(void *physics_mesh);
 
 	/* Reserved for expansion of the API. */
 	void *reserved[32];

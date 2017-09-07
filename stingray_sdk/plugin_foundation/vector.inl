@@ -75,6 +75,7 @@ template <class T> void Vector<T>::pop_back()
 
 template <class T> void Vector<T>::swap(Vector<T> &o)
 {
+	XENSURE(_allocator == o._allocator);
 	std::swap(_size, o._size);
 	std::swap(_capacity, o._capacity);
 	std::swap(_data, o._data);
@@ -233,10 +234,12 @@ template<class T> bool Vector<T>::operator<(const Vector<T> &o) const
 
 template <class T> void Vector<T>::grow(unsigned min_capacity)
 {
-	unsigned new_capacity = _capacity*2 + 10;
+	uint64_t new_capacity = (uint64_t)_capacity*2 + 10;
 	if (new_capacity < min_capacity)
 		new_capacity = min_capacity;
-	set_capacity(new_capacity);
+	else if (new_capacity > UINT32_MAX)
+		new_capacity = UINT32_MAX;
+	set_capacity((unsigned)new_capacity);
 }
 
 }
