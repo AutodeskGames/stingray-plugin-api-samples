@@ -1,0 +1,116 @@
+name = "Level-Utils-Plugin"
+version = "1.10.0"
+changelog = {
+}
+description = "Set of Level utils"
+author = {
+    name = "Stingray"
+    company = "Autodesk inc."
+    url = "https://gamedev.autodesk.com/"
+}
+
+// Configuration
+//
+platforms = ["win64"]
+
+// Extensions define the ways the plug-in extends the editor.
+// All plug-ins need at least one extension in order to be successfully loaded.
+//
+extensions = {
+    menus = [
+    {
+        path = "Developer/Level Utils"
+        }
+        {
+        path = "Developer/Level Utils/Find unit in current level"
+        action = {
+            type = "js"
+            module = "level-utils-action"
+            function_name = "findUnitInLevel"
+        }
+    }
+    {
+        path = "Developer/Level Utils"
+        }
+        {
+        path = "Developer/Level Utils/Find unit in all levels"
+        action = {
+            type = "js"
+            module = "level-utils-action"
+            function_name = "findUnitInAllLevels"
+        }
+    }
+    {
+        path = "Developer/Level Utils"
+        }
+        {
+        path = "Developer/Level Utils/Delete From Current Level"
+        action = {
+            type = "js"
+            module = "level-utils-action"
+            function_name = "deleteFromCurrentLevel"
+        }
+    }
+    {
+        path = "Developer/Level Utils"
+        }
+        {
+        path = "Developer/Level Utils/Delete From All Levels"
+        action = {
+            type = "js"
+            module = "level-utils-action"
+            function_name = "deleteFromAllLevels"
+        }
+    }
+    {
+        path = "Developer/Level Utils"
+        }
+        {
+        path = "Developer/Level Utils/Replace units of type in current level"
+        action = {
+            type = "js"
+            module = "level-utils-action"
+            function_name = "replaceUnitInCurrentLevel"
+        }
+    }
+    {
+        path = "Developer/Level Utils"
+        }
+        {
+        path = "Developer/Level Utils/Replace all units of type"
+        action = {
+            type = "js"
+            module = "level-utils-action"
+            function_name = "replaceUnitInProject"
+        }
+    }
+    {
+        path = "Developer/Level Utils"
+        }
+        {
+        path = "Developer/Level Utils/Get transform of selected unit"
+        action = {
+            type = "js"
+            module = "level-utils-action"
+            function_name = "getTransformOfSelection"
+        }
+    }
+    {
+        path = "Developer/Level Utils"
+        }
+        {
+        path = "Developer/Level Utils/Copy transform to selected units"
+        action = {
+            type = "js"
+            module = "level-utils-action"
+            function_name = "copyTransformToSelection"
+        }
+    }
+    ]
+}
+
+// Dependencies
+//
+dependencies = {
+    "stingray" = ">=1.10"
+}

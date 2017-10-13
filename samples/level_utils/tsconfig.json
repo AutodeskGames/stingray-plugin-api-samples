@@ -1,0 +1,14 @@
+// node ./editor/node_modules/typescript/bin/tsc -w -p ./editor/plugins/level-utils/tsconfig.json
+{
+    "extends": "../tsconfig.plugin.json",
+
+    "compilerOptions": {
+        "baseUrl": "./",
+        "rootDir": "./src",
+        "outDir": "./"
+    },
+
+    "include": [
+        "**/*.ts"
+    ]
+}
